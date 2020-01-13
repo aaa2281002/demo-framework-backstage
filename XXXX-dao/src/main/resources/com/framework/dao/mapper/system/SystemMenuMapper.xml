@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.dao.mapper.system.SystemMenuMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.entity.system.SystemMenu">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="CREATE_ID" jdbcType="BIGINT" property="createId"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId"/>
+        <result column="OPERATER_TIME" property="operaterTime"/>
+        <result column="OPERATER_STATUS" jdbcType="INTEGER" property="operaterStatus"/>
+        <result column="IS_ENABLE" jdbcType="INTEGER" property="isEnable"/>
+        <result column="PARENT_ID" jdbcType="BIGINT" property="parentId"/>
+        <result column="MENU_NAME" jdbcType="VARCHAR" property="menuName"/>
+        <result column="MENU_CODE" jdbcType="VARCHAR" property="menuCode"/>
+        <result column="MENU_LEVEL" jdbcType="INTEGER" property="menuLevel"/>
+        <result column="URL_PATH" jdbcType="VARCHAR" property="urlPath"/>
+        <result column="ICON" jdbcType="VARCHAR" property="icon"/>
+        <result column="INDEX_SORT" jdbcType="INTEGER" property="indexSort"/>
+        <result column="ADMIN_TYPE" jdbcType="INTEGER" property="adminType"/>
+        <result column="TARGET" jdbcType="VARCHAR" property="target"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        p.ID, p.CREATE_ID, p.CREATE_TIME, p.OPERATER_ID, p.OPERATER_TIME, p.OPERATER_STATUS, p.IS_ENABLE,
+        p.PARENT_ID, p.MENU_NAME, p.MENU_CODE, p.MENU_LEVEL, p.URL_PATH, p.ICON, p.INDEX_SORT, p.ADMIN_TYPE,
+        p.TARGET
+    </sql>
+
+    <update id="deleteList" parameterType="com.framework.model.entity.system.SystemMenu">
+        UPDATE system_menu SET
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime}
+        WHERE ID IN
+        <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <insert id="insert" parameterType="com.framework.model.entity.system.SystemMenu" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_menu (CREATE_ID, CREATE_TIME,
+            OPERATER_ID, OPERATER_TIME, OPERATER_STATUS, IS_ENABLE,
+            PARENT_ID, MENU_NAME,
+            MENU_CODE, MENU_LEVEL, URL_PATH,
+            ICON, INDEX_SORT, ADMIN_TYPE,
+            TARGET
+            )
+        values (#{createId,jdbcType=BIGINT}, #{createTime},
+            #{operaterId,jdbcType=BIGINT}, #{operaterTime}, #{operaterStatus,jdbcType=INTEGER},
+            #{isEnable,jdbcType=INTEGER}, #{parentId,jdbcType=BIGINT}, #{menuName,jdbcType=VARCHAR},
+            #{menuCode,jdbcType=VARCHAR},  #{menuLevel,jdbcType=INTEGER},#{urlPath,jdbcType=VARCHAR},
+            #{icon,jdbcType=VARCHAR}, #{indexSort,jdbcType=INTEGER}, #{adminType,jdbcType=INTEGER},
+            #{target,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.framework.model.entity.system.SystemMenu" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                CREATE_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="operaterId != null">
+                OPERATER_ID,
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME,
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS,
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE,
+            </if>
+            <if test="parentId != null">
+                PARENT_ID,
+            </if>
+            <if test="menuName != null and menuName != ''">
+                MENU_NAME,
+            </if>
+            <if test="menuCode != null and menuCode != ''">
+                MENU_CODE,
+            </if>
+            <if test="menuLevel != null">
+                MENU_LEVEL,
+            </if>
+            <if test="urlPath != null and urlPath != ''">
+                URL_PATH,
+            </if>
+            <if test="icon != null and icon != ''">
+                ICON,
+            </if>
+            <if test="indexSort != null">
+                INDEX_SORT,
+            </if>
+            <if test="adminType != null">
+                ADMIN_TYPE,
+            </if>
+            <if test="target != null and target != ''">
+                TARGET,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="operaterId != null">
+                #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="menuName != null and menuName != ''">
+                #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuCode != null and menuCode != ''">
+                #{menuCode,jdbcType=VARCHAR},
+            </if>
+            <if test="menuLevel != null">
+                #{menuLevel,jdbcType=INTEGER},
+            </if>
+            <if test="urlPath != null and urlPath != ''">
+                #{urlPath,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null and icon != ''">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="indexSort != null">
+                #{indexSort,jdbcType=INTEGER},
+            </if>
+            <if test="adminType != null">
+                #{adminType,jdbcType=INTEGER},
+            </if>
+            <if test="target != null and target != ''">
+                #{target,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into system_button (CREATE_ID, CREATE_TIME,
+        OPERATER_ID, OPERATER_TIME, OPERATER_STATUS, IS_ENABLE,
+        PARENT_ID, MENU_NAME,
+        MENU_CODE, MENU_LEVEL, URL_PATH,
+        ICON, INDEX_SORT, ADMIN_TYPE, TARGET
+        )
+        <foreach collection="list" item="item" index="index" separator="union all">
+            SELECT
+            #{item.createId,jdbcType=BIGINT}, #{item.createTime}, #{item.operaterId,jdbcType=BIGINT},
+            #{item.operaterTime}, #{item.operaterStatus,jdbcType=INTEGER}, #{item.isEnable,jdbcType=INTEGER},
+            #{item.parentId,jdbcType=BIGINT}, #{item.menuName,jdbcType=VARCHAR},
+            #{item.menuCode,jdbcType=VARCHAR}, #{item.menuLevel,jdbcType=INTEGER},#{item.urlPath,jdbcType=VARCHAR},
+            #{item.icon,jdbcType=VARCHAR}, #{item.indexSort,jdbcType=INTEGER}, #{item.adminType,jdbcType=INTEGER},
+            #{item.target,jdbcType=VARCHAR}
+            FROM dual
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.framework.model.entity.system.SystemMenu">
+    update system_menu
+    set OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+      OPERATER_TIME = #{operaterTime},
+      OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+      IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+      PARENT_ID = #{parentId,jdbcType=BIGINT},
+      MENU_NAME = #{menuName,jdbcType=VARCHAR},
+      MENU_CODE = #{menuCode,jdbcType=VARCHAR},
+      MENU_LEVEL = #{menuLevel,jdbcType=INTEGER},
+      URL_PATH = #{urlPath,jdbcType=VARCHAR},
+      ICON = #{icon,jdbcType=VARCHAR},
+      INDEX_SORT = #{indexSort,jdbcType=INTEGER},
+      ADMIN_TYPE = #{adminType,jdbcType=INTEGER},
+      TARGET = #{target,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.entity.system.SystemMenu">
+        update system_menu
+        <set>
+            <if test="operaterId != null">
+                OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME = #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                PARENT_ID = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="menuName != null and menuName != ''">
+                MENU_NAME = #{menuName,jdbcType=VARCHAR},
+            </if>
+            <if test="menuCode != null and menuCode != ''">
+                MENU_CODE = #{menuCode,jdbcType=VARCHAR},
+            </if>
+            <if test="menuLevel != null">
+                MENU_LEVEL = #{menuLevel,jdbcType=INTEGER},
+            </if>
+            <if test="urlPath != null and urlPath != ''">
+                URL_PATH = #{urlPath,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null and icon != ''">
+                ICON = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="indexSort != null">
+                INDEX_SORT = #{indexSort,jdbcType=INTEGER},
+            </if>
+            <if test="adminType != null">
+                ADMIN_TYPE = #{adminType,jdbcType=INTEGER},
+            </if>
+            <if test="target != null and target != ''">
+                TARGET = #{target,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update system_menu
+            <set>
+                <if test="item.operaterId != null">
+                    OPERATER_ID = #{item.operaterId,jdbcType=BIGINT},
+                </if>
+                <if test="item.operaterTime != null">
+                    OPERATER_TIME = #{item.operaterTime},
+                </if>
+                <if test="item.operaterStatus != null">
+                    OPERATER_STATUS = #{item.operaterStatus,jdbcType=INTEGER},
+                </if>
+                <if test="item.isEnable != null">
+                    IS_ENABLE = #{item.isEnable,jdbcType=INTEGER},
+                </if>
+                <if test="item.parentId != null">
+                    PARENT_ID = #{item.parentId,jdbcType=BIGINT},
+                </if>
+                <if test="item.menuName != null and item.menuName != ''">
+                    MENU_NAME = #{item.menuName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.menuCode != null and item.menuCode != ''">
+                    MENU_CODE = #{item.menuCode,jdbcType=VARCHAR},
+                </if>
+                <if test="item.menuLevel != null">
+                    MENU_LEVEL = #{item.menuLevel,jdbcType=INTEGER},
+                </if>
+                <if test="item.urlPath != null and item.urlPath != ''">
+                    URL_PATH = #{item.urlPath,jdbcType=VARCHAR},
+                </if>
+                <if test="item.icon != null and item.icon != ''">
+                    ICON = #{item.icon,jdbcType=VARCHAR},
+                </if>
+                <if test="item.indexSort != null">
+                    INDEX_SORT = #{item.indexSort,jdbcType=INTEGER},
+                </if>
+                <if test="item.adminType != null">
+                    ADMIN_TYPE = #{item.adminType,jdbcType=INTEGER},
+                </if>
+                <if test="item.target != null and item.target != ''">
+                    TARGET = #{item.target,jdbcType=VARCHAR}
+                </if>
+            </set>
+            where ID = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>, m.MENU_NAME parentName, cre.LOGIN_NAME createUserName, o.LOGIN_NAME
+        operaterUserName
+        from system_menu p
+        LEFT JOIN `system_user` cre on p.CREATE_ID = cre.ID and cre.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` o on p.OPERATER_ID = o.ID and o.OPERATER_STATUS > -1
+        LEFT JOIN system_menu m on p.PARENT_ID = m.ID and m.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} AND p.OPERATER_STATUS > -1
+    </select>
+
+    <select id="isExist" parameterType="com.framework.model.entity.system.SystemMenu" resultType="java.lang.Integer">
+        select COUNT(p.Id)
+        from system_menu p
+        where p.OPERATER_STATUS > -2
+        <!--<if test="menuName != null and menuName != ''">-->
+        <!--and p.MENU_NAME = #{menuName}-->
+        <!--</if>-->
+        <if test="menuCode != null and menuCode != ''">
+            and p.MENU_CODE = #{menuCode}
+        </if>
+        <if test="id != null">
+            and p.ID != #{id}
+        </if>
+    </select>
+
+    <select id="findPageList" parameterType="com.framework.model.entity.system.SystemMenu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>,p2.MENU_NAME parentName, cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_menu p
+        left join system_menu p2 on p2.OPERATER_STATUS > -1 and p.PARENT_ID = p2.ID
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+            <if test="order != null and order != ''">${order}</if>
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findPageListCount" parameterType="com.framework.model.entity.system.SystemMenu" resultType="INTEGER">
+        select COUNT(p.ID)
+        from system_menu p
+        left join system_menu p2 on p2.OPERATER_STATUS > -1 and p.PARENT_ID = p2.ID
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.entity.system.SystemMenu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        <if test="parentIds != null">,p2.MENU_NAME parentName</if>
+        from system_menu p
+        <if test="parentIds != null">
+            left join system_menu p2 on p2.OPERATER_STATUS > -1 and p.PARENT_ID = p2.ID
+        </if>
+        <where>
+            p.OPERATER_STATUS > -1
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByTreeList" parameterType="com.framework.model.entity.system.SystemMenu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        <if test="parentIds != null">,p2.MENU_NAME parentName</if>
+        from system_menu p
+        <where>
+            p.OPERATER_STATUS > -1
+            <include refid="conditionSql"/>
+        </where>
+        order by p.INDEX_SORT, p.PARENT_ID, p.CREATE_TIME asc
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <if test="fuzzyType == 'createUserName'">
+            AND p.CREATE_ID in (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME LIKE
+            CONCAT('%',#{fuzzyValue},'%') AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="fuzzyType == 'operaterUserName'">
+            AND p.OPERATER_ID in (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME LIKE
+            CONCAT('%',#{fuzzyValue},'%') AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="fuzzyType == 'operaterStatus'">
+            AND p.OPERATER_STATUS LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'isEnable'">
+            AND p.IS_ENABLE LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'menuName'">
+            AND p.MENU_NAME LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'menuCode'">
+            AND p.MENU_CODE LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'menuLevel'">
+            AND p.MENU_LEVEL LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'urlPath'">
+            AND p.URL_PATH LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'icon'">
+            AND p.ICON LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'adminType'">
+            AND p.ADMIN_TYPE LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'target'">
+            AND p.TARGET LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+    </sql>
+    <sql id="conditionSql">
+        <if test="keyword != null and keyword != ''">
+            AND p.MENU_NAME LIKE CONCAT('%',#{keyword},'%')
+        </if>
+        <if test="search != null and search != ''">
+            AND (
+            p.MENU_NAME LIKE CONCAT('%',#{search},'%')
+            OR
+            p.MENU_CODE LIKE CONCAT('%',#{search},'%')
+            OR
+            p.URL_PATH LIKE CONCAT('%',#{search},'%')
+            OR
+            p.ICON LIKE CONCAT('%',#{search},'%')
+            OR
+            p.ADMIN_TYPE LIKE CONCAT('%',#{search},'%')
+            )
+        </if>
+        <if test="id != null">
+            AND p.ID = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="parentId != null">
+            AND p.PARENT_ID = #{parentId,jdbcType=BIGINT}
+        </if>
+        <if test="startTime != null">
+            AND p.CREATE_TIME &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND p.CREATE_TIME &lt;= #{endTime}
+        </if>
+        <if test="createUserName != null and createUserName != ''">
+            AND p.CREATE_ID = (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME =
+            #{createUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="operaterUserName != null and operaterUserName != ''">
+            AND p.OPERATER_ID = (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME =
+            #{operaterUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="operaterStatus != null">
+            AND p.OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="gtaeOperaterStatus != null">
+            AND p.OPERATER_STATUS &gt;= #{gtaeOperaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="ltaeOperaterStatus != null">
+            AND p.OPERATER_STATUS &lt;= #{ltaeOperaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="gtaeNum != null">
+            AND p.MENU_LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="ltaeNum != null">
+            AND p.MENU_LEVEL &lt;= #{ltaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="isEnable != null">
+            AND p.IS_ENABLE = #{isEnable,jdbcType=INTEGER}
+        </if>
+        <if test="menuName != null and menuName != ''">
+            AND p.MENU_NAME = #{menuName,jdbcType=VARCHAR}
+        </if>
+        <if test="menuCode != null and menuCode != ''">
+            AND p.MENU_CODE = #{menuCode,jdbcType=VARCHAR}
+        </if>
+        <if test="menuLevel != null">
+            AND p.MENU_LEVEL = #{menuLevel,jdbcType=INTEGER}
+        </if>
+        <if test="urlPath != null and urlPath != ''">
+            AND p.URL_PATH = #{urlPath,jdbcType=VARCHAR}
+        </if>
+        <if test="icon != null and icon != ''">
+            AND p.ICON = #{icon,jdbcType=VARCHAR}
+        </if>
+        <if test="adminType != null">
+            AND p.ADMIN_TYPE = #{adminType,jdbcType=INTEGER}
+        </if>
+        <if test="target != null">
+            AND p.TARGET = #{target,jdbcType=VARCHAR}
+        </if>
+        <if test="idList != null">
+            AND p.ID IN
+            <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="parentIds != null">
+            AND p.PARENT_ID IN
+            <foreach collection="parentIds" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+</mapper>

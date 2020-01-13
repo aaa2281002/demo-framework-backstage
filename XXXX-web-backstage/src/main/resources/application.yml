@@ -1,0 +1,87 @@
+#@Author 邋遢龘鵺
+#mybatis配置信息
+mybatis:
+  #配置XML扫描
+  mapper-locations: classpath:com/framework/dao/mapper/*/*.xml
+  #配置实体类扫描
+  type-aliases-package: com.framework.model.entity
+spring:
+  profiles:
+#    active: formal,redis-cluster #redis分片集群
+    active: test #测试环境
+#  freemarker:
+#    cache: false #缓存配置
+#    charset: UTF-8 #编码格式
+#    check-template-location: true #检查模板位置是否存在。
+#    content-type: text/html #内容类型值。
+#    expose-request-attributes: true #设置是否允许HttpServletRequest属性覆盖（隐藏）控制器生成的同名模型属性。
+#    expose-session-attributes: true #设置是否允许HttpSession属性覆盖（隐藏）控制器生成的同名模型属性。
+#    request-context-attribute: request #req访问request
+#    suffix: .html  #后缀名
+#    templateEncoding: UTF-8 #模板编码格式
+#    templateLoaderPath: classpath:/templates/ #以逗号分隔的模板路径列表。
+  thymeleaf:
+    # 开发时关闭缓存,不然没法看到实时页面
+    cache: false
+    #编码字符集
+    encoding: UTF-8
+    #目录
+    prefix: classpath:/templates/
+    # 用非严格的 HTML
+    mode: HTML
+#  activemq:
+#    user: xxxx
+#    password: xxxx
+#    #链接地址
+#    broker-url: failover:(tcp://xxx.xxx.xxx.xxx:xxxx?wireFormat.maxInactivityDuration=0)
+#    #true 表示使用内置的MQ，false则连接服务器
+#    in-memory: true
+#    pool:
+#      #true表示使用连接池；false时，每发送一条数据创建一个连接
+#      enabled: true
+##      max-connections: 10 #连接池最大连接数
+##      idle-timeout: 30000 #空闲的连接过期时间，默认为30秒
+  http:
+    encoding:
+      charset: UTF-8 #设置字符集编码
+      enabled: true #是否启用http编码支持。
+      force: true #是否在HTTP请求和响应上强制编码到配置的字符集。
+  devtools:
+    restart:
+      #热部署生效
+      enabled: true
+      #需要实时更新的目录
+      additional-paths: resources/**,static/**,templates/**
+  session:
+    store-type: redis
+    timeout: 3600s
+    maxInactiveIntervalInSeconds: 1800 #设置redisSession存活时间，时间单位秒
+
+logging:
+  level:
+    jdbc:
+      audit: off
+      resultset: off
+      sqltiming: off
+    com:
+      framework:
+        dao:
+          mapper: debug #打印sql语句
+    org:
+      hibernate: ERROR
+      springframework:
+        web: error # 打印请求异常
+    root: INFO
+  path: /demo
+#
+#XXXX-web:
+#  service:
+#    service-one-id: XXXX-service-web-one
+#    service-two-id: XXXX-service-web-two
+#  config:
+#    configId: XXXX-config
+#  web:
+#    webId: XXXX-web-backstage
+#  zuulGateway:
+#    zuulGatewayId: XXXX-gateway
+

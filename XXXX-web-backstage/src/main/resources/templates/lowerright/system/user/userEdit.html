@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head
+        th:replace="~{segmentation/_right_bottom_header::_header_common(~{::title},~{::link},~{::style})}">
+    <title>用户编辑</title>
+    <link>
+    <style type="text/css"></style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>用户编辑</legend>
+        </fieldset>
+        <form class="layui-form layui-form-pane" id="userFormEdit" action="">
+            <input type="hidden" id="id" name="id" th:value="${p.id}"/>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="required-red">*</span>账户名
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" lay-verify="loginName" lay-verType="tips"
+                           th:value="${p.loginName}"
+                           placeholder="请输入用户名" autocomplete="off" class="layui-input disabled" disabled>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="required-red">*</span>密码
+                </label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" id="password" lay-verify="password"
+                           lay-verType="tips"
+                           placeholder="需要修改密码在填写，不修改密码无须填写!" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="required-red">*</span>确认密码
+                </label>
+                <div class="layui-input-block">
+                    <input type="password" name="confirmPassword" id="confirmPassword" lay-verify="confirmPassword"
+                           lay-verType="tips"
+                           placeholder="需要修改密码在填写，不修改密码无须填写!" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="required-red">*</span>姓名
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="required|name"
+                           lay-verType="tips"
+                           th:value="${p.name}"
+                           placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="required-red">*</span>电话
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" name="telphone" lay-verify="required|phone|telphone"
+                           lay-verType="tips"
+                           th:value="${p.telphone}"
+                           placeholder="请输入电话" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="required-red">*</span>邮箱
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" name="email" lay-verify="required|email|myEmail"
+                           lay-verType="tips"
+                           th:value="${p.email}"
+                           placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label"><span class="required-red">*</span>是否启用
+                </label>
+                <div class="layui-input-block">
+                    <input type="radio" name="isEnable" lay-verify="required|isEnable"
+                           lay-verType="tips"
+                           value="1" title="是" th:checked="${p.isEnable == 1}">
+                    <input type="radio" name="isEnable" lay-verify="required|isEnable"
+                           lay-verType="tips"
+                           value="2" title="否" th:checked="${p.isEnable == 2}">
+                </div>
+            </div>
+            <div class="layui-form-item"
+                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:level')">
+                <label class="layui-form-label"><span class="required-red">*</span>级别
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" name="userLevel" lay-verify="required|userLevel"
+                           lay-verType="tips"
+                           onchange="this.value=this.value.replace(/\D/g,'')"
+                           onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                           th:value="${p.userLevel}"
+                           placeholder="请输入级别" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label"><span class="required-red">*</span>是否锁住
+                </label>
+                <div class="layui-input-block">
+                    <input type="radio" name="accountLocked" lay-verify="required|accountLocked"
+                           lay-verType="tips"
+                           value="-1" title="是" th:checked="${p.accountLocked == -1}">
+                    <input type="radio" name="accountLocked" lay-verify="required|accountLocked"
+                           lay-verType="tips"
+                           value="1" title="否" th:checked="${p.accountLocked == 1}">
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label"><span class="required-red">*</span>帐号是否过期
+                </label>
+                <div class="layui-input-block">
+                    <input type="radio" name="accountExpired" lay-verify="required|accountExpired"
+                           lay-verType="tips"
+                           value="-1" title="是" th:checked="${p.accountExpired == -1}">
+                    <input type="radio" name="accountExpired" lay-verify="required|accountExpired"
+                           lay-verType="tips"
+                           value="1" title="否" th:checked="${p.accountExpired == 1}">
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label"><span class="required-red">*</span>凭证是否过期
+                </label>
+                <div class="layui-input-block">
+                    <input type="radio" name="credentialsExpired" lay-verify="required|credentialsExpired"
+                           lay-verType="tips"
+                           value="-1" title="是" th:checked="${p.credentialsExpired == -1}">
+                    <input type="radio" name="credentialsExpired" lay-verify="required|credentialsExpired"
+                           lay-verType="tips"
+                           value="1" title="否" th:checked="${p.credentialsExpired == 1}">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">描述
+                </label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入描述" autocomplete="off" lay-verify="description"
+                              lay-verType="tips"
+                              th:text="${p.description}"
+                              name="description" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item"
+                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:edit')">
+                <div class="layui-input-block">
+                    <a class="layui-btn" lay-submit="" lay-filter="userFormEditSubmit">保存</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{segmentation/_tail::_tail_common}"></div>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    [# sec:authorize = "hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:edit')"]
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer;
+        //自定义验证规则
+        form.verify({
+            loginName: function (value) {
+                if (value.length < 6 || value.length > 25) {
+                    return '账户名最少6个字符或最多25个字符';
+                }
+            },
+            password: function (value) {
+                if (!value) {
+                    return;
+                }
+                if (value.length < 6 || value.length > 25) {
+                    return '密码最少6个字符或最多25个字符';
+                }
+            },
+            confirmPassword: function (value) {
+                if (!value) {
+                    return;
+                }
+                if ($("#password").val() != value) {
+                    return '请输入相同密码';
+                }
+            },
+            name: function (value) {
+                if (value.length > 20) {
+                    return '姓名最多20个字符';
+                }
+            },
+            telphone: function (value) {
+                if (value.length > 20) {
+                    return '电话最多20个字符';
+                }
+            },
+            myEmail: function (value) {
+                if (value.length > 32) {
+                    return '邮箱最多32个字符';
+                }
+            },
+            isEnable: function (value) {
+            },
+            [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:level')"]
+            userLevel: function (value) {
+                if (value.length > 7) {
+                    return '级别最多7个字符';
+                }
+            },
+            [/]
+            accountLocked: function (value) {
+            },
+            accountExpired: function (value) {
+            },
+            credentialsExpired: function (value) {
+            },
+            description: function (value) {
+                if (!value) {
+                    return;
+                }
+                if (value.length > 1000) {
+                    return '描述最多1000个字符';
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(userFormEditSubmit)', function (data) {
+            $.ajax({
+                type: 'POST',
+                url: '/system/user/edit',
+                data: data.field,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.code == Result.SUCCESS) {
+                        layer.msg('成功!', {
+                            icon: 1,
+                            shade: [0.3, '#f5f5f5'],
+                            time: 1500
+                        }, function () {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                        });
+                    } else {
+                        layer.msg(data.msg, {
+                            icon: 2,
+                            time: 3000
+                        });
+                    }
+                }
+                /* error:function(data) {
+                    console.log(data.msg);
+                }, */
+            });
+            return false;//返回false防止重复提交
+        });
+    });
+    [/]
+    /*]]>*/
+</script>
+
+</body>
+</html>

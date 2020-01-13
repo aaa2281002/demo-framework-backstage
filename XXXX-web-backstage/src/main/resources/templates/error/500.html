@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>500</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/js/plugins/layui/css/layui.css?v=1.0.0}" media="all">
+    <link rel="stylesheet" th:href="@{/css/custom/error/error.css?v=1.0.0}" media="all">
+</head>
+
+<body>
+<div class="error">
+    <div class="container-floud">
+        <div style="text-align: center">
+            <div class="container-error-404">
+                <div class="clip">
+                    <div class="shadow">
+                        <span class="digit thirdDigit" value="5"></span>
+                    </div>
+                </div>
+                <div class="clip">
+                    <div class="shadow">
+                        <span class="digit secondDigit" value="0"></span>
+                    </div>
+                </div>
+                <div class="clip">
+                    <div class="shadow">
+                        <span class="digit firstDigit" value="0"></span>
+                    </div>
+                </div>
+                <div class="msg">OH!
+                    <span class="triangle"></span>
+                </div>
+            </div>
+            <h2 class="h1">很抱歉,系统内部错误,请联系管理员!</h2>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/plugins/jquery/jquery.js?v=1.0.0}" charset="utf-8" type="text/javascript"></script>
+<script th:src="@{/js/custom/error/error.js?v=1.0.0}" charset="utf-8" type="text/javascript"></script>
+</body>
+</html>

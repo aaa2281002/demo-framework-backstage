@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head
+        th:replace="~{segmentation/_right_bottom_header::_header_common(~{::title},~{::link},~{::style})}">
+    <meta charset="utf-8">
+    <title>日志管理</title>
+    <link>
+    <style type="text/css"></style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layui-row">
+        <div class="layuimini-main">
+            <fieldset class="layui-elem-field layuimini-search">
+                <legend>搜索信息</legend>
+                <div style="margin: 10px 10px 10px 10px">
+                    <form class="layui-form layui-form-pane" id="log-search-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">开始时间</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="startTime" name="startTime" autocomplete="off"
+                                           placeholder="yyyy-MM-dd HH:mm:ss"
+                                           class="layui-input startTime" readonly>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">结束时间</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" id="endTime" name="endTime" autocomplete="off"
+                                           placeholder="yyyy-MM-dd HH:mm:ss"
+                                           class="layui-input endTime" readonly>
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">操作账户名</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="loginName" autocomplete="off"
+                                           placeholder="请输入操作账户名" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">IP</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="ip" autocomplete="off"
+                                           placeholder="请输入IP" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">操作标题</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="operaterTitle" autocomplete="off"
+                                           placeholder="请输入操作标题" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-inline"
+                                 sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_LOG_MANAGEMENT')">
+                                <a class="layui-btn" lay-submit="" lay-filter="log-search-btn" title="搜搜">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+
+            <div class="layui-btn-group">
+            </div>
+            <table id="logTableId" lay-filter="logTableFilter"></table>
+            <script type="text/html" id="logCurrentTableBar">
+                <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_LOG_MANAGEMENT:view')"
+                   class="layui-btn layui-btn-xs log-view" value="{{d.id}}" lay-event="view" title="查看">
+                    <i class="fa fa-eye" aria-hidden="true"></i>
+                </a>
+            </script>
+        </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{segmentation/_tail::_tail_common}"></div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    [# sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_LOG_MANAGEMENT')"]
+    layui.use(['form', 'table', 'common', 'laydate'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            laydate = layui.laydate,
+            common = layui.common,
+            startTime = {},
+            endTime = {},
+            num = 0,
+            tableId = "logTableId";
+
+        [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_LOG_MANAGEMENT:view')"]
+        num = 1;
+        function initView() {
+            // 编辑操作
+            $(document).off("click", ".log-view");
+            $(document).on("click", ".log-view", function () {
+                var title = "查看信息";
+                var url = "/system/log/get/view?id=" + $(this).attr("value");
+                var formId = "logFormViewId";
+                common.layer_show(title, url, 1000, 500, formId, null, null, null, function (index, layero) {
+                    // var data = common.getFormData($("#log-search-form"));
+                    // common.tableRefresh(tableId,data);
+                });
+            });
+        }
+        [/]
+
+        //表格数据完成后初始化
+        function tableInit(res, curr, count) {
+            if(num > 0){
+                initView();
+            }
+            common.initCheckbokOrRadio(tableId, 1);
+        }
+
+        var logTableId = table.render({
+            elem: '#' + tableId,
+            id: tableId,
+            url: '/system/log/findPageList',
+            height: 475,
+            // contentType: 'application/json',
+            // method: 'post',
+            // even: true,
+            done: tableInit,
+            cols: [
+                [
+                    {type: "checkbox", width: 50, field: 'id', fixed: "left"},
+                    {type: "numbers", width: 50, fixed: "left", title: '序号'},
+                    {field: 'loginName', width: 120, title: '账户名', sort: true},
+                    {field: 'ip', width: 150, title: 'IP', sort: true},
+                    {field: 'operaterTitle', width: 120, title: '操作标题', sort: true},
+                    {field: 'operaterContent', width: 120, title: '操作内容', sort: true},
+                    {field: 'operaterTime', width: 150, title: '操作时间', sort: true},
+                    // {field: 'operaterUserName', width: 120, title: '操作人'},
+                    {
+                        title: '操作',
+                        minWidth: 20,
+                        templet: '#logCurrentTableBar',
+                        fixed: "right",
+                        align: "center"
+                    }
+                ]
+            ],
+            // initSort: {
+            //      sort: "sortcreateTime", //排序字段   在接口作为参数字段  field order
+            //      order: "desc"
+            // },
+            sort: true,
+            limits: [10, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        table.on('sort(logTableFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            //尽管我们的 table 自带排序功能，但并没有请求服务端。
+            //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+            var data = common.getFormData($("#log-search-form"));
+            data.sort = obj.field;//排序字段   在接口作为参数字段  field order
+            data.order = obj.type;//排序方式   在接口作为参数字段  field order
+            //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+            common.tableRefresh(tableId, data);
+        });
+
+        // 监听搜索操作
+        form.on('submit(log-search-btn)', function (data) {
+            //执行搜索重载
+            common.tableRefresh(tableId, data.field);
+            return false;//返回false防止重复提交
+        });
+
+        startTime = laydate.render({
+            elem: '#startTime',
+            type: 'datetime',
+            // min: -7, //7天前
+            max: 'nowTime',//7天后
+            btns: ['clear', 'confirm'],
+            theme: 'grid',
+            done: function (value, date, endDate){
+                common.setUpEndTime(endTime, value, date, 6);
+            }
+        });
+
+        endTime = laydate.render({
+            elem: '#endTime',
+            type: 'datetime',
+            max: 'nowTime',//7天后
+            btns: ['clear', 'confirm'],
+            theme: 'grid',
+            ready: function(data){
+                var now = new Date();
+                this.dateTime.hours = now.getHours();
+                this.dateTime.minutes = now.getMinutes();
+                this.dateTime.seconds = now.getSeconds();
+            },
+            done: function (value, date, endDate){
+                common.setUpStartTime(startTime, value, date, 6);
+            }
+        });
+
+    });
+    [/]
+    /*]]>*/
+</script>
+</body>
+</html>

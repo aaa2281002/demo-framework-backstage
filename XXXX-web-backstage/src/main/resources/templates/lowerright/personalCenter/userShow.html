@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head
+        th:replace="~{segmentation/_right_bottom_header::_header_common(~{::title},~{::link},~{::style})}">
+    <meta charset="utf-8">
+    <title>用户个人信息查看</title>
+    <link>
+    <style type="text/css"></style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>用户个人信息查看</legend>
+        </fieldset>
+        <form class="layui-form layui-form-pane" id="userFormEdit" action="">
+            <input type="hidden" id="id" name="id" th:value="${p.id}"/>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">账户名
+                </label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text="${p.loginName}"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">姓名
+                </label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text="${p.name}"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">电话
+                </label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text="${p.telphone}"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">邮箱
+                </label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text="${p.email}"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">级别
+                </label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text="${p.userLevel}"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

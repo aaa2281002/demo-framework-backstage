@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head
+        th:replace="~{segmentation/_right_bottom_header::_header_common(~{::title},~{::link},~{::style})}">
+    <meta charset="utf-8">
+    <title>角色菜单关联管理</title>
+    <link>
+    <style type="text/css"></style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layuimini-main">
+                <fieldset class="layui-elem-field layuimini-search">
+                    <legend>搜索信息</legend>
+                    <div style="margin: 10px 10px 10px 10px">
+                        <form class="layui-form layui-form-pane" id="roleMenu-search-form" action="">
+                            <div class="layui-form-item">
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">角色名称</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="roleName" autocomplete="off"
+                                               placeholder="角色名称"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline">
+                                    <label class="layui-form-label">角色代码</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="roleCode" autocomplete="off"
+                                               placeholder="角色代码"
+                                               class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-inline"
+                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_MANAGEMENT')">
+                                    <a class="layui-btn" lay-submit="" lay-filter="roleMenu-search-btn" title="搜搜">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </fieldset>
+                <table id="roleMenuTableId" lay-filter="roleMenuTableFilter"></table>
+            </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layuimini-main">
+                <div class="layui-btn-group" style="min-width: 100%">
+                    <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_MANAGEMENT:save')"
+                       class="layui-btn roleMenu-save-btn" title="保存">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                    </a>
+                    <a sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_MANAGEMENT')"
+                        class="layui-btn layui-btn-warm roleMenu-refresh-btn"
+                        style="margin-left: 10px!important;" title="刷新菜单">
+                        <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div id="roleMenuTreeId" class="demo-tree-more"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{segmentation/_tail::_tail_common}"></div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    [# sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_MANAGEMENT')"]
+    layui.use(['form', 'table', 'common', 'tree'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table,
+            tree = layui.tree,
+            roleMenuTableSelectId = "",
+            treeId = "roleMenuTreeId",
+            tableId = "roleMenuTableId";
+
+        [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_MANAGEMENT:save')"]
+        // 批量保存操作
+        $(document).off("click", ".roleMenu-save-btn");
+        $(document).on("click", ".roleMenu-save-btn", function () {
+            if (roleMenuTableSelectId.length == 0) {
+                layer.msg('请选中角色信息');
+                return;
+            }
+            layer.confirm('确认保存吗？', {
+                icon: 3,
+                title: '提示',
+                shadeClose: true
+            }, function (index) {
+                var treeData = tree.getChecked(treeId);
+                var ids = common.getTreeSelectId(treeData)
+                layer.close(index);
+                $.ajax({
+                    type: 'POST',
+                    url: '/system/role/menu/save',
+                    data: {
+                        roleId: roleMenuTableSelectId,
+                        menuIdList: ids
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == Result.SUCCESS) {
+                            layer.msg('成功!', {
+                                icon: 1,
+                                shade: [0.3, '#f5f5f5'],
+                                time: 1500
+                            }, function () {
+                                roleMenuTableSelectId = "";
+                                var data = common.getFormData($("#role-search-form"));
+                                common.tableRefresh(tableId, data);
+                                roleMenuTreeRefresh({
+                                    data: getTreeData(),
+                                });
+                            });
+                        } else {
+                            layer.msg(data.msg, {
+                                icon: 2,
+                                time: 3000
+                            });
+                        }
+                    }
+                    /* error:function(data) {
+                        console.log(data.msg);
+                    }, */
+                });
+            });
+            return;
+        });
+        [/]
+
+        function getTreeData() {
+            var index = layer.load(3);
+            var data = [];
+            $.ajax({
+                url: "/system/role/menu/findMenuTreeList",    //后台数据请求地址
+                data: {roleId: roleMenuTableSelectId},        //id为加载当前角色的权限角色，为角色id
+                type: "post",
+                async: false,
+                success: function (resut) {
+                    layer.close(index);
+                    data = resut.data;
+                },
+                error: function(){
+                    layer.close(index);
+                }
+            });
+            return data;
+        }
+
+
+        //树形刷新事件
+        function roleMenuTreeRefresh(data) {
+            tree.reload(treeId, data);
+        }
+
+        //表格数据完成后初始化
+        function tableInit(res, curr, count) {
+            common.initCheckbokOrRadio(tableId, 2);
+        }
+
+        //表格
+        var roleMenuTableId = table.render({
+            elem: '#' + tableId,
+            id: tableId,
+            url: '/system/role/menu/findRoleParamList',
+            height: 475,
+            // contentType: 'application/json',
+            // method: 'post',
+            // even: true,
+            done: tableInit,
+            cols: [
+                [
+                    {type: "radio", width: 50, field: 'id', fixed: "left"},
+                    {type: "numbers", width: 50, fixed: "left", title: '序号'},
+                    {field: 'roleName', minWidth: 100, title: '角色名称', sort: true},
+                    {field: 'roleCode', minWidth: 100, title: '角色代码', sort: true}
+                ]
+            ],
+            // initSort: {
+            //      sort: "sortcreateTime", //排序字段   在接口作为参数字段  field order
+            //      order: "desc"
+            // },
+            sort: true,
+            limits: [10, 25, 50, 100],
+            limit: 10,
+            page: true
+        });
+
+        //树形
+        tree.render({
+            elem: '#' + treeId,
+            id: treeId,
+            data: getTreeData(),
+            showCheckbox: true
+        });
+
+        //列排序事件绑定
+        table.on('sort(roleMenuTableFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            //尽管我们的 table 自带排序功能，但并没有请求服务端。
+            //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+            var data = common.getFormData($("#roleMenu-search-form"));
+            data.sort = obj.field;//排序字段   在接口作为参数字段  field order
+            data.order = obj.type;//排序方式   在接口作为参数字段  field order
+            //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+            common.tableRefresh(tableId, data);
+        });
+
+        //单选事件绑定
+        table.on('radio(roleMenuTableFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            roleMenuTableSelectId = obj.data.id;
+            roleMenuTreeRefresh({
+                data: getTreeData(),
+            });
+        });
+
+        // 监听搜索操作
+        form.on('submit(roleMenu-search-btn)', function (data) {
+            //执行搜索重载
+            roleMenuTableSelectId = "";
+            roleMenuTreeRefresh({
+                data: getTreeData(),
+            });
+            common.tableRefresh(tableId, data.field);
+            return false;//返回false防止重复提交
+        });
+
+        //树形刷新
+        $(document).off("click", ".roleMenu-refresh-btn");
+        $(document).on("click", ".roleMenu-refresh-btn", function () {
+            roleMenuTableSelectId = "";
+            roleMenuTreeRefresh({
+                data: getTreeData(),
+            });
+        });
+
+    });
+    [/]
+    /*]]>*/
+</script>
+</body>
+</html>

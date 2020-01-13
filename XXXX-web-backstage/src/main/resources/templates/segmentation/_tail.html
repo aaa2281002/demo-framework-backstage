@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer th:fragment="_tail_common">
+    <script th:src="@{/js/plugins/jquery/jquery.js?v=1.0.0}"
+            charset="utf-8" type="text/javascript"></script>
+    <script th:src="@{/js/plugins/layui/layui.js?v=1.0.0}"
+            charset="utf-8" type="text/javascript"></script>
+    <script th:src="@{/js/custom/common/lay-config.js?v=1.0.0}"
+            charset="utf-8" type="text/javascript"></script>
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        var Result = {};
+        Result.SUCCESS = "0";
+        Result.FAIL = "fail";
+        // var ctxPath = /*[[@{/}]]*/'';
+        // var rootPath = /*[[${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #request.getServerPort()}]]*/'';
+        /*]]>*/
+        var indexClose = "";
+        $.ajaxSetup({
+            global : true,
+            dataType : "json",
+            beforeSend : function(e) {
+                indexClose = layer.load(3);
+                //console.log(indexClose);
+            },
+            complete : function(e) {
+                layer.close(indexClose);
+            },
+            timeout : 60000,
+            success : function(data) {
+                //console.log("success",xhr);
+                //console.log("success")
+            },
+            error : function(xhr, stat, error) {
+                //console.log(data);
+                layer.alert(xhr.responseText);
+            }
+        });
+        $(function(){
+            // $("body").on("change","select[name='pageSize']",function(t){
+            //     $("form input[name='size']").val($("select[name='pageSize']").val());
+            //     //console.log($("select[name='pageSize']").val());
+            //     $("form[name='search']").submit();
+            // });
+        });
+    </script>
+
+</footer>
+</body>
+</html>

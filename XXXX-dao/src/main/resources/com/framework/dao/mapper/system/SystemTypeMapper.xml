@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.dao.mapper.system.SystemTypeMapper">
+  <resultMap id="BaseResultMap" type="com.framework.model.entity.system.SystemType">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="CREATE_ID" jdbcType="BIGINT" property="createId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId" />
+    <result column="OPERATER_TIME" jdbcType="TIMESTAMP" property="operaterTime" />
+    <result column="OPERATER_STATUS" jdbcType="INTEGER" property="operaterStatus" />
+    <result column="IS_ENABLE" jdbcType="INTEGER" property="isEnable" />
+    <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName" />
+    <result column="TYPE_CODE" jdbcType="VARCHAR" property="typeCode" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    p.ID, p.CREATE_ID, p.CREATE_TIME, p.OPERATER_ID, p.OPERATER_TIME, p.OPERATER_STATUS, p.IS_ENABLE,
+    p.TYPE_NAME, p.TYPE_CODE, p.DESCRIPTION
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from system_type
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <update id="deleteList" parameterType="com.framework.model.entity.system.SystemType">
+    UPDATE system_type SET
+    OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+    OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+    OPERATER_TIME = #{operaterTime}
+    WHERE ID IN
+    <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <insert id="insert" parameterType="com.framework.model.entity.system.SystemType" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into system_type (CREATE_ID, CREATE_TIME,
+      OPERATER_ID, OPERATER_TIME, OPERATER_STATUS, 
+      IS_ENABLE, TYPE_NAME, TYPE_CODE, 
+      DESCRIPTION)
+    values (#{createId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+      #{operaterId,jdbcType=BIGINT}, #{operaterTime,jdbcType=TIMESTAMP}, #{operaterStatus,jdbcType=INTEGER}, 
+      #{isEnable,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.framework.model.entity.system.SystemType" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into system_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <!--<if test="id != null">-->
+        <!--ID,-->
+      <!--</if>-->
+      <if test="createId != null">
+        CREATE_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="operaterId != null">
+        OPERATER_ID,
+      </if>
+      <if test="operaterTime != null">
+        OPERATER_TIME,
+      </if>
+      <if test="operaterStatus != null">
+        OPERATER_STATUS,
+      </if>
+      <if test="isEnable != null">
+        IS_ENABLE,
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME,
+      </if>
+      <if test="typeCode != null">
+        TYPE_CODE,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <!--<if test="id != null">-->
+        <!--#{id,jdbcType=BIGINT},-->
+      <!--</if>-->
+      <if test="createId != null">
+        #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operaterId != null">
+        #{operaterId,jdbcType=BIGINT},
+      </if>
+      <if test="operaterTime != null">
+        #{operaterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operaterStatus != null">
+        #{operaterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.framework.model.entity.system.SystemType">
+    update system_type
+    set CREATE_ID = #{createId,jdbcType=BIGINT},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+      OPERATER_TIME = #{operaterTime,jdbcType=TIMESTAMP},
+      OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+      IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+      TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.entity.system.SystemType">
+    update system_type
+    <set>
+      <if test="createId != null">
+        CREATE_ID = #{createId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operaterId != null">
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+      </if>
+      <if test="operaterTime != null">
+        OPERATER_TIME = #{operaterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operaterStatus != null">
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isEnable != null">
+        IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+      </if>
+      <if test="typeName != null">
+        TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null">
+        TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />, cre.LOGIN_NAME createUserName, o.LOGIN_NAME operaterUserName
+    from system_type p
+    LEFT JOIN `system_user` cre on p.CREATE_ID = cre.ID and cre.OPERATER_STATUS > -1
+    LEFT JOIN `system_user` o on p.OPERATER_ID = o.ID and o.OPERATER_STATUS > -1
+    where p.ID = #{id,jdbcType=BIGINT} and p.OPERATER_STATUS > -1
+  </select>
+
+  <select id="isExist" parameterType="com.framework.model.entity.system.SystemType" resultType="java.lang.Integer">
+    select COUNT(p.Id)
+    from system_type p
+    where p.OPERATER_STATUS > -2
+    <if test="typeCode != null and typeCode != ''">
+      and p.TYPE_CODE = #{typeCode}
+    </if>
+    <if test="id != null">
+      and p.ID != #{id}
+    </if>
+  </select>
+
+
+  <select id="findPageList" parameterType="com.framework.model.entity.system.SystemType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>, cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+    from system_type p
+    LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+    LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+    <where>
+      <include refid="conditionSql"/>
+      <include refid="fuzzyConditionSql"/>
+    </where>
+    <if test="sort != null and sort != ''">
+      order by ${sort}
+      <if test="order != null and order != ''">${order}</if>
+    </if>
+    limit #{offset}, #{limit}
+  </select>
+
+  <select id="findPageListCount" parameterType="com.framework.model.entity.system.SystemType" resultType="INTEGER">
+    select COUNT(p.ID)
+    from system_type p
+    LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+    LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+    <where>
+      <include refid="conditionSql"/>
+      <include refid="fuzzyConditionSql"/>
+    </where>
+  </select>
+
+  <select id="findByList" parameterType="com.framework.model.entity.system.SystemType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from system_type p
+    <where>
+      <include refid="conditionSql"/>
+    </where>
+  </select>
+
+  <sql id="fuzzyConditionSql">
+    <if test="fuzzyType == 'createUserName'">
+      AND p.CREATE_ID in (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME LIKE
+      '%'||#{fuzzyValue,jdbcType=VARCHAR}||'%' AND u.OPERATER_STATUS > -1)
+    </if>
+    <if test="fuzzyType == 'operaterUserName'">
+      AND p.OPERATER_ID in (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME LIKE
+      '%'||#{fuzzyValue,jdbcType=VARCHAR}||'%' AND u.OPERATER_STATUS > -1)
+    </if>
+
+    <if test="fuzzyType == 'isEnable'">
+      AND p.IS_ENABLE LIKE '%'||#{fuzzyValue}||'%'
+    </if>
+    <if test="fuzzyType == 'typeName'">
+      AND p.TYPE_NAME LIKE '%'||#{fuzzyValue}||'%'
+    </if>
+    <if test="fuzzyType == 'typeCode'">
+      AND p.TYPE_CODE LIKE '%'||#{fuzzyValue}||'%'
+    </if>
+    <if test="fuzzyType == 'description'">
+      AND p.DESCRIPTION LIKE '%'||#{fuzzyValue}||'%'
+    </if>
+
+  </sql>
+
+  <sql id="conditionSql">
+    <if test="search != null and search != ''">
+      AND (
+      p.BUTTON_NAME LIKE CONCAT('%',#{search},'%')
+      OR
+      p.BUTTON_CODE LIKE CONCAT('%',#{search},'%')
+      OR
+      p.DESCRIPTION LIKE CONCAT('%',#{search},'%')
+      )
+    </if>
+    <if test="id != null">
+      AND p.ID =  #{id,jdbcType=BIGINT}
+    </if>
+    <if test="startTime != null">
+      AND p.CREATE_TIME &gt;= #{startTime}
+    </if>
+    <if test="endTime != null">
+      AND p.CREATE_TIME &lt;= #{endTime}
+    </if>
+    <if test="createUserName != null and createUserName != ''">
+      AND p.CREATE_ID = (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME =
+      #{createUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+    </if>
+    <if test="operaterUserName != null and operaterUserName != ''">
+      AND p.OPERATER_ID = (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME =
+      #{operaterUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+    </if>
+    <if test="operaterStatus != null">
+      AND p.OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER}
+    </if>
+    <if test="gtaeOperaterStatus != null">
+      AND p.OPERATER_STATUS &gt;= #{gtaeOperaterStatus,jdbcType=INTEGER}
+    </if>
+    <if test="ltaeOperaterStatus != null">
+      AND p.OPERATER_STATUS &lt;= #{ltaeOperaterStatus,jdbcType=INTEGER}
+    </if>
+    <if test="isEnable != null">
+      AND p.IS_ENABLE = #{isEnable,jdbcType=INTEGER}
+    </if>
+    <if test="typeName != null and typeName != ''">
+      AND p.TYPE_NAME = #{typeName,jdbcType=VARCHAR}
+    </if>
+    <if test="typeCode != null and typeCode != ''">
+      AND p.TYPE_CODE = #{typeCode,jdbcType=VARCHAR}
+    </if>
+    <if test="description != null and description != ''">
+      AND p.DESCRIPTION = #{description,jdbcType=VARCHAR}
+    </if>
+    <if test="idList != null">
+      AND p.ID IN
+      <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+        #{item}
+      </foreach>
+    </if>
+  </sql>
+</mapper>

@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.dao.mapper.system.SystemRoleMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.entity.system.SystemRole">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="CREATE_ID" jdbcType="BIGINT" property="createId"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId"/>
+        <result column="OPERATER_TIME" property="operaterTime"/>
+        <result column="OPERATER_STATUS" jdbcType="INTEGER" property="operaterStatus"/>
+        <result column="IS_ENABLE" jdbcType="INTEGER" property="isEnable"/>
+        <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName"/>
+        <result column="ROLE_CODE" jdbcType="VARCHAR" property="roleCode"/>
+        <result column="ROLE_LEVEL" jdbcType="INTEGER" property="roleLevel"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    p.ID, p.CREATE_ID, p.CREATE_TIME, p.OPERATER_ID, p.OPERATER_TIME, p.OPERATER_STATUS, p.IS_ENABLE,
+    p.ROLE_NAME, p.ROLE_CODE, p.ROLE_LEVEL, p.DESCRIPTION
+    </sql>
+
+    <update id="deleteList" parameterType="com.framework.model.entity.system.SystemRole">
+        UPDATE system_role SET
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime}
+        WHERE ID IN
+        <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <insert id="insert" parameterType="com.framework.model.entity.system.SystemRole" useGeneratedKeys="true"
+            keyProperty="id">
+    insert into system_role (CREATE_ID, CREATE_TIME,
+      OPERATER_ID, OPERATER_TIME, OPERATER_STATUS, IS_ENABLE,
+      ROLE_NAME, ROLE_CODE, ROLE_LEVEL, DESCRIPTION)
+    values (#{createId,jdbcType=BIGINT}, #{createTime},
+      #{operaterId,jdbcType=BIGINT}, #{operaterTime}, #{operaterStatus,jdbcType=INTEGER}, #{isEnable,jdbcType=INTEGER},
+      #{roleName,jdbcType=VARCHAR}, #{roleCode,jdbcType=VARCHAR}, #{roleLevel,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}
+      )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.framework.model.entity.system.SystemRole" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                CREATE_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="operaterId != null">
+                OPERATER_ID,
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME,
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS,
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE,
+            </if>
+            <if test="roleName != null and roleName != ''">
+                ROLE_NAME,
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                ROLE_CODE,
+            </if>
+            <if test="roleLevel != null">
+                ROLE_LEVEL,
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="operaterId != null">
+                #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="roleName != null and roleName != ''">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleLevel != null">
+                #{roleLevel,jdbcType=INTEGER},
+            </if>
+            <if test="description != null and description != ''">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into system_role (CREATE_ID, CREATE_TIME,
+        OPERATER_ID, OPERATER_TIME, OPERATER_STATUS, IS_ENABLE,
+        ROLE_NAME, ROLE_CODE, ROLE_LEVEL, DESCRIPTION
+        )
+        <foreach collection="list" item="item" index="index" separator="union all">
+            SELECT
+            #{item.createId,jdbcType=BIGINT}, #{item.createTime},
+            #{item.operaterId,jdbcType=BIGINT}, #{item.operaterTime}, #{item.operaterStatus,jdbcType=INTEGER},
+            #{isEnable,jdbcType=INTEGER}, #{item.roleName,jdbcType=VARCHAR}, #{item.roleCode,jdbcType=VARCHAR},
+            #{item.roleLevel,jdbcType=INTEGER}, #{item.description,jdbcType=VARCHAR}
+            FROM dual
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.framework.model.entity.system.SystemRole">
+    update system_role
+    set OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+      OPERATER_TIME = #{operaterTime},
+      OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+      IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+      ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+      ROLE_LEVEL = #{roleLevel,jdbcType=INTEGER},
+      DESCRIPTION = #{description,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.entity.system.SystemRole">
+        update system_role
+        <set>
+            <if test="operaterId != null">
+                OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME = #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="roleName != null">
+                ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleCode != null">
+                ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roleLevel != null">
+                ROLE_LEVEL = #{roleLevel,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update system_role
+            <set>
+                <if test="item.operaterId != null">
+                    OPERATER_ID = #{item.operaterId,jdbcType=BIGINT},
+                </if>
+                <if test="item.operaterTime != null">
+                    OPERATER_TIME = #{item.operaterTime},
+                </if>
+                <if test="item.operaterStatus != null">
+                    OPERATER_STATUS = #{item.operaterStatus,jdbcType=INTEGER},
+                </if>
+                <if test="item.isEnable != null">
+                    IS_ENABLE = #{item.isEnable,jdbcType=INTEGER},
+                </if>
+                <if test="item.roleName != null and item.roleName != ''">
+                    ROLE_NAME = #{item.roleName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.roleCode != null and item.roleCode != ''">
+                    ROLE_CODE = #{item.roleCode,jdbcType=VARCHAR},
+                </if>
+                <if test="roleLevel != null">
+                    ROLE_LEVEL = #{item.roleLevel,jdbcType=INTEGER},
+                </if>
+                <if test="item.description != null">
+                    DESCRIPTION = #{item.description,jdbcType=VARCHAR}
+                </if>
+            </set>
+            where ID = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>, cre.LOGIN_NAME createUserName, o.LOGIN_NAME operaterUserName
+        from system_role p
+        LEFT JOIN `system_user` cre on p.CREATE_ID = cre.ID and cre.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` o on p.OPERATER_ID = o.ID and o.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} AND p.OPERATER_STATUS > -1
+    </select>
+
+    <select id="isExist" parameterType="com.framework.model.entity.system.SystemRole" resultType="java.lang.Integer">
+        select COUNT(p.Id)
+        from system_role p
+        where p.OPERATER_STATUS > -2
+        <!--<if test="roleName != null and roleName != ''">-->
+        <!--and p.ROLE_NAME = #{roleName}-->
+        <!--</if>-->
+        <if test="roleCode != null and roleCode != ''">
+            and p.ROLE_CODE = #{roleCode}
+        </if>
+        <if test="id != null">
+            and p.ID != #{id}
+        </if>
+    </select>
+
+    <select id="findPageList" parameterType="com.framework.model.entity.system.SystemRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>, cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_role p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+            <if test="order != null and order != ''">${order}</if>
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findPageListCount" parameterType="com.framework.model.entity.system.SystemRole" resultType="INTEGER">
+        select COUNT(p.ID)
+        from system_role p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.entity.system.SystemRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_role p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <if test="fuzzyType == 'createUserName'">
+            AND p.CREATE_ID in (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME LIKE
+            '%'||#{fuzzyValue,jdbcType=VARCHAR}||'%' AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="fuzzyType == 'operaterUserName'">
+            AND p.OPERATER_ID in (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME LIKE
+            '%'||#{fuzzyValue,jdbcType=VARCHAR}||'%' AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="fuzzyType == 'operaterStatus'">
+            AND p.OPERATER_STATUS LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+        <if test="fuzzyType == 'isEnable'">
+            AND p.IS_ENABLE LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+        <if test="fuzzyType == 'buttonCode'">
+            AND p.BUTTON_CODE LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+        <if test="fuzzyType == 'buttonName'">
+            AND p.BUTTON_NAME LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+        <if test="fuzzyType == 'roleName'">
+            AND p.ROLE_NAME LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+        <if test="fuzzyType == 'roleCode'">
+            AND p.ROLE_CODE LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+        <if test="fuzzyType == 'roleLevel'">
+            AND p.ROLE_LEVEL LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+        <if test="fuzzyType == 'description'">
+            AND p.DESCRIPTION LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+    </sql>
+
+    <sql id="conditionSql">
+        <if test="search != null and search != ''">
+            AND (
+            p.ROLE_NAME LIKE CONCAT('%',#{search},'%')
+            OR
+            p.ROLE_CODE LIKE CONCAT('%',#{search},'%')
+            OR
+            p.ROLE_LEVEL LIKE CONCAT('%',#{search},'%')
+            OR
+            p.DESCRIPTION LIKE CONCAT('%',#{search},'%')
+            )
+        </if>
+        <if test="id != null">
+            AND p.ID = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="startTime != null">
+            AND p.CREATE_TIME &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND p.CREATE_TIME &lt;= #{endTime}
+        </if>
+        <if test="createUserName != null and createUserName != ''">
+            AND p.CREATE_ID = (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME =
+            #{createUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="operaterUserName != null and operaterUserName != ''">
+            AND p.OPERATER_ID = (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME =
+            #{operaterUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="isEnable != null">
+            AND p.IS_ENABLE = #{isEnable,jdbcType=INTEGER}
+        </if>
+        <if test="operaterStatus != null">
+            AND p.OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="gtaeOperaterStatus != null">
+            AND p.OPERATER_STATUS &gt;= #{gtaeOperaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="ltaeOperaterStatus != null">
+            AND p.OPERATER_STATUS &lt;= #{ltaeOperaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="roleName != null and roleName != ''">
+            AND p.ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+            AND p.ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+        </if>
+        <if test="roleLevel != null">
+            AND p.ROLE_LEVEL = #{roleLevel,jdbcType=INTEGER}
+        </if>
+        <if test="gtaeNum != null">
+            AND p.ROLE_LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="ltaeNum != null">
+            AND p.ROLE_LEVEL &lt;= #{ltaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="description != null and description != ''">
+            AND p.DESCRIPTION = #{description,jdbcType=VARCHAR}
+        </if>
+        <if test="idList != null">
+            AND p.ID IN
+            <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+</mapper>

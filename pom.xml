@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 对应maven的model版本号 -->
+    <modelVersion>4.0.0</modelVersion>
+    <!-- src/main目录结构 -->
+    <groupId>com.framework</groupId>
+    <!-- 可以认为是Maven构建的项目名，比如你的项目中有子项目，就可以使用"项目名-子项目名"的命名方式 -->
+    <artifactId>demo-framework-backstage</artifactId>
+    <!-- 版本号，SNAPSHOT意为快照，说明该项目还在开发中，是不稳定的版本。在Maven中很重要的一点是，groupId、artifactId、version三个元素生成了一个Maven项目的基本坐标，这非常重要，我在使用和研究Maven的时候多次感受到了这点。 -->
+    <version>1.0.0</version>
+    <!-- 项目打包的类型，可以使jar、war、rar、ear、pom，默认是jar -->
+    <packaging>pom</packaging>
+    <!-- 名称 -->
+    <name>${project.artifactId}</name>
+    <!-- 描述 -->
+    <description>demo-framework-backstage</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.2.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <!-- 所有模块 -->
+    <modules>
+        <!-- 公用类模块,静态类、枚举类、工具类等 -->
+        <module>XXXX-common</module>
+        <!-- 数据库连接模块,数据库对应链接类层 -->
+        <module>XXXX-dao</module>
+        <!-- 实体类模块,数据库对应表实体类 -->
+        <module>XXXX-model</module>
+        <!-- 业务处理模块,业务逻辑处理模块，所有请求都来该层处理业务-->
+        <module>XXXX-service</module>
+        <!-- 后台控制层模块,后台业务请求控制模块 -->
+        <module>XXXX-web-backstage</module>
+    </modules>
+
+    <!-- 整体项目属性配置 -->
+    <properties>
+        <!-- 设置项目字符集编码 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 设置项目输出字符集编码 -->
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- java-jdk版本号 -->
+        <java.version>1.8</java.version>
+        <!-- spring-cloud对应的架构 -->
+        <!--<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>-->
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+
+    </properties>
+
+    <!-- 统一管理jar包 -->
+    <dependencies>
+
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中 -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <!-- 编译打包处理对应目录下配置文件路径配置 start -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <!-- 添加文件引用组 -->
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <!-- 排除引用文件组 -->
+                <excludes>
+                    <!--<exclude>**/*.properties</exclude>-->
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 添加文件引用组 -->
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <!-- 排除引用文件组 -->
+                <excludes>
+                    <!--<exclude>**/*.properties</exclude>-->
+                </excludes>
+            </resource>
+        </resources>
+        <!-- 编译打包处理对应目录下配置文件路径配置 end -->
+    </build>
+    <!-- 内网Nexus服务器 start -->
+    <!--<profiles>-->
+    <!--<profile>-->
+    <!--<id>nexus-maven-public</id>-->
+    <!--<activation>-->
+    <!--<activeByDefault>true</activeByDefault>-->
+    <!--</activation>-->
+    <!--<distributionManagement>-->
+    <!--<repository>-->
+    <!--<id>nexus-maven-public</id>-->
+    <!--<name>Internal Release Repository</name>-->
+    <!--<url>http://192.168.179.131:9999/repository/maven-releases/</url>-->
+    <!--</repository>-->
+    <!--</distributionManagement>-->
+    <!--</profile>-->
+    <!--</profiles>-->
+    <!-- 内网Nexus服务器 end -->
+
+    <!-- spring官网的maven仓库，因为用到最新版本的jar会在其他地方没发布。所以在这里配置了spring官方的maven仓库 -->
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+        </repository>
+    </repositories>
+</project>

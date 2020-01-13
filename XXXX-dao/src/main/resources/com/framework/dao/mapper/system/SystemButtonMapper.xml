@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.dao.mapper.system.SystemButtonMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.entity.system.SystemButton">
+        <id column="ID" jdbcType="BIGINT" property="id" />
+        <result column="CREATE_ID" jdbcType="BIGINT" property="createId" />
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId" />
+        <result column="OPERATER_TIME" property="operaterTime"/>
+        <result column="OPERATER_STATUS" jdbcType="INTEGER" property="operaterStatus"/>
+        <result column="IS_ENABLE" jdbcType="INTEGER" property="isEnable"/>
+        <result column="BUTTON_CODE" jdbcType="VARCHAR" property="buttonCode"/>
+        <result column="BUTTON_NAME" jdbcType="VARCHAR" property="buttonName"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    p.ID, p.CREATE_ID, p.CREATE_TIME, p.OPERATER_ID, p.OPERATER_TIME, p.OPERATER_STATUS, p.IS_ENABLE,
+    p.BUTTON_NAME, p.BUTTON_CODE, p.DESCRIPTION
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>, cre.LOGIN_NAME createUserName, o.LOGIN_NAME operaterUserName
+        from system_button p
+        LEFT JOIN `system_user` cre on p.CREATE_ID = cre.ID and cre.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` o on p.OPERATER_ID = o.ID and o.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} AND p.OPERATER_STATUS > -1
+    </select>
+
+    <select id="isExist" parameterType="com.framework.model.entity.system.SystemButton" resultType="java.lang.Integer">
+        select COUNT(p.Id)
+        from system_button p
+        where p.OPERATER_STATUS > -2
+        <!--<if test="buttonName != null and buttonName != ''">-->
+            <!--and p.BUTTON_NAME = #{buttonName}-->
+        <!--</if>-->
+        <if test="buttonCode != null and buttonCode != ''">
+            and p.BUTTON_CODE = #{buttonCode}
+        </if>
+        <if test="id != null">
+            and p.ID != #{id}
+        </if>
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from system_button
+    where ID = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.framework.model.entity.system.SystemButton" useGeneratedKeys="true"
+            keyProperty="id">
+    insert into system_button ( CREATE_ID, CREATE_TIME,
+      OPERATER_ID, OPERATER_TIME, OPERATER_STATUS, 
+      IS_ENABLE, BUTTON_NAME, BUTTON_CODE, DESCRIPTION)
+    values (#{createId,jdbcType=BIGINT}, #{createTime},
+      #{operaterId,jdbcType=BIGINT}, #{operaterTime}, #{operaterStatus,jdbcType=INTEGER},
+      #{isEnable,jdbcType=INTEGER}, #{buttonName,jdbcType=VARCHAR}, #{buttonCode,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
+      )
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into system_button (CREATE_ID, CREATE_TIME,
+        OPERATER_ID, OPERATER_TIME, OPERATER_STATUS,
+        IS_ENABLE, BUTTON_NAME, BUTTON_CODE, DESCRIPTION
+        )
+        <foreach collection="list" item="item" index="index" separator="union all">
+            SELECT
+            #{item.createId,jdbcType=BIGINT}, #{item.createTime},
+            #{item.operaterId,jdbcType=BIGINT}, #{item.operaterTime}, #{item.operaterStatus,jdbcType=INTEGER},
+            #{item.isEnable,jdbcType=INTEGER}, #{item.buttonName,jdbcType=VARCHAR}, #{item.buttonCode,jdbcType=VARCHAR},
+            #{item.description,jdbcType=VARCHAR}
+            FROM dual
+        </foreach>
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.framework.model.entity.system.SystemButton" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_button
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                CREATE_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="operaterId != null">
+                OPERATER_ID,
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME,
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS,
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE,
+            </if>
+            <if test="buttonName != null and buttonName != ''">
+                BUTTON_NAME,
+            </if>
+            <if test="buttonCode != null and buttonCode != ''">
+                BUTTON_CODE,
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="operaterId != null">
+                #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="buttonName != null and buttonName != ''">
+                #{buttonName,jdbcType=VARCHAR},
+            </if>
+            <if test="buttonCode != null and buttonCode != ''">
+                #{buttonCode,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                #{description,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.entity.system.SystemButton">
+        update system_button
+        <set>
+            <if test="operaterId != null">
+                OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME = #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="buttonName != null and buttonName != ''">
+                BUTTON_NAME = #{buttonName,jdbcType=VARCHAR},
+            </if>
+            <if test="buttonCode != null and buttonCode != ''">
+                BUTTON_CODE = #{buttonCode,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.framework.model.entity.system.SystemButton">
+        update system_button
+        set
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime},
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+        BUTTON_NAME = #{buttonName,jdbcType=VARCHAR},
+        BUTTON_CODE = #{buttonCode,jdbcType=VARCHAR},
+        DESCRIPTION = #{description,jdbcType=VARCHAR}
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update system_button
+            <set>
+                <if test="item.operaterId != null">
+                    OPERATER_ID = #{item.operaterId,jdbcType=BIGINT},
+                </if>
+                <if test="item.operaterTime != null">
+                    OPERATER_TIME = #{item.operaterTime},
+                </if>
+                <if test="item.operaterStatus != null">
+                    OPERATER_STATUS = #{item.operaterStatus,jdbcType=INTEGER},
+                </if>
+                <if test="item.isEnable != null">
+                    IS_ENABLE = #{item.isEnable,jdbcType=INTEGER},
+                </if>
+                <if test="item.buttonName != null and item.buttonName != ''">
+                    BUTTON_NAME = #{item.buttonName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.buttonCode != null and item.buttonCode != ''">
+                    BUTTON_CODE = #{item.buttonCode,jdbcType=VARCHAR},
+                </if>
+                <if test="item.description != null">
+                    DESCRIPTION = #{item.description,jdbcType=VARCHAR}
+                </if>
+            </set>
+            where ID = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <update id="deleteList" parameterType="com.framework.model.entity.system.SystemButton">
+        UPDATE system_button SET
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime}
+        WHERE ID IN
+        <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="findPageList" parameterType="com.framework.model.entity.system.SystemButton" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>, cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_button p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+        <if test="sort != null and sort != ''">
+            order by ${sort} <if test="order != null and order != ''">${order}</if>
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findPageListCount" parameterType="com.framework.model.entity.system.SystemButton" resultType="INTEGER">
+        select COUNT(p.ID)
+        from system_button p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.entity.system.SystemButton" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_button p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <if test="fuzzyType == 'createUserName'">
+            AND p.CREATE_ID in (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME LIKE
+            '%'||#{fuzzyValue,jdbcType=VARCHAR}||'%' AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="fuzzyType == 'operaterUserName'">
+            AND p.OPERATER_ID in (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME LIKE
+            '%'||#{fuzzyValue,jdbcType=VARCHAR}||'%' AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="fuzzyType == 'operaterStatus'">
+            AND p.OPERATER_STATUS LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+        <if test="fuzzyType == 'buttonName'">
+            AND p.BUTTON_NAME LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+        <if test="fuzzyType == 'buttonCode'">
+            AND p.BUTTON_CODE LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+        <if test="fuzzyType == 'description'">
+            AND p.DESCRIPTION LIKE '%'||#{fuzzyValue}||'%'
+        </if>
+    </sql>
+
+    <sql id="conditionSql">
+        <if test="search != null and search != ''">
+            AND (
+            p.BUTTON_NAME LIKE CONCAT('%',#{search},'%')
+            OR
+            p.BUTTON_CODE LIKE CONCAT('%',#{search},'%')
+            OR
+            p.DESCRIPTION LIKE CONCAT('%',#{search},'%')
+            )
+        </if>
+
+        <if test="id != null">
+            AND p.ID =  #{id,jdbcType=BIGINT}
+        </if>
+        <if test="startTime != null">
+            AND p.CREATE_TIME &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND p.CREATE_TIME &lt;= #{endTime}
+        </if>
+        <if test="createUserName != null and createUserName != ''">
+            AND p.CREATE_ID = (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME =
+            #{createUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="operaterUserName != null and operaterUserName != ''">
+            AND p.OPERATER_ID = (SELECT u.ID FROM SYSTEM_ADMIN_USER u WHERE u.LOGIN_NAME =
+            #{operaterUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="operaterStatus != null">
+            AND p.OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="gtaeOperaterStatus != null">
+            AND p.OPERATER_STATUS &gt;= #{gtaeOperaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="ltaeOperaterStatus != null">
+            AND p.OPERATER_STATUS &lt;= #{ltaeOperaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="buttonName != null and buttonName != ''">
+            AND p.BUTTON_NAME = #{buttonName,jdbcType=VARCHAR}
+        </if>
+        <if test="buttonCode != null and buttonCode != ''">
+            AND p.BUTTON_CODE = #{buttonCode,jdbcType=VARCHAR}
+        </if>
+        <if test="description != null and description != ''">
+            AND p.DESCRIPTION = #{description,jdbcType=VARCHAR}
+        </if>
+        <if test="idList != null">
+            AND p.ID IN
+            <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+</mapper>
