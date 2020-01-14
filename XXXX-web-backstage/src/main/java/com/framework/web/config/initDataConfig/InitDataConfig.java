@@ -2,6 +2,7 @@ package com.framework.web.config.initDataConfig;
 
 import com.framework.common.util.other.NumeralUtil;
 import com.framework.common.util.redis.RedisKeyUtil;
+import com.framework.common.util.redis.RedisPrefixUtil;
 import com.framework.common.util.redis.RedisUtil;
 import com.framework.common.util.other.SymbolUtil;
 import com.framework.model.entity.system.*;
@@ -10,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author 邋遢龘鵺
@@ -55,6 +53,14 @@ public class InitDataConfig implements CommandLineRunner {
      */
     @Override
     public void run(String... args) throws Exception {
+        //清楚权限缓存开始
+        String fuzzyKey = RedisPrefixUtil.REDIS_KEY_SYSTEM_NAME + SymbolUtil.NO_INPUT_METHOD_COLON + SymbolUtil.NO_INPUT_METHOD_ASTERISK;
+        Set<String> keysSet = redisUtil.getKeys(fuzzyKey);
+        if (keysSet != null) {
+            redisUtil.deleteKey(keysSet);
+        }
+        //清楚权限缓存结束
+
         SystemButton systemButton = new SystemButton();
         systemButton.setGtaeOperaterStatus(NumeralUtil.POSITIVE_ZERO);
         List<SystemButton> buttonList = systemButtonServiceImpl.findByList(systemButton);

@@ -16,5 +16,6 @@ public class SymbolUtil {
     public static final String NO_INPUT_METHOD_FORWARD_SLASH = "/";
     public static final String NO_INPUT_METHOD_UNDERLINE = "_";
     public static final String NO_INPUT_METHOD_COLON = ":";
+    public static final String NO_INPUT_METHOD_ASTERISK = "*";
 
 }

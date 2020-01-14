@@ -10,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -23,6 +24,23 @@ import java.util.concurrent.TimeUnit;
 public final class RedisUtil {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
+    /**
+     * @param key 1 键值
+     * @return java.util.Set<java.lang.String>
+     * @Titel 根据key规则获取键集合
+     * @Description 根据key规则获取键集合
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/1/14 11:18
+     */
+    public Set<String> getKeys(String key) {
+        try {
+            return redisTemplate.keys(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /**
      * @param key  1 key值
@@ -148,7 +166,8 @@ public final class RedisUtil {
      */
     public Boolean deleteKey(String... keys) {
         try {
-            return redisTemplate.delete(CollectionUtils.arrayToList(keys)) != 0;
+            Long l = redisTemplate.delete(CollectionUtils.arrayToList(keys));
+            return l != null && l.longValue() != NumeralUtil.POSITIVE_ZERO;
         } catch (Exception e) {
             return Boolean.FALSE;
         }
@@ -164,7 +183,8 @@ public final class RedisUtil {
      */
     public Boolean deleteKey(Collection<String> keys) {
         try {
-            return redisTemplate.delete(keys) != 0;
+            Long l = redisTemplate.delete(keys);
+            return l != null && l.longValue() != NumeralUtil.POSITIVE_ZERO;
         } catch (Exception e) {
             return Boolean.FALSE;
         }
