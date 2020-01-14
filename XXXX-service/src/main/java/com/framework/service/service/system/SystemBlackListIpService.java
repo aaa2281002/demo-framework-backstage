@@ -174,4 +174,14 @@ public interface SystemBlackListIpService {
      * @DateTime 2019/12/26 11:20
      */
     ResponseResult findParamPageList(SystemBlackListIp param);
+
+    /**
+     * @param ip 1 IP
+     * @return com.framework.model.entity.system.SystemBlackListIp
+     * @Titel 根据IP查询是否存在
+     * @Description 根据IP查询是否存在
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/1/14 9:47
+     */
+    public SystemBlackListIp getIp(String ip);
 }

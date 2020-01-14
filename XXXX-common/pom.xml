@@ -231,6 +231,14 @@
         <!--</dependency>-->
         <!--&lt;!&ndash; 注解切面jar引入 end &ndash;&gt;-->
 
+
+        <!-- cache引入 start -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <!-- cache引入 end -->
+
         <!-- 验证码生成JAR引入 start -->
         <dependency>
             <groupId>com.github.penggle</groupId>

@@ -1,15 +1,18 @@
 package com.framework.web.config.initRedisSessionConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.*;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+
+import java.time.Duration;
 
 /**
  * @Author 邋遢龘鵺
@@ -23,6 +26,50 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 public class RedisSessionConfig {
     @Autowired
     private RedisTemplate redisTemplate;
+    @Value("${spring.redis.entityttl}")
+    private Integer entityttl;//存储时间
+
+    /**
+     * @param redisConnectionFactory 1 redis工厂参数对象
+     * @return org.springframework.data.redis.cache.RedisCacheManager
+     * @Titel 设置cache缓存工厂存在时间，单位分
+     * @Description 设置cache缓存工厂存在时间，单位分
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/1/13 14:45
+     */
+    @Bean
+    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+                .entryTtl(Duration.ofMinutes(entityttl))
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(keySerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer()));
+        return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).transactionAware().build();
+    }
+
+    /**
+     * @return org.springframework.data.redis.serializer.RedisSerializer<java.lang.String>
+     * @Titel 设置redis缓存键格式
+     * @Description 设置redis缓存键格式
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/1/13 14:43
+     */
+    private RedisSerializer<String> keySerializer() {
+        return new StringRedisSerializer();
+//        return new Jackson2JsonRedisSerializer(Object.class);
+    }
+
+    /**
+     * @return org.springframework.data.redis.serializer.RedisSerializer<java.lang.Object>
+     * @Titel 设置redis缓存值格式
+     * @Description 设置redis缓存值格式
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/1/13 14:43
+     */
+    private RedisSerializer<Object> valueSerializer() {
+        return new GenericJackson2JsonRedisSerializer();
+//        return new JdkSerializationRedisSerializer(getClass().getClassLoader());
+    }
+
 
     /**
      * @return org.springframework.data.redis.core.RedisTemplate
@@ -38,14 +85,17 @@ public class RedisSessionConfig {
 //        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
 //        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
 //        jackson2JsonRedisSerializer.setObjectMapper(om);
-        GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
-        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+
+//        GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer();
+//        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+
+
         //设置序列化Key的实例化对象
-        redisTemplate.setKeySerializer(stringRedisSerializer);
-        redisTemplate.setHashKeySerializer(stringRedisSerializer);
+        redisTemplate.setKeySerializer(keySerializer());
+        redisTemplate.setHashKeySerializer(keySerializer());
         //设置序列化Value的实例化对象
-        redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
-        redisTemplate.setHashValueSerializer(genericJackson2JsonRedisSerializer);
+        redisTemplate.setValueSerializer(valueSerializer());
+        redisTemplate.setHashValueSerializer(valueSerializer());
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }

@@ -1,5 +1,7 @@
 #@Author 邋遢龘鵺 正式环境配置
 spring:
+  project:
+    name: demo_framework_backstage_formal
   file:
     #上传路径存储目录
     upload-dir: H:\test-demo-framework-backstage

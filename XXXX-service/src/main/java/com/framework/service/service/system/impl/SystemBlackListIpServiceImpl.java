@@ -1,6 +1,8 @@
 package com.framework.service.service.system.impl;
 
 import com.framework.common.response.ResponseResult;
+import com.framework.common.util.cache.CacheUtil;
+import com.framework.common.util.cache.SpringCacheKeyGenerator;
 import com.framework.common.util.hump.HumpOrLineUtil;
 import com.framework.common.util.other.NumeralUtil;
 import com.framework.common.util.redis.RedisKeyUtil;
@@ -10,6 +12,8 @@ import com.framework.service.base.BaseService;
 import com.framework.service.service.system.SystemBlackListIpService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -167,6 +171,7 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
      * @DateTime 2019/12/26 11:13
      */
     @Override
+    @CacheEvict(value = CacheUtil.CACHE_SUFFIX + "SystemBlackListIp", allEntries = true)
 //    @Transactional
 //    @TargetDataSource(dataSource = DataSourceUtil.WRITE_DATA_SOURCE)
     public ResponseResult save(SystemBlackListIp record) {
@@ -207,6 +212,7 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
      * @DateTime 2019/12/26 11:13
      */
     @Override
+    @CacheEvict(value = CacheUtil.CACHE_SUFFIX + "SystemBlackListIp", allEntries = true)
     public ResponseResult edit(SystemBlackListIp record) {
         ResponseResult r = getResponseResult();
         if (record == null || record.getId() == null) {
@@ -248,6 +254,7 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
      * @DateTime 2019/12/26 11:14
      */
     @Override
+    @CacheEvict(value = CacheUtil.CACHE_SUFFIX + "SystemBlackListIp", allEntries = true)
     public ResponseResult batchDeleteList(List<Long> idList) {
         ResponseResult r = getResponseResult();
         if (idList == null || idList.size() < 1) {
@@ -348,5 +355,21 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
             e.printStackTrace();
             return r.ResponseResultFail();
         }
+    }
+
+    /**
+     * @param ip 1 IP
+     * @return com.framework.model.entity.system.SystemBlackListIp
+     * @Titel 根据IP查询是否存在
+     * @Description 根据IP查询是否存在
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/1/14 9:47
+     */
+    @Cacheable(value = CacheUtil.CACHE_SUFFIX + "SystemBlackListIp", keyGenerator = SpringCacheKeyGenerator.KEYGENERATOR)
+    public SystemBlackListIp getIp(String ip) {
+        SystemBlackListIp p = new SystemBlackListIp();
+        p.setIp(ip);
+        List<SystemBlackListIp> list = this.findByList(p);
+        return list != null && list.size() > NumeralUtil.POSITIVE_ZERO ? list.get(NumeralUtil.POSITIVE_ZERO) : null;
     }
 }
