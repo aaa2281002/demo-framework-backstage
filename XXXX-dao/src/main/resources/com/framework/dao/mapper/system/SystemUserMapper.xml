@@ -336,13 +336,13 @@
         </foreach>
     </update>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.util.Map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>, cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
         from `system_user` p
         LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
         LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
-        where p.ID = #{loginName,jdbcType=BIGINT}
+        where p.ID = #{id,jdbcType=BIGINT} and p.USER_LEVEL &gt;= #{userLevel,jdbcType=INTEGER} and p.OPERATER_STATUS > -1
     </select>
 
     <select id="isExist" parameterType="com.framework.model.entity.system.SystemUser" resultType="java.lang.Integer">

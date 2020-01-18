@@ -15,10 +15,7 @@ import org.springframework.session.Session;
 import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author 邋遢龘鵺
@@ -137,7 +134,10 @@ public class SystemUserServiceImpl extends BaseService implements SystemUserServ
      */
     @Override
     public SystemUser selectByPrimaryKey(Long id) {
-        return systemUserMapper.selectByPrimaryKey(id);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("id", id);
+        map.put("userLevel", getUser().getUserLevel());
+        return systemUserMapper.selectByPrimaryKey(map);
     }
 
     /**

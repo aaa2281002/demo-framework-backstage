@@ -15,13 +15,12 @@ import com.framework.service.service.system.SystemRoleMenuService;
 import com.framework.service.service.system.SystemRoleService;
 import com.framework.service.service.system.SystemUserRoleService;
 import com.framework.service.service.system.SystemUserService;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author 邋遢龘鵺
@@ -143,7 +142,17 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
      */
     @Override
     public SystemRole selectByPrimaryKey(Long id) {
-        return systemRoleMapper.selectByPrimaryKey(id);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("id", id);
+        SystemUser su = getUser();
+        Object roleStr = redisUtil.getAuthRoleString(su.getRoleCode());
+        int level = NumeralUtil.POSITIVE_ONE_MILLION;
+        if (ObjectUtils.isNotEmpty(roleStr)) {
+            SystemRole sr = (SystemRole) roleStr;
+            level = sr.getRoleLevel();
+        }
+        map.put("roleLevel", level);
+        return systemRoleMapper.selectByPrimaryKey(map);
     }
 
     /**

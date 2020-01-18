@@ -4,6 +4,7 @@ import com.framework.model.entity.system.SystemUser;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 邋遢龘鵺
@@ -96,14 +97,14 @@ public interface SystemUserMapper {
     int updateList(List<SystemUser> list);
 
     /**
-     * @param id 1 编号
+     * @param paramMap 1 参数泛型键值对集合
      * @return com.framework.model.entity.system.SystemUser
      * @Titel 公共根据编号查询数据
      * @Description 公共根据编号查询数据
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:33
      */
-    SystemUser selectByPrimaryKey(Long id);
+    SystemUser selectByPrimaryKey(Map<String, Object> paramMap);
 
     /**
      * @param record 1 用户实体类对象

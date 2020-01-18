@@ -4,6 +4,7 @@ import com.framework.model.entity.system.SystemRole;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author 邋遢龘鵺
@@ -93,14 +94,14 @@ public interface SystemRoleMapper {
     int updateList(List<SystemRole> list);
 
     /**
-     * @param id 1 编号
+     * @param paramMap 1  参数泛型键值对集合
      * @return com.framework.model.entity.system.SystemRole
      * @Titel 公共根据编号查询数据
      * @Description 公共根据编号查询数据
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:33
      */
-    SystemRole selectByPrimaryKey(Long id);
+    SystemRole selectByPrimaryKey(Map<String, Object> paramMap);
 
     /**
      * @param record 1 角色实体类对象

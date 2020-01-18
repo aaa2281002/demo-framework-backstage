@@ -200,13 +200,13 @@
         </foreach>
     </update>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="selectByPrimaryKey" parameterType="java.util.Map" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>, cre.LOGIN_NAME createUserName, o.LOGIN_NAME operaterUserName
         from system_role p
         LEFT JOIN `system_user` cre on p.CREATE_ID = cre.ID and cre.OPERATER_STATUS > -1
         LEFT JOIN `system_user` o on p.OPERATER_ID = o.ID and o.OPERATER_STATUS > -1
-        where p.ID = #{id,jdbcType=BIGINT} AND p.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} AND p.ROLE_LEVEL &gt;= #{roleLevel,jdbcType=INTEGER} AND p.OPERATER_STATUS > -1
     </select>
 
     <select id="isExist" parameterType="com.framework.model.entity.system.SystemRole" resultType="java.lang.Integer">
