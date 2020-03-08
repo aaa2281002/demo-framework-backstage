@@ -314,7 +314,7 @@ public class SystemTypeServiceImpl extends BaseService implements SystemTypeServ
      */
     @Override
     public SystemType getByIdParam(Long id) {
-        if (id == null || id < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
         SystemType sm = this.selectByPrimaryKey(id);

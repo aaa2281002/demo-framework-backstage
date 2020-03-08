@@ -58,6 +58,7 @@ public class NumeralUtil {
     public static final int POSITIVE_SIXTY = 60;
     public static final int POSITIVE_NINETY_NINE = 99;
     public static final int POSITIVE_HUNDRED = 100;
+    public static final int POSITIVE_ONE_HUNDRED_AND_ONE = 101;
     public static final int POSITIVE_ONE_HUNDRED_EIGHT = 180;
 
 

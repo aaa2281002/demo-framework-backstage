@@ -206,7 +206,13 @@
         from system_role p
         LEFT JOIN `system_user` cre on p.CREATE_ID = cre.ID and cre.OPERATER_STATUS > -1
         LEFT JOIN `system_user` o on p.OPERATER_ID = o.ID and o.OPERATER_STATUS > -1
-        where p.ID = #{id,jdbcType=BIGINT} AND p.ROLE_LEVEL &gt;= #{roleLevel,jdbcType=INTEGER} AND p.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} AND p.OPERATER_STATUS > -1
+        <if test="gtaeNum != null">
+            AND p.ROLE_LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="gtNum != null">
+            AND p.ROLE_LEVEL &gt; #{gtNum,jdbcType=INTEGER}
+        </if>
     </select>
 
     <select id="isExist" parameterType="com.framework.model.entity.system.SystemRole" resultType="java.lang.Integer">
@@ -349,8 +355,14 @@
         <if test="gtaeNum != null">
             AND p.ROLE_LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
         </if>
+        <if test="gtNum != null">
+            AND p.ROLE_LEVEL &gt; #{gtNum,jdbcType=INTEGER}
+        </if>
         <if test="ltaeNum != null">
             AND p.ROLE_LEVEL &lt;= #{ltaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="ltNum != null">
+            AND p.ROLE_LEVEL &lt; #{ltNum,jdbcType=INTEGER}
         </if>
         <if test="description != null and description != ''">
             AND p.DESCRIPTION = #{description,jdbcType=VARCHAR}

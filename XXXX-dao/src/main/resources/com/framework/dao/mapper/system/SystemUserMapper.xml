@@ -342,7 +342,13 @@
         from `system_user` p
         LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
         LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
-        where p.ID = #{id,jdbcType=BIGINT} and p.USER_LEVEL &gt;= #{userLevel,jdbcType=INTEGER} and p.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} and p.OPERATER_STATUS > -1
+        <if test="gtNum != null">
+            and p.USER_LEVEL &gt; #{gtNum,jdbcType=INTEGER}
+        </if>
+        <if test="gtaeNum != null">
+            AND p.USER_LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
+        </if>
     </select>
 
     <select id="isExist" parameterType="com.framework.model.entity.system.SystemUser" resultType="java.lang.Integer">
@@ -449,8 +455,14 @@
         <if test="gtaeNum != null">
             AND p.USER_LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
         </if>
+        <if test="gtNum != null">
+            and p.USER_LEVEL &gt; #{gtNum,jdbcType=INTEGER}
+        </if>
         <if test="ltaeNum != null">
             AND p.USER_LEVEL &lt;= #{ltaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="ltNum != null">
+            AND p.USER_LEVEL &lt; #{ltNum,jdbcType=INTEGER}
         </if>
         <if test="startTime != null">
             AND p.CREATE_TIME &gt;= #{startTime}

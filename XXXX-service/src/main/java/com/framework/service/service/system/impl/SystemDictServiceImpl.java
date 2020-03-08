@@ -316,7 +316,7 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
     @Override
     public SystemDict getByIdParam(Long id) {
         ResponseResult rr = getResponseResult();
-        if (id == null || id < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
         SystemDict sm = this.selectByPrimaryKey(id);

@@ -457,7 +457,7 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
      */
     @Override
     public SystemMenu getByIdParam(Long id) {
-        if (id == null || id < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
         return this.selectByPrimaryKey(id);

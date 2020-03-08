@@ -322,7 +322,7 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
      */
     @Override
     public SystemBlackListIp getByIdParam(Long id) {
-        if (id == null || id < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
         SystemBlackListIp sm = this.selectByPrimaryKey(id);

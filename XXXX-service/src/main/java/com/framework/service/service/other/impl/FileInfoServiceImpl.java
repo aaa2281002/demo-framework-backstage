@@ -303,7 +303,7 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
     @Override
     public ResponseResult delId(Long id) {
         ResponseResult r = getResponseResult();
-        if (id == null || id < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         FileInfo record = new FileInfo();
@@ -335,7 +335,7 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
      */
     @Override
     public FileInfo getByIdParam(Long id) {
-        if (id == null || id < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
         FileInfo sm = this.selectByPrimaryKey(id);

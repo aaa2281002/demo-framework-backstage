@@ -318,7 +318,7 @@ public class SystemWhiteListIpServiceImpl extends BaseService implements SystemW
      */
     @Override
     public SystemWhiteListIp getByIdParam(Long id) {
-        if (id == null || id < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
         SystemWhiteListIp sm = this.selectByPrimaryKey(id);

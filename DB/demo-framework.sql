@@ -195,7 +195,7 @@ CREATE TABLE `system_role`  (
 -- ----------------------------
 -- Records of system_role
 -- ----------------------------
-INSERT INTO `system_role` VALUES (1, 1, '2019-07-06 14:28:12', 1, '2019-07-20 10:32:50', 2, '管理员', 'system_admin', 0, '系统管理员', 1);
+INSERT INTO `system_role` VALUES (1, 1, '2019-07-06 14:28:12', 1, '2019-07-20 10:32:50', 2, '超级管理员', 'system_ultra_admin', 0, '系统管理员', 1);
 
 -- ----------------------------
 -- Table structure for system_type

@@ -136,7 +136,11 @@ public class SystemUserServiceImpl extends BaseService implements SystemUserServ
     public SystemUser selectByPrimaryKey(Long id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("id", id);
-        map.put("userLevel", getUser().getUserLevel());
+        if (getUser().getUserLevel().intValue() > NumeralUtil.POSITIVE_ZERO) {
+            map.put("gtNum", getUser().getUserLevel());
+        } else {
+            map.put("gtaeNum", getUser().getUserLevel());
+        }
         return systemUserMapper.selectByPrimaryKey(map);
     }
 
@@ -379,7 +383,7 @@ public class SystemUserServiceImpl extends BaseService implements SystemUserServ
      */
     @Override
     public SystemUser getByIdParam(Long id) {
-        if (id == null || id < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
         SystemUser sm = this.selectByPrimaryKey(id);
@@ -407,7 +411,7 @@ public class SystemUserServiceImpl extends BaseService implements SystemUserServ
         }
         SystemUser su = getUser();
         if (!super.authList.contains(su.getRoleCode())) {
-            param.setGtaeNum(su.getUserLevel());
+            param.setGtNum(su.getUserLevel());
         }
         try {
             param.setGtaeOperaterStatus(NumeralUtil.POSITIVE_ONE);

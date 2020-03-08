@@ -151,7 +151,11 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
             SystemRole sr = (SystemRole) roleStr;
             level = sr.getRoleLevel();
         }
-        map.put("roleLevel", level);
+        if (level > NumeralUtil.POSITIVE_ZERO) {
+            map.put("gtNum", level);
+        } else {
+            map.put("gtaeNum", level);
+        }
         return systemRoleMapper.selectByPrimaryKey(map);
     }
 
@@ -310,26 +314,28 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
                     systemUserRole.setIdList(idList);
                     systemUserRole.setRoleId(NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE);
                     List<SystemUserRole> surList = systemUserRoleServiceImpl.findByIsExistList(systemUserRole);
-                    //刷新用户的roleCode角色代码 开始
-                    List<Long> userIdList = new ArrayList<Long>();
-                    for (SystemUserRole ur : surList) {
-                        userIdList.add(ur.getUserId());
-                    }
+                    if (surList != null && surList.size() > NumeralUtil.POSITIVE_ZERO) {
+                        //刷新用户的roleCode角色代码 开始
+                        List<Long> userIdList = new ArrayList<Long>();
+                        for (SystemUserRole ur : surList) {
+                            userIdList.add(ur.getUserId());
+                        }
 //                    if(userIdList.size() > 0){
-                    //查询用户集合
-                    SystemUser systemUser = new SystemUser();
-                    systemUser.setIdList(userIdList);
-                    List<SystemUser> suList = systemUserServiceImpl.findByList(systemUser);
-                    for (SystemUser su : suList) {
-                        Object obj = super.redisUtil.getLoginSystemUserString(su.getLoginName());
+                        //查询用户集合
+                        SystemUser systemUser = new SystemUser();
+                        systemUser.setIdList(userIdList);
+                        List<SystemUser> suList = systemUserServiceImpl.findByList(systemUser);
+                        for (SystemUser su : suList) {
+                            Object obj = super.redisUtil.getLoginSystemUserString(su.getLoginName());
 //                        if (obj != null) {
 //                            SystemUser isSU = (SystemUser) obj;
 //                            su.setToken(isSU.getToken());
 //                        }
-                        su.setRoleCode(record.getRoleCode());
-                        super.redisUtil.setLoginSystemUserString(su.getLoginName(), su);
-                    }
+                            su.setRoleCode(record.getRoleCode());
+                            super.redisUtil.setLoginSystemUserString(su.getLoginName(), su);
+                        }
 //                    }
+                    }
                     //刷新用户的roleCode角色代码 结束
                     super.redisUtil.deleteKey(RedisKeyUtil.getPermissionRoleKey(sr.getRoleCode()));
                 }
@@ -450,7 +456,7 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
      */
     @Override
     public SystemRole getByIdParam(Long id) {
-        if (id == null || id < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
         return this.selectByPrimaryKey(id);
