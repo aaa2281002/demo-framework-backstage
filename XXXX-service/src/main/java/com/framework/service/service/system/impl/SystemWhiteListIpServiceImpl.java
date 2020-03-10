@@ -253,7 +253,7 @@ public class SystemWhiteListIpServiceImpl extends BaseService implements SystemW
     @Override
     public ResponseResult batchDeleteList(List<Long> idList) {
         ResponseResult r = getResponseResult();
-        if (idList == null || idList.size() < 1) {
+        if (idList == null || idList.size() < NumeralUtil.POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
 

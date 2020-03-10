@@ -63,7 +63,7 @@ public class IndexServiceImpl extends BaseService implements IndexService {
             Object menuStr = redisUtil.getAuthMenuString(roleMenuCode);
             if (menuStr != null) {
                 SystemMenu sm = (SystemMenu) menuStr;
-                if (sm.getIsEnable() > NumeralUtil.POSITIVE_ONE) {
+                if (sm.getIsEnable().intValue() > NumeralUtil.POSITIVE_ONE) {
                     continue;
                 }
                 if (sm.getParentId() == null || sm.getParentId().intValue() == NumeralUtil.POSITIVE_ZERO) {

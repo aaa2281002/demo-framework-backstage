@@ -2,8 +2,8 @@ package com.framework.service.service.system.impl;
 
 import com.framework.common.model.Tree;
 import com.framework.common.response.ResponseResult;
-import com.framework.common.util.other.NumeralUtil;
 import com.framework.common.util.TreeUtil;
+import com.framework.common.util.other.NumeralUtil;
 import com.framework.dao.mapper.system.SystemRoleMenuMapper;
 import com.framework.model.entity.system.SystemMenu;
 import com.framework.model.entity.system.SystemRole;
@@ -175,7 +175,7 @@ public class SystemRoleMenuServiceImpl extends BaseService implements SystemRole
     @Override
     public ResponseResult save(Long roleId, List<Long> menuIdList) {
         ResponseResult r = getResponseResult();
-        if (roleId == null || roleId < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (roleId == null || roleId.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         SystemRole sr = systemRoleServiceImpl.selectByPrimaryKey(roleId);
@@ -235,7 +235,7 @@ public class SystemRoleMenuServiceImpl extends BaseService implements SystemRole
     @Override
     public ResponseResult findByParamList(SystemRoleMenu param) {
         ResponseResult r = getResponseResult();
-        if (param == null || param.getRoleId() == null || param.getRoleId() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (param == null || param.getRoleId() == null || param.getRoleId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         try {
@@ -295,7 +295,7 @@ public class SystemRoleMenuServiceImpl extends BaseService implements SystemRole
             return this.getResponseResult().ResponseResultFail();
         }
         List<Long> lList = null;
-        if (roleId != null && roleId > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
+        if (roleId != null && roleId.longValue() > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
             SystemRoleMenu systemRoleMenu = new SystemRoleMenu();
             systemRoleMenu.setRoleId(roleId);
             lList = this.findByMenuIdList(systemRoleMenu);

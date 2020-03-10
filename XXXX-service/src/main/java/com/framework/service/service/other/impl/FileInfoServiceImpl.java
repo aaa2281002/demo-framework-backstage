@@ -14,11 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -272,7 +270,7 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
     @Override
     public ResponseResult batchDeleteList(List<Long> idList) {
         ResponseResult r = getResponseResult();
-        if (idList == null || idList.size() < 1) {
+        if (idList == null || idList.size() < NumeralUtil.POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         FileInfo record = new FileInfo();

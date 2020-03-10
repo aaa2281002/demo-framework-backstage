@@ -2,17 +2,17 @@ package com.framework.service.service.system.impl;
 
 import com.framework.common.response.ResponseResult;
 import com.framework.common.util.other.NumeralUtil;
-import com.framework.common.util.redis.RedisUtil;
 import com.framework.common.util.other.SymbolUtil;
+import com.framework.common.util.redis.RedisUtil;
 import com.framework.dao.mapper.system.SystemRoleMenuButtonMapper;
 import com.framework.model.entity.system.SystemButton;
 import com.framework.model.entity.system.SystemMenu;
-import com.framework.model.entity.system.SystemRoleMenuButton;
 import com.framework.model.entity.system.SystemRole;
+import com.framework.model.entity.system.SystemRoleMenuButton;
 import com.framework.service.base.BaseService;
 import com.framework.service.service.system.SystemButtonService;
-import com.framework.service.service.system.SystemRoleMenuButtonService;
 import com.framework.service.service.system.SystemMenuService;
+import com.framework.service.service.system.SystemRoleMenuButtonService;
 import com.framework.service.service.system.SystemRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -185,8 +185,11 @@ public class SystemRoleMenuButtonServiceImpl extends BaseService implements Syst
     @Override
     public ResponseResult save(Long roleId, Long menuId, List<Long> buttonIdList) {
         ResponseResult r = getResponseResult();
-        if (menuId == null || menuId < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
-            return r.ResponseResultFail();
+        if (roleId == null || roleId.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+            return r.ResponseResultFail().setMsg("请选择角色");
+        }
+        if (menuId == null || menuId.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+            return r.ResponseResultFail().setMsg("请选择菜单");
         }
         SystemRole sr = systemRoleServiceImpl.selectByPrimaryKey(roleId);
         if (sr == null) {

@@ -257,7 +257,7 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
     @CacheEvict(value = CacheUtil.CACHE_SUFFIX + "SystemBlackListIp", allEntries = true)
     public ResponseResult batchDeleteList(List<Long> idList) {
         ResponseResult r = getResponseResult();
-        if (idList == null || idList.size() < 1) {
+        if (idList == null || idList.size() < NumeralUtil.POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
 

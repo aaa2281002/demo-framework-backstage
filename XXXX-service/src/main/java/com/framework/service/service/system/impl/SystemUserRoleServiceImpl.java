@@ -145,7 +145,7 @@ public class SystemUserRoleServiceImpl extends BaseService implements SystemUser
     @Override
     public ResponseResult save(Long userId, List<Long> roleIdList) {
         ResponseResult r = getResponseResult();
-        if (userId == null || userId < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (userId == null || userId.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         SystemUser su = systemUserServiceImpl.selectByPrimaryKey(userId);
@@ -217,7 +217,7 @@ public class SystemUserRoleServiceImpl extends BaseService implements SystemUser
     @Override
     public ResponseResult findByParamList(SystemUserRole param) {
         ResponseResult rr = getResponseResult();
-        if (param == null || param.getUserId() == null || param.getUserId() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
+        if (param == null || param.getUserId() == null || param.getUserId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return rr.ResponseResultFail();
         }
         try {

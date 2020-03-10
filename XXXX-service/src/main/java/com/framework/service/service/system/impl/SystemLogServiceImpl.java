@@ -2,7 +2,6 @@ package com.framework.service.service.system.impl;
 
 import com.framework.common.response.ResponseResult;
 import com.framework.common.util.hump.HumpOrLineUtil;
-import com.framework.common.util.system.LogUtil;
 import com.framework.common.util.other.NumeralUtil;
 import com.framework.dao.mapper.system.SystemLogMapper;
 import com.framework.model.entity.system.SystemLog;

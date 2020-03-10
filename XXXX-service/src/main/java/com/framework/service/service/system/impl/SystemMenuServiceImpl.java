@@ -3,23 +3,29 @@ package com.framework.service.service.system.impl;
 import com.framework.common.model.MenuUtil;
 import com.framework.common.model.Tree;
 import com.framework.common.response.ResponseResult;
-import com.framework.common.util.*;
+import com.framework.common.util.TreeUtil;
 import com.framework.common.util.hump.HumpOrLineUtil;
 import com.framework.common.util.other.NumeralUtil;
 import com.framework.common.util.other.SymbolUtil;
 import com.framework.common.util.redis.RedisKeyUtil;
 import com.framework.dao.mapper.system.SystemMenuMapper;
-import com.framework.model.entity.system.*;
+import com.framework.model.entity.system.SystemMenu;
+import com.framework.model.entity.system.SystemRole;
+import com.framework.model.entity.system.SystemRoleMenu;
+import com.framework.model.entity.system.SystemRoleMenuButton;
 import com.framework.service.base.BaseService;
-import com.framework.service.service.system.SystemRoleMenuButtonService;
 import com.framework.service.service.system.SystemMenuService;
+import com.framework.service.service.system.SystemRoleMenuButtonService;
 import com.framework.service.service.system.SystemRoleMenuService;
 import com.framework.service.service.system.SystemRoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @Author 邋遢龘鵺
@@ -227,7 +233,7 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
         if (num > NumeralUtil.POSITIVE_ZERO) {
             return r.ResponseResultFailRepeat();
         }
-        if (record.getParentId() != null && record.getParentId() > 0) {
+        if (record.getParentId() != null && record.getParentId().longValue() > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
             SystemMenu sm = this.selectByPrimaryKey(record.getParentId());
             if (sm == null) {
                 return r.ResponseResultAddFail();
@@ -328,7 +334,7 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
                         Object obj = super.redisUtil.getAuthRoleString(sr.getRoleCode());
                         if (obj != null) {
                             SystemRole redisSR = (SystemRole) obj;
-                            boolean isSR = redisSR.getMenuCodeList() != null && redisSR.getMenuCodeList().size() > 0 && redisSR.getMenuCodeList().remove(sm.getMenuCode());
+                            boolean isSR = redisSR.getMenuCodeList() != null && redisSR.getMenuCodeList().size() > NumeralUtil.POSITIVE_ZERO && redisSR.getMenuCodeList().remove(sm.getMenuCode());
                             if (isSR) {
                                 redisSR.getMenuCodeList().add(record.getMenuCode());
                                 super.redisUtil.setAuthRoleString(redisSR.getRoleCode(), redisSR);
@@ -360,7 +366,7 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
     @Override
     public ResponseResult batchDeleteList(List<Long> idList) {
         ResponseResult r = getResponseResult();
-        if (idList == null || idList.size() < 1) {
+        if (idList == null || idList.size() < NumeralUtil.POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
 

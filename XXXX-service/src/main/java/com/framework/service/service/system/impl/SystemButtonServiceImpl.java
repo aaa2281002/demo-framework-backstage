@@ -6,7 +6,9 @@ import com.framework.common.util.other.NumeralUtil;
 import com.framework.common.util.other.SymbolUtil;
 import com.framework.common.util.redis.RedisKeyUtil;
 import com.framework.dao.mapper.system.SystemButtonMapper;
-import com.framework.model.entity.system.*;
+import com.framework.model.entity.system.SystemButton;
+import com.framework.model.entity.system.SystemMenu;
+import com.framework.model.entity.system.SystemRoleMenuButton;
 import com.framework.service.activemq.production.CeShiProduction;
 import com.framework.service.base.BaseService;
 import com.framework.service.service.system.SystemButtonService;
@@ -301,7 +303,7 @@ public class SystemButtonServiceImpl extends BaseService implements SystemButton
     @Override
     public ResponseResult batchDeleteList(List<Long> idList) {
         ResponseResult r = getResponseResult();
-        if (idList == null || idList.size() < 1) {
+        if (idList == null || idList.size() < NumeralUtil.POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         //验证按钮关联按钮是否存在

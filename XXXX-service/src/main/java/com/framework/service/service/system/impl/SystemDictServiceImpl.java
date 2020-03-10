@@ -251,7 +251,7 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
     @Override
     public ResponseResult batchDeleteList(List<Long> idList) {
         ResponseResult r = getResponseResult();
-        if (idList == null || idList.size() < 1) {
+        if (idList == null || idList.size() < NumeralUtil.POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         SystemDict record = new SystemDict();

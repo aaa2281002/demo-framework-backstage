@@ -360,7 +360,7 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
     @Override
     public ResponseResult batchDeleteList(List<Long> idList) {
         ResponseResult r = getResponseResult();
-        if (idList == null || idList.size() < 1) {
+        if (idList == null || idList.size() < NumeralUtil.POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         //验证角色关联角色是否存在

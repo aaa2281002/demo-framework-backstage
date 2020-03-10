@@ -1,8 +1,8 @@
 package com.framework.service.service.system.impl;
 
 import com.framework.common.response.ResponseResult;
-import com.framework.common.util.hump.HumpOrLineUtil;
 import com.framework.common.util.encrypt.MD5Util;
+import com.framework.common.util.hump.HumpOrLineUtil;
 import com.framework.common.util.other.NumeralUtil;
 import com.framework.dao.mapper.system.SystemUserMapper;
 import com.framework.model.entity.system.SystemUser;
@@ -330,7 +330,7 @@ public class SystemUserServiceImpl extends BaseService implements SystemUserServ
     @Override
     public ResponseResult batchDeleteList(List<Long> idList) {
         ResponseResult r = getResponseResult();
-        if (idList == null || idList.size() < 1) {
+        if (idList == null || idList.size() < NumeralUtil.POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         SystemUser record = new SystemUser();
