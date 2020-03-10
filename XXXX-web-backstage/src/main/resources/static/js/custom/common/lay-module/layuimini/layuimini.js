@@ -153,7 +153,7 @@ layui.define(["element", "jquery"], function (exports) {
                             html += '<dl class="layui-nav-child">\n';
                             $.each(childMenuList, function (childIndex, childMenu) {
                                 html += '<dd>\n';
-                                if (childMenu.childMenuList != undefined && childMenu.childMenuList != []) {
+                                if (childMenu.childMenuList != undefined && childMenu.childMenuList.length > 0) {
                                     html += '<a href="javascript:;" class="layui-menu-tips" ><i class="' + childMenu.icon + '"></i><span class="layui-left-nav"> ' + childMenu.menuName + '</span></a>';
                                     html = buildChildHtml(html, childMenu.childMenuList, menuParameId);
                                 } else {

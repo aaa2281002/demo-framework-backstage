@@ -11,7 +11,7 @@
  Target Server Version : 50644
  File Encoding         : 65001
 
- Date: 06/01/2020 13:22:58
+ Date: 10/03/2020 15:21:26
 */
 
 SET NAMES utf8mb4;
@@ -165,13 +165,13 @@ INSERT INTO `system_menu` VALUES (4, 1, '2019-02-13 13:05:03', 1, '2019-12-17 09
 INSERT INTO `system_menu` VALUES (5, 1, '2019-02-13 13:15:04', 1, '2019-02-13 13:15:04', 1, 1, 1, '按钮管理', 'SYSTEM_BUTTON_MANAGEMENT', 1, '/system/button/page/list', 'fa fa-window-maximize', 4, 1, '_self');
 INSERT INTO `system_menu` VALUES (6, 1, '2019-02-13 13:15:05', 1, '2019-12-17 09:39:40', 2, 1, 1, '用户角色关联管理', 'SYSTEM_USER_ROLE_MANAGEMENT', 1, '/system/user/role/page/list', 'fa fa-users', 5, 1, '_self');
 INSERT INTO `system_menu` VALUES (7, 1, '2019-02-13 13:15:06', 1, '2019-07-20 11:22:18', 2, 1, 1, '角色菜单关联管理', 'SYSTEM_ROLE_MENU_MANAGEMENT', 1, '/system/role/menu/page/list', 'fa fa-compress', 6, 1, '_self');
-INSERT INTO `system_menu` VALUES (8, 1, '2019-02-13 13:15:07', 1, '2019-12-17 09:39:23', 2, 1, 1, '角色菜单按钮关联管理', 'SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT', 2, '/system/role/menu/button/page/list', 'fa fa-compress', 7, 1, '_self');
-INSERT INTO `system_menu` VALUES (9, 1, '2019-07-24 16:40:06', 1, '2019-07-24 16:40:06', 1, 1, 0, '系统综合', 'SYSTEM_COMPOSITE_MANAGEMENT', 0, '', 'fa fa-slideshare', 8, 1, '_self');
-INSERT INTO `system_menu` VALUES (10, 1, '2019-07-24 17:17:08', 1, '2019-07-24 17:17:08', 1, 1, 9, '操作日志管理', 'SYSTEM_LOG_MANAGEMENT', 1, '/system/log/page/list', 'fa fa-file-text', 9, 1, '_self');
-INSERT INTO `system_menu` VALUES (11, 1, '2019-07-25 14:27:01', 1, '2019-07-25 14:27:01', 1, 1, 9, '类型管理', 'SYSTEM_TYPE_MANAGEMENT', 1, '/system/type/page/list', 'fa fa-file-text', 10, 1, '_self');
-INSERT INTO `system_menu` VALUES (12, 1, '2019-07-25 14:27:44', 1, '2019-07-25 14:27:44', 1, 1, 9, '字典管理', 'SYSTEM_DICT_MANAGEMENT', 1, '/system/dict/page/list', 'fa fa-file-text', 11, 1, '_self');
-INSERT INTO `system_menu` VALUES (13, 1, '2019-07-27 19:55:13', 1, '2019-07-27 19:55:13', 1, 1, 9, '前端IP黑名单管理', 'SYSTEM_BLACK_LIST_IP_MANAGEMENT', 1, '/system/black/list/ip/page/list', 'fa fa-file-text', 12, 1, '_self');
-INSERT INTO `system_menu` VALUES (14, 1, '2019-07-27 19:56:01', 1, '2019-07-27 19:56:43', 2, 1, 9, '后台IP白名单管理', 'SYSTEM_WHITE_LIST_IP_MANAGEMENT', 1, '/system/white/list/ip/page/list', 'fa fa-file-text', 13, 1, '_self');
+INSERT INTO `system_menu` VALUES (8, 1, '2019-02-13 13:15:07', 1, '2019-12-17 09:39:23', 2, 1, 1, '角色菜单按钮关联管理', 'SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT', 1, '/system/role/menu/button/page/list', 'fa fa-compress', 7, 1, '_self');
+INSERT INTO `system_menu` VALUES (9, 1, '2019-07-24 16:40:06', 1, '2019-07-24 16:40:06', 1, 1, 1, '系统综合', 'SYSTEM_COMPOSITE_MANAGEMENT', 1, '', 'fa fa-slideshare', 8, 1, '_self');
+INSERT INTO `system_menu` VALUES (10, 1, '2019-07-24 17:17:08', 1, '2019-07-24 17:17:08', 1, 1, 9, '操作日志管理', 'SYSTEM_LOG_MANAGEMENT', 2, '/system/log/page/list', 'fa fa-file-text', 9, 1, '_self');
+INSERT INTO `system_menu` VALUES (11, 1, '2019-07-25 14:27:01', 1, '2019-07-25 14:27:01', 1, 1, 9, '类型管理', 'SYSTEM_TYPE_MANAGEMENT', 2, '/system/type/page/list', 'fa fa-file-text', 10, 1, '_self');
+INSERT INTO `system_menu` VALUES (12, 1, '2019-07-25 14:27:44', 1, '2019-07-25 14:27:44', 1, 1, 9, '字典管理', 'SYSTEM_DICT_MANAGEMENT', 2, '/system/dict/page/list', 'fa fa-file-text', 11, 1, '_self');
+INSERT INTO `system_menu` VALUES (13, 1, '2019-07-27 19:55:13', 1, '2019-07-27 19:55:13', 1, 1, 9, '前端IP黑名单管理', 'SYSTEM_BLACK_LIST_IP_MANAGEMENT', 2, '/system/black/list/ip/page/list', 'fa fa-file-text', 12, 1, '_self');
+INSERT INTO `system_menu` VALUES (14, 1, '2019-07-27 19:56:01', 1, '2019-07-27 19:56:43', 2, 1, 9, '后台IP白名单管理', 'SYSTEM_WHITE_LIST_IP_MANAGEMENT', 2, '/system/white/list/ip/page/list', 'fa fa-file-text', 13, 1, '_self');
 
 -- ----------------------------
 -- Table structure for system_role
