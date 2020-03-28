@@ -53,6 +53,7 @@ public class IPUtil {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
             ipAddress = "";
         }
         if ("".equals(ipAddress.toString())) ipAddress = request.getRemoteAddr();

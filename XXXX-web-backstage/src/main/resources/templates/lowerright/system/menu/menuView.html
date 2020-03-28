@@ -13,21 +13,21 @@
                 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
                     <legend>菜单查看</legend>
                 </fieldset>
-                <form class="layui-form layui-form-pane" id="menuFormView" action="">
-                    <div class="layui-form-item" pane="">
+                <form class="layui-form" id="menuFormView" action="">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">上级菜单</label>
                         <div class="layui-input-block">
                             <span class="view-span" th:text="${p.parentName}"></span>
                         </div>
                     </div>
-                    <div class="layui-form-item" pane="">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">菜单名称
                         </label>
                         <div class="layui-input-block">
                             <span class="view-span" th:text="${p.menuName}"></span>
                         </div>
                     </div>
-                    <div class="layui-form-item" pane="">
+                    <div class="layui-form-item">
                         <label class="layui-form-label">菜单代码
                         </label>
                         <div class="layui-input-block">

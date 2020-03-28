@@ -3,6 +3,7 @@ package com.framework.model.entity.system;
 import com.framework.model.entity.base.BaseModel;
 
 import java.io.Serializable;
+
 /**
  * @Author 邋遢龘鵺
  * @ClassName com.framework.model.entity.system
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @Version 1.0
  */
 public class SystemWhiteListIp extends BaseModel implements Serializable {
+    private static final long serialVersionUID = 6270905567821832144L;
     //是否启用=1启用,2禁用
     private Integer isEnable;
     //IP

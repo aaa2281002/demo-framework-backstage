@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -155,17 +156,37 @@ public class SystemBlackListIpController extends BaseController {
     /**
      * @param idList 1 系统前端操作黑名单IP编号集合
      * @return com.framework.common.response.ResponseResult
-     * @Titel 删除或批量删除
-     * @Description 删除或批量删除
+     * @Titel 批量删除
+     * @Description 批量删除
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/22 18:00
      */
     @RequestMapping(value = "/batchDel", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BLACK_LIST_IP_MANAGEMENT:batchDel') or hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BLACK_LIST_IP_MANAGEMENT:del')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BLACK_LIST_IP_MANAGEMENT:batchDel')")
     public ResponseResult del(@RequestParam(value = "idList[]") List<Long> idList) {
         try {
             return systemBlackListIpServiceImpl.batchDeleteList(idList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return getError();
+        }
+    }
+
+    /**
+     * @param id 1 系统前端操作黑名单IP编号
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 删除
+     * @Description 删除
+     * @Author 邋遢龘鵺
+     * @DateTime 2019/12/22 18:00
+     */
+    @RequestMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BLACK_LIST_IP_MANAGEMENT:del')")
+    public ResponseResult del(Long id) {
+        try {
+            return systemBlackListIpServiceImpl.batchDeleteList(Arrays.asList(id));
         } catch (Exception e) {
             e.printStackTrace();
             return getError();

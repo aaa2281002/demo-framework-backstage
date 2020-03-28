@@ -141,7 +141,7 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
 
     /**
      * @param id 1 编号
-     * @return com.framework.model.entity.system.SystemBlackListIp
+     * @return com.framework.model.entity.other.FileInfo
      * @Titel 公共根据编号查询数据
      * @Description 公共根据编号查询数据
      * @Author 邋遢龘鵺
@@ -154,7 +154,7 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
 
     /**
      * @param record 1 文件实体类对象
-     * @return java.util.List<com.framework.model.entity.system.SystemBlackListIp>
+     * @return java.util.List<com.framework.model.entity.other.FileInfo>
      * @Titel 公共根据条件分页查询
      * @Description 公共根据条件分页查询
      * @Author 邋遢龘鵺
@@ -180,7 +180,7 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
 
     /**
      * @param record 1 文件实体类对象
-     * @return java.util.List<com.framework.model.entity.system.SystemBlackListIp>
+     * @return java.util.List<com.framework.model.entity.other.FileInfo>
      * @Titel 公共根据条件查询集合
      * @Description 公共根据条件查询集合
      * @Author 邋遢龘鵺
@@ -238,7 +238,7 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
     @Override
     public ResponseResult edit(FileInfo record) {
         ResponseResult r = getResponseResult();
-        if (record == null || record.getId() == null) {
+        if (record == null || record.getId() == null || record.getId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         Date date = new Date();

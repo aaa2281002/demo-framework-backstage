@@ -135,7 +135,7 @@ public class SystemRoleMenuButtonServiceImpl extends BaseService implements Syst
 
     /**
      * @param menuId 1 菜单编号
-     * @return java.util.List<com.framework.model.entity.system.SystemMenuButton> 返回集合
+     * @return java.util.List<com.framework.model.entity.system.SystemRoleMenuButton> 返回集合
      * @Titel 公共根据菜单编号查询按钮代码集合
      * @Description 公共根据菜单编号查询按钮代码集合
      * @Author 邋遢龘鵺
@@ -161,7 +161,7 @@ public class SystemRoleMenuButtonServiceImpl extends BaseService implements Syst
 
     /**
      * @param buttonId 1 菜单编号
-     * @return java.util.List<com.framework.model.entity.system.SystemMenuButton> 返回集合
+     * @return java.util.List<com.framework.model.entity.system.SystemRoleMenuButton> 返回集合
      * @Titel 公共根据按钮编号查询菜单代码集合
      * @Description 公共根据按钮编号查询菜单代码集合
      * @Author 邋遢龘鵺

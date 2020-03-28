@@ -275,20 +275,20 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
     @Override
     public ResponseResult edit(SystemMenu record) {
         ResponseResult r = getResponseResult();
-        if (record == null || record.getId() == null) {
+        if (record == null || record.getId() == null || record.getId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         int num = this.isExist(record);
         if (num > NumeralUtil.POSITIVE_ZERO) {
             return r.ResponseResultFailRepeat();
         }
-        record.setMenuLevel(null);
-        record.setParentId(null);
         SystemMenu sm = this.selectByPrimaryKey(record.getId());
         //SystemMenu p = this.selectByPrimaryKey(record.getId());
         if (sm == null) {
             return r.ResponseResultFail().setMsg("修改菜单不存在!");
         }
+        record.setMenuLevel(null);
+        record.setParentId(null);
 //        sm.setMenuName(record.getMenuName());
 //        sm.setMenuCode(record.getMenuCode());
 //        sm.setUrlPath(record.getUrlPath());
@@ -369,7 +369,6 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
         if (idList == null || idList.size() < NumeralUtil.POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
-
         //验证菜单关联菜单是否存在
         SystemRoleMenuButton systemMenuButton = new SystemRoleMenuButton();
         systemMenuButton.setIdList(idList);
@@ -505,6 +504,7 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
         }
     }
 
+    //组装树形集合
     private List<Tree> childrenList(SystemMenu m, List<SystemMenu> list) {
         Iterator<SystemMenu> it = list.iterator();
         List<Tree> treeList = new ArrayList<Tree>();
@@ -515,7 +515,7 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
                 z.setId(sm.getId().toString());
                 z.setTitle(sm.getMenuName());
                 //一定要在删除后在执行递归，不然会出现并发修改操作BUG
-                it.remove();
+//                it.remove();
                 z.setChildren(childrenList(sm, list));
                 treeList.add(z);
             }

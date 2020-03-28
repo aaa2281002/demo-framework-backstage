@@ -15,13 +15,13 @@
             <fieldset class="layui-elem-field layuimini-search">
                 <legend>搜索信息</legend>
                 <div style="margin: 10px 10px 10px 10px">
-                    <form class="layui-form layui-form-pane" id="blackListIp-search-form" action="">
+                    <form class="layui-form" id="blackListIp-search-form" action="">
                         <div class="layui-form-item">
                             <div class="layui-inline">
                                 <label class="layui-form-label">开始时间</label>
                                 <div class="layui-input-inline">
                                     <input type="text" id="startTime" name="startTime" autocomplete="off"
-                                           placeholder="yyyy-MM-dd HH:mm:ss"
+                                           placeholder="请选择开始时间"
                                            class="layui-input startTime" readonly>
                                 </div>
                             </div>
@@ -29,7 +29,7 @@
                                 <label class="layui-form-label">结束时间</label>
                                 <div class="layui-input-inline">
                                     <input type="text" id="endTime" name="endTime" autocomplete="off"
-                                           placeholder="yyyy-MM-dd HH:mm:ss"
+                                           placeholder="请选择结束时间"
                                            class="layui-input endTime" readonly>
                                 </div>
                             </div>
@@ -180,9 +180,9 @@
                     layer.close(index);
                     $.ajax({
                         type: 'POST',
-                        url: '/system/black/list/ip/batchDel',
+                        url: '/system/black/list/ip/del',
                         data: {
-                            idList: [id]
+                            id: id
                         },
                         dataType: 'json',
                         success: function (data) {

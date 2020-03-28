@@ -6,12 +6,9 @@ import com.framework.common.util.system.LogUtil;
 import com.framework.model.entity.login.UserPrincipal;
 import com.framework.service.service.system.SystemLogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.ServletRequestUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

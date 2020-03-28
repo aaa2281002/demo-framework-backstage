@@ -16,13 +16,13 @@
                 <fieldset class="layui-elem-field layuimini-search">
                     <legend>搜索信息</legend>
                     <div style="margin: 10px 10px 10px 10px">
-                        <form class="layui-form layui-form-pane" id="roleMenuButton-search-form" action="">
+                        <form class="layui-form" id="roleMenuButton-search-form" action="">
                             <div class="layui-form-item">
                                 <div class="layui-inline">
                                     <label class="layui-form-label">角色名称</label>
                                     <div class="layui-input-inline">
                                         <input type="text" name="roleName" autocomplete="off"
-                                               placeholder="角色名称"
+                                               placeholder="请输入角色名称"
                                                class="layui-input">
                                     </div>
                                 </div>
@@ -30,7 +30,7 @@
                                     <label class="layui-form-label">角色代码</label>
                                     <div class="layui-input-inline">
                                         <input type="text" name="roleCode" autocomplete="off"
-                                               placeholder="角色代码"
+                                               placeholder="请输入角色代码"
                                                class="layui-input">
                                     </div>
                                 </div>
@@ -69,13 +69,13 @@
                 <fieldset class="layui-elem-field layuimini-search">
                     <legend>搜索信息</legend>
                     <div style="margin: 10px 10px 10px 10px">
-                        <form class="layui-form layui-form-pane" id="menuButton-search-form" action="">
+                        <form class="layui-form" id="menuButton-search-form" action="">
                             <div class="layui-form-item">
                                 <div class="layui-inline">
                                     <label class="layui-form-label">按钮名称</label>
                                     <div class="layui-input-inline">
                                         <input type="text" name="buttonName" autocomplete="off"
-                                               placeholder="按钮名称"
+                                               placeholder="请输入按钮名称"
                                                class="layui-input">
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                                     <label class="layui-form-label">按钮代码</label>
                                     <div class="layui-input-inline">
                                         <input type="text" name="buttonCode" autocomplete="off"
-                                               placeholder="按钮代码"
+                                               placeholder="请输入按钮代码"
                                                class="layui-input">
                                     </div>
                                 </div>
@@ -189,16 +189,26 @@
         // 按钮表格数据完成后初始化
         function tableInit(res, curr, count) {
             common.initCheckbokOrRadio(tableId, 1);
-            if (menuButtonData && menuButtonData.length > 0 && res.data.length > 0) {
-                var thisTableData = res.data;
-                for (var i = 0; i < thisTableData.length; i++) {
-                    for (var j = 0; j < menuButtonData.length; j++) {
-                        if (thisTableData[i].id == menuButtonData[j].buttonId) {
-                            $("div[lay-id='" + tableId + "'] tr[data-index='" + thisTableData[i].LAY_TABLE_INDEX + "'] td div.laytable-cell-checkbox div.layui-form-checkbox").click();
-                        }
+            if (menuButtonData && menuButtonData.length <= 0 || res.data.length <= 0) {
+                return;
+            }
+            var thisTableData = res.data;
+            // if(menuButtonData.length >= thisTableData.length){
+            //     $("div[lay-id='" + tableId + "'] div.layui-table-header tr th div.laytable-cell-checkbox div.layui-form-checkbox")[1].click();
+            //     return;
+            // }
+            for (var i = 0; i < thisTableData.length; i++) {
+                for (var j = 0; j < menuButtonData.length; j++) {
+                    if (thisTableData[i].id == menuButtonData[j].buttonId) {
+                        $("div[lay-id='" + tableId + "'] tr[data-index='" + thisTableData[i].LAY_TABLE_INDEX + "'] td div.laytable-cell-checkbox div.layui-form-checkbox")[1].click();
+                        //这里才是真正的有效勾选
+                        // thisTableData[i]["LAY_CHECKED"]='true';
+                        // $("div[lay-id='" + tableId + "'] tr[data-index='" + thisTableData[i].LAY_TABLE_INDEX + "'] input[type='checkbox']").prop('checked', true);
+                        // $("div[lay-id='" + tableId + "'] tr[data-index='" + thisTableData[i].LAY_TABLE_INDEX + "'] input[type='checkbox']").next().addClass('layui-form-checked');
                     }
                 }
             }
+
         }
 
         // 按钮表格
@@ -273,7 +283,6 @@
             onlyIconControl: true,  //是否仅允许节点左侧图标控制展开收缩
             click: function (obj) {
                 treeRemoveClass();
-                // $("#menuButtonTreeId").find("span.custom-tree-item-clicked").removeClass("custom-tree-item-clicked");
                 $(obj.elem).children(".layui-tree-entry").children(".layui-tree-main").children(".layui-tree-txt").addClass("custom-tree-item-clicked");
                 menuTreeSelectId = obj.data.id;
                 $.ajax({
@@ -295,10 +304,10 @@
                                 time: 3000
                             });
                         }
-                    }
-                    /* error:function(data) {
+                    },
+                    error: function (data) {
                         console.log(data.msg);
-                    }, */
+                    },
                 });
             }
         });
@@ -360,10 +369,10 @@
                                 time: 3000
                             });
                         }
-                    }
-                    /* error:function(data) {
+                    },
+                    error: function (data) {
                         console.log(data.msg);
-                    }, */
+                    },
                 });
             });
             return;

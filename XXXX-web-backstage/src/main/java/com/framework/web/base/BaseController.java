@@ -1,10 +1,6 @@
 package com.framework.web.base;
 
 import com.framework.common.response.ResponseResult;
-import com.framework.common.util.ResponseResultStatus;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @Author 邋遢龘鵺

@@ -215,7 +215,7 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
     @CacheEvict(value = CacheUtil.CACHE_SUFFIX + "SystemBlackListIp", allEntries = true)
     public ResponseResult edit(SystemBlackListIp record) {
         ResponseResult r = getResponseResult();
-        if (record == null || record.getId() == null) {
+        if (record == null || record.getId() == null || record.getId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         int num = this.isExist(record);
@@ -223,6 +223,9 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
             return r.ResponseResultFailRepeat();
         }
         SystemBlackListIp sbli = this.selectByPrimaryKey(record.getId());
+        if (sbli == null) {
+            return r.ResponseResultFailRepeat().setMsg("修改系统前端操作黑名单信息不存在!");
+        }
         Date date = new Date();
         Long userId = getUserId();
         record.setOperaterStatus(NumeralUtil.POSITIVE_TWO);

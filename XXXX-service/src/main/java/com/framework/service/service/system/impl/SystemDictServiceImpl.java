@@ -209,7 +209,7 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
     @Override
     public ResponseResult edit(SystemDict record) {
         ResponseResult r = getResponseResult();
-        if (record == null || record.getId() == null) {
+        if (record == null || record.getId() == null || record.getId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         int num = this.isExist(record);
@@ -217,6 +217,9 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
             return r.ResponseResultFailRepeat();
         }
         SystemDict sb = this.selectByPrimaryKey(record.getId());
+        if(sb == null){
+            return r.ResponseResultFailRepeat().setMsg("修改字典信息不存在!");
+        }
         Date date = new Date();
         Long userId = getUserId();
         record.setOperaterStatus(NumeralUtil.POSITIVE_TWO);
@@ -315,7 +318,6 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
      */
     @Override
     public SystemDict getByIdParam(Long id) {
-        ResponseResult rr = getResponseResult();
         if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }

@@ -87,6 +87,7 @@ public final class RedisUtil {
         try {
             return redisTemplate.hasKey(key);
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -105,6 +106,7 @@ public final class RedisUtil {
             redisTemplate.rename(oldKey, newKey);
             return Boolean.TRUE;
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
 
@@ -124,6 +126,7 @@ public final class RedisUtil {
         try {
             return redisTemplate.renameIfAbsent(oldKey, newKey);
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -152,6 +155,7 @@ public final class RedisUtil {
         try {
             return redisTemplate.delete(key);
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -169,6 +173,7 @@ public final class RedisUtil {
             Long l = redisTemplate.delete(CollectionUtils.arrayToList(keys));
             return l != null && l.longValue() != NumeralUtil.POSITIVE_ZERO;
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -186,6 +191,7 @@ public final class RedisUtil {
             Long l = redisTemplate.delete(keys);
             return l != null && l.longValue() != NumeralUtil.POSITIVE_ZERO;
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -205,6 +211,7 @@ public final class RedisUtil {
         try {
             return redisTemplate.opsForValue().setIfAbsent(key, value);
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -227,6 +234,7 @@ public final class RedisUtil {
             }
             return Boolean.TRUE;
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -245,7 +253,8 @@ public final class RedisUtil {
         try {
             redisTemplate.opsForValue().set(key, value);
             return Boolean.TRUE;
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -264,7 +273,8 @@ public final class RedisUtil {
         try {
             redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
             return Boolean.TRUE;
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -298,7 +308,8 @@ public final class RedisUtil {
         try {
             redisTemplate.opsForList().rightPush(key, value);
             return Boolean.TRUE;
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -321,7 +332,8 @@ public final class RedisUtil {
                 return Boolean.TRUE;
             }
             return Boolean.FALSE;
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -344,7 +356,8 @@ public final class RedisUtil {
                 return Boolean.TRUE;
             }
             return Boolean.FALSE;
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -362,7 +375,8 @@ public final class RedisUtil {
     public List<Object> getList(String key, long start, long end) {
         try {
             return redisTemplate.opsForList().range(key, start, end);
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -380,7 +394,8 @@ public final class RedisUtil {
     public long deleteListIndex(String key, long count, Object value) {
         try {
             return redisTemplate.opsForList().remove(key, count, value);
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return 0;
         }
 
@@ -397,7 +412,8 @@ public final class RedisUtil {
     public long getListSize(String key) {
         try {
             return redisTemplate.opsForList().size(key);
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return 0;
         }
     }
@@ -421,6 +437,7 @@ public final class RedisUtil {
         try {
             return redisTemplate.opsForHash().get(key, mapKey);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -437,6 +454,7 @@ public final class RedisUtil {
         try {
             return redisTemplate.opsForHash().entries(key);
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -456,6 +474,7 @@ public final class RedisUtil {
             this.redisTemplate.opsForHash().put(key, mapKey, value);
             return Boolean.TRUE;
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -474,6 +493,7 @@ public final class RedisUtil {
             this.redisTemplate.opsForHash().putAll(key, map);
             return Boolean.TRUE;
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -496,6 +516,7 @@ public final class RedisUtil {
             }
             return Boolean.TRUE;
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -520,6 +541,7 @@ public final class RedisUtil {
             }
             return Boolean.TRUE;
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -538,6 +560,7 @@ public final class RedisUtil {
             redisTemplate.opsForHash().delete(key, mapKey);
             return Boolean.TRUE;
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -555,6 +578,7 @@ public final class RedisUtil {
         try {
             return redisTemplate.opsForHash().hasKey(key, mapKey);
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }
@@ -582,6 +606,7 @@ public final class RedisUtil {
             }
             return is;
         } catch (Exception e) {
+            e.printStackTrace();
             return Boolean.FALSE;
         }
     }

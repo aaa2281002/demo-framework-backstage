@@ -13,7 +13,7 @@
                 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
                     <legend>菜单新增</legend>
                 </fieldset>
-                <form class="layui-form layui-form-pane" id="menuFormAdd" action="">
+                <form class="layui-form" id="menuFormAdd" action="">
                     <input type="hidden" th:value="${p != null ? p.id : ''}" name="parentId">
                     <div class="layui-form-item">
                         <label class="layui-form-label">上级菜单</label>
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="required-red">*</span>请求地址
+                        <label class="layui-form-label">请求地址
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="urlPath" lay-verify="urlPath"

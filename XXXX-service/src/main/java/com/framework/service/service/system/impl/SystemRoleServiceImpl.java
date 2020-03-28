@@ -20,7 +20,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * @Author 邋遢龘鵺
@@ -269,7 +274,7 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
 //    @Transactional(value = "readTransactionManager", rollbackFor = Exception.class)
     public ResponseResult edit(SystemRole record) {
         ResponseResult r = getResponseResult();
-        if (record == null || record.getId() == null) {
+        if (record == null || record.getId() == null || record.getId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         int num = this.isExist(record);
@@ -277,6 +282,9 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
             return r.ResponseResultFailRepeat();
         }
         SystemRole sr = this.selectByPrimaryKey(record.getId());
+        if (sr == null) {
+            return r.ResponseResultFailRepeat().setMsg("修改角色信息不存在!");
+        }
         if (record.getRoleLevel() == null) {
             record.setRoleLevel(sr.getRoleLevel());
         } else {
@@ -326,11 +334,11 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
                         systemUser.setIdList(userIdList);
                         List<SystemUser> suList = systemUserServiceImpl.findByList(systemUser);
                         for (SystemUser su : suList) {
-                            Object obj = super.redisUtil.getLoginSystemUserString(su.getLoginName());
-//                        if (obj != null) {
-//                            SystemUser isSU = (SystemUser) obj;
-//                            su.setToken(isSU.getToken());
-//                        }
+//                            Object obj = super.redisUtil.getLoginSystemUserString(su.getLoginName());
+//                            if (obj != null) {
+//                                SystemUser isSU = (SystemUser) obj;
+//                                su.setToken(isSU.getToken());
+//                            }
                             su.setRoleCode(record.getRoleCode());
                             super.redisUtil.setLoginSystemUserString(su.getLoginName(), su);
                         }

@@ -122,7 +122,7 @@ public class SystemLogServiceImpl extends BaseService implements SystemLogServic
 
     /**
      * @param record 1 系统日志实体类对象
-     * @return int 返回分页总数
+     * @return java.util.List<com.framework.model.entity.system.SystemLog>
      * @Titel 公共根据条件分页查询总数
      * @Description 公共根据条件分页查询总数
      * @Author 邋遢龘鵺

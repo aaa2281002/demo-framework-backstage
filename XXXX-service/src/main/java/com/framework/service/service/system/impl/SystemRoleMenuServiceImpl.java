@@ -4,12 +4,18 @@ import com.framework.common.model.Tree;
 import com.framework.common.response.ResponseResult;
 import com.framework.common.util.TreeUtil;
 import com.framework.common.util.other.NumeralUtil;
+import com.framework.common.util.other.SymbolUtil;
+import com.framework.common.util.redis.RedisKeyUtil;
 import com.framework.dao.mapper.system.SystemRoleMenuMapper;
+import com.framework.model.entity.system.SystemButton;
 import com.framework.model.entity.system.SystemMenu;
 import com.framework.model.entity.system.SystemRole;
 import com.framework.model.entity.system.SystemRoleMenu;
+import com.framework.model.entity.system.SystemRoleMenuButton;
 import com.framework.service.base.BaseService;
+import com.framework.service.service.system.SystemButtonService;
 import com.framework.service.service.system.SystemMenuService;
+import com.framework.service.service.system.SystemRoleMenuButtonService;
 import com.framework.service.service.system.SystemRoleMenuService;
 import com.framework.service.service.system.SystemRoleService;
 import org.apache.commons.lang3.StringUtils;
@@ -17,8 +23,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 
 /**
  * @Author 邋遢龘鵺
@@ -35,6 +45,11 @@ public class SystemRoleMenuServiceImpl extends BaseService implements SystemRole
     private SystemRoleService systemRoleServiceImpl;
     @Autowired
     private SystemMenuService systemMenuServiceImpl;
+    @Autowired
+    private SystemButtonService systemButtonServiceImpl;
+    @Autowired
+    private SystemRoleMenuButtonService systemRoleMenuButtonServiceImpl;
+
 
     /**
      * @param record 1 角色菜单关联实体类对象
@@ -188,6 +203,7 @@ public class SystemRoleMenuServiceImpl extends BaseService implements SystemRole
                 redisUtil.setAuthRoleString(sr.getRoleCode(), sr);
                 return r.ResponseResultSuccess();
             } catch (Exception e) {
+                e.printStackTrace();
                 return r.ResponseResultFail().setMsg("角色菜单保存异常!");
             }
         }
@@ -203,22 +219,61 @@ public class SystemRoleMenuServiceImpl extends BaseService implements SystemRole
             this.deleteRoleId(roleId);
             this.insertList(addList);
         } catch (Exception e) {
+            e.printStackTrace();
             return r.ResponseResultFail().setMsg("角色菜单保存异常!");
         }
         SystemMenu systemMenu = new SystemMenu();
         systemMenu.setGtaeOperaterStatus(NumeralUtil.POSITIVE_ZERO);
         List<SystemMenu> menuList = systemMenuServiceImpl.findByList(systemMenu);
         List<String> menuCodeList = new ArrayList<String>();
-        for (SystemMenu sm : menuList) {
-            if (menuIdList.contains(sm.getId())) {
-                menuCodeList.add(sm.getMenuCode());
+        String roleCode = RedisKeyUtil.getPermissionMenuKey(sr.getRoleCode() + SymbolUtil.NO_INPUT_METHOD_COLON + "*");
+
+        //处理菜单关联的按钮
+        SystemButton systemButton = new SystemButton();
+        systemButton.setGtaeOperaterStatus(NumeralUtil.POSITIVE_ZERO);
+        List<SystemButton> buttonList = systemButtonServiceImpl.findByList(systemButton);
+        SystemRoleMenuButton srmb = new SystemRoleMenuButton();
+        srmb.setRoleId(sr.getId());
+        List<SystemRoleMenuButton> roleMenuButtonList = systemRoleMenuButtonServiceImpl.findByList(srmb);
+        Map<String, List<String>> rsmbMap = new HashMap<String, List<String>>();
+        for (SystemRoleMenuButton rsmb : roleMenuButtonList) {//循环菜单
+            String roleMenuIdCode = rsmb.getRoleId() + SymbolUtil.NO_INPUT_METHOD_UNDERLINE + rsmb.getMenuId();
+            List<String> list = rsmbMap.get(roleMenuIdCode);//判断当前map集合中的按钮代码集合
+            if (list == null) {//按钮代码集合不存在就是第一次循环。
+                list = new ArrayList<String>();//创建一个新的集合
             }
+            for (SystemButton sb : buttonList) {//循环按钮
+                //匹配对应的菜单按钮关联ID
+                if (sb.getId() == rsmb.getButtonId() || rsmb.getButtonId().equals(sb.getId())) {
+                    //匹配上了以后把按钮代码存入list集合中
+                    list.add(sb.getButtonCode());
+                    break;
+                }
+            }
+            //保存对应的菜单ID键，按钮代码集合
+            rsmbMap.put(roleMenuIdCode, list);
         }
+
         try {
+            Set<String> keys = redisUtil.getKeys(roleCode);
+            if (keys != null && keys.size() > NumeralUtil.POSITIVE_ZERO) {
+                redisUtil.deleteKey(keys);
+            }
+            for (SystemMenu sm : menuList) {
+                if (menuIdList.contains(sm.getId())) {
+                    String roleMenuCode = sr.getRoleCode() + SymbolUtil.NO_INPUT_METHOD_COLON + sm.getMenuCode();
+                    menuCodeList.add(sm.getMenuCode());
+                    String roleMenuIdCode = sr.getId() + SymbolUtil.NO_INPUT_METHOD_UNDERLINE + sm.getId();
+                    List<String> smList = rsmbMap.get(roleMenuIdCode);
+                    sm.setButtonCodeList(smList);
+                    redisUtil.setAuthMenuString(roleMenuCode, sm);
+                }
+            }
             //更新Redis缓存
             sr.setMenuCodeList(menuCodeList);
             redisUtil.setAuthRoleString(sr.getRoleCode(), sr);
         } catch (Exception e) {
+            e.printStackTrace();
             return r.ResponseResultFail().setMsg("角色菜单缓存异常!");
         }
         return r.ResponseResultSuccess();
@@ -258,7 +313,7 @@ public class SystemRoleMenuServiceImpl extends BaseService implements SystemRole
                 z.setId(sm.getId().toString());
                 z.setTitle(sm.getMenuName());
                 z.setSpread(Boolean.TRUE && lList != null);
-                it.remove();
+//                it.remove();
                 z.setChildren(childrenList(sm, list, lList));
                 if (z.getChildren().size() == NumeralUtil.POSITIVE_ZERO
                         && lList != null

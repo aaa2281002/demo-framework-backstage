@@ -245,7 +245,7 @@ public class SystemButtonServiceImpl extends BaseService implements SystemButton
     @Override
     public ResponseResult edit(SystemButton record) {
         ResponseResult r = getResponseResult();
-        if (record == null || record.getId() == null) {
+        if (record == null || record.getId() == null || record.getId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         int num = this.isExist(record);
@@ -253,6 +253,9 @@ public class SystemButtonServiceImpl extends BaseService implements SystemButton
             return r.ResponseResultFailRepeat();
         }
         SystemButton sb = this.selectByPrimaryKey(record.getId());
+        if (sb == null) {
+            return r.ResponseResultFailRepeat().setMsg("修改按钮信息不存在!");
+        }
         Date date = new Date();
         Long userId = getUserId();
         record.setOperaterStatus(NumeralUtil.POSITIVE_TWO);

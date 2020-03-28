@@ -23,13 +23,13 @@ import java.io.IOException;
 @Configuration
 public class ParameterValueFilter extends OncePerRequestFilter implements InitializingBean {
     /**
-     * @Titel
-     * @Description
+     * @param request     1 请求对象
+     * @param response    2 相应对象
+     * @param filterChain 3 过滤链接视图对象
+     * @Titel 请求参数值过滤处理
+     * @Description 请求参数值过滤处理
      * @Author 邋遢龘鵺
      * @DateTime 2020/1/10 10:58
-     * @param request 1 请求对象
-     * @param response 2 相应对象
-     * @param filterChain 3 过滤链接视图对象
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

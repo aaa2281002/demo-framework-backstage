@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -169,17 +170,37 @@ public class SystemUserController extends BaseController {
     /**
      * @param idList 1 用户编号集合
      * @return com.framework.common.response.ResponseResult
-     * @Titel 删除或批量删除
-     * @Description 删除或批量删除
+     * @Titel 批量删除
+     * @Description 批量删除
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/22 18:00
      */
     @RequestMapping(value = "/batchDel", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:batchDel') or hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:del')")
-    public ResponseResult del(@RequestParam(value = "idList[]") List<Long> idList) {
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:batchDel') ")
+    public ResponseResult batchDel(@RequestParam(value = "idList[]") List<Long> idList) {
         try {
             return systemUserServiceImpl.batchDeleteList(idList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return getError();
+        }
+    }
+
+    /**
+     * @param id 1 用户编号
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 删除
+     * @Description 删除
+     * @Author 邋遢龘鵺
+     * @DateTime 2019/12/22 18:00
+     */
+    @RequestMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:del')")
+    public ResponseResult del(Long id) {
+        try {
+            return systemUserServiceImpl.batchDeleteList(Arrays.asList(id));
         } catch (Exception e) {
             e.printStackTrace();
             return getError();

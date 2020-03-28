@@ -23,12 +23,6 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     //当前请求网址
     private String currentUrl;
 
-    /**
-     * Constructs a request object wrapping the given request.
-     *
-     * @param request The request to wrap
-     * @throws IllegalArgumentException if the request is null
-     */
     public XssHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
         this.currentUrl = request.getRequestURI();

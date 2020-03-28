@@ -26,12 +26,12 @@
 
     <!-- 统一管理jar包 -->
     <dependencies>
-        <!-- 开始-内部引用 -->
-        <dependency>
-            <groupId>com.framework</groupId>
-            <artifactId>XXXX-common</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+        <!--&lt;!&ndash; 开始-内部引用 &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.framework</groupId>-->
+            <!--<artifactId>XXXX-common</artifactId>-->
+            <!--<version>1.0.0</version>-->
+        <!--</dependency>-->
 
         <!--<dependency>-->
             <!--<groupId>com.framework</groupId>-->

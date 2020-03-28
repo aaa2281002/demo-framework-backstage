@@ -4,6 +4,7 @@ import com.framework.model.entity.other.FileInfo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 /**
  * @Author 邋遢龘鵺
  * @ClassName com.framework.dao.mapper.other

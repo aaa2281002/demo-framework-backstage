@@ -1,14 +1,11 @@
 package com.framework.web.config.initDataSourceConfig;
 
 import com.framework.common.annotation.TargetDataSource;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.annotation.Order;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Method;
 
 /**
  * @Author 邋遢龘鵺

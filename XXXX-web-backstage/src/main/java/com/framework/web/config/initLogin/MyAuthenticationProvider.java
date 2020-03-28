@@ -2,10 +2,16 @@ package com.framework.web.config.initLogin;
 
 import com.framework.common.exception.CaptchaCodeException;
 import com.framework.common.model.CaptchaImage;
-import com.framework.common.util.system.CaptchaUtil;
 import com.framework.common.util.encrypt.MD5Util;
+import com.framework.common.util.system.CaptchaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -163,10 +164,30 @@ public class SystemWhiteListIpController extends BaseController {
      */
     @RequestMapping(value = "/batchDel", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_WHITE_LIST_IP_MANAGEMENT:batchDel') or hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_WHITE_LIST_IP_MANAGEMENT:del')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_WHITE_LIST_IP_MANAGEMENT:batchDel')")
     public ResponseResult del(@RequestParam(value = "idList[]") List<Long> idList) {
         try {
             return systemWhiteListIpServiceImpl.batchDeleteList(idList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return getError();
+        }
+    }
+
+    /**
+     * @param id 1 系统后台操作白名单IP编号
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 删除
+     * @Description 删除
+     * @Author 邋遢龘鵺
+     * @DateTime 2019/12/22 18:00
+     */
+    @RequestMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
+    @ResponseBody
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_WHITE_LIST_IP_MANAGEMENT:del')")
+    public ResponseResult del(Long id) {
+        try {
+            return systemWhiteListIpServiceImpl.batchDeleteList(Arrays.asList(id));
         } catch (Exception e) {
             e.printStackTrace();
             return getError();

@@ -29,13 +29,14 @@ public class InterceptorConfig implements HandlerInterceptor {
      */
 
     /**
-     * 进入controller层之前拦截请求
-     *
-     * @param request
-     * @param response
-     * @param handler
-     * @return
-     * @throws Exception
+     * @param request  1 请求对象
+     * @param response 2 响应对象
+     * @param handler  3 参数对象
+     * @return boolean
+     * @Titel 进入controller层之前拦截请求
+     * @Description 进入controller层之前拦截请求
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/3/28 13:08
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

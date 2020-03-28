@@ -43,11 +43,11 @@
             <artifactId>XXXX-model</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.framework</groupId>
-            <artifactId>XXXX-common</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.framework</groupId>-->
+            <!--<artifactId>XXXX-common</artifactId>-->
+            <!--<version>1.0.0</version>-->
+        <!--</dependency>-->
         <!-- 结束-内部引用 -->
     </dependencies>
 

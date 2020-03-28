@@ -8,11 +8,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.authentication.rememberme.PersistentRememberMeToken;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-//import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+//import org.springframework.data.redis.core.StringRedisTemplate;
 //import java.util.concurrent.TimeUnit;
 
 /**

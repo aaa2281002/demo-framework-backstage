@@ -16,8 +16,8 @@ public interface SystemUserRoleService {
     /**
      * @param record 1 用户角色关联类实体对象
      * @return int 大于等于1成功， 0失败
-     * @Titel 公共根据用户编号，角色编号集合物理批量删除
-     * @Description 公共根据用户编号，角色编号集合物理批量删除
+     * @Titel 公共根据用户编号，用户编号集合物理批量删除
+     * @Description 公共根据用户编号，用户编号集合物理批量删除
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 18:58
      */

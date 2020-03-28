@@ -13,7 +13,7 @@
                 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
                     <legend>菜单编辑</legend>
                 </fieldset>
-                <form class="layui-form layui-form-pane" id="menuFormEdit" action="">
+                <form class="layui-form" id="menuFormEdit" action="">
                     <input type="hidden" id="id" name="id" th:value="${p.id}"/>
                     <input type="hidden" name="parentId" th:value="${p.parentId}">
                     <div class="layui-form-item">
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="required-red">*</span>请求地址
+                        <label class="layui-form-label">请求地址
                         </label>
                         <div class="layui-input-block">
                             <input type="text" name="urlPath" lay-verify="urlPath"
@@ -88,7 +88,7 @@
                                    placeholder="请输入排序" autocomplete="off" class="layui-input">
                         </div>
                     </div>
-                    <div class="layui-form-item" pane="">
+                    <div class="layui-form-item">
                         <label class="layui-form-label"><span class="required-red">*</span>菜单类型
                         </label>
                         <div class="layui-input-block">
@@ -100,7 +100,7 @@
                                    value="2" title="普通菜单" th:checked="${p.adminType == 2}">
                         </div>
                     </div>
-                    <div class="layui-form-item" pane="">
+                    <div class="layui-form-item">
                         <label class="layui-form-label"><span class="required-red">*</span>是否启用
                         </label>
                         <div class="layui-input-block">

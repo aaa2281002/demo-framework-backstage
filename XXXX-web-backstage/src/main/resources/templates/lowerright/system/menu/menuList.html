@@ -19,13 +19,13 @@
                         <fieldset class="layui-elem-field layuimini-search">
                             <legend>搜索信息</legend>
                             <div style="margin: 10px 10px 10px 10px">
-                                <form class="layui-form layui-form-pane" id="menu-search-form" action="">
+                                <form class="layui-form" id="menu-search-form" action="">
                                     <div class="layui-form-item">
                                         <div class="layui-inline">
                                             <label class="layui-form-label">开始时间</label>
                                             <div class="layui-input-inline">
                                                 <input type="text" id="startTime" name="startTime" autocomplete="off"
-                                                       placeholder="yyyy-MM-dd HH:mm:ss"
+                                                       placeholder="请选择开始时间"
                                                        class="layui-input startTime" readonly>
                                             </div>
                                         </div>
@@ -33,7 +33,7 @@
                                             <label class="layui-form-label">结束时间</label>
                                             <div class="layui-input-inline">
                                                 <input type="text" id="endTime" name="endTime" autocomplete="off"
-                                                       placeholder="yyyy-MM-dd HH:mm:ss"
+                                                       placeholder="请选择结束时间"
                                                        class="layui-input endTime" readonly>
                                             </div>
                                         </div>
@@ -41,7 +41,7 @@
                                             <label class="layui-form-label">菜单名称</label>
                                             <div class="layui-input-inline">
                                                 <input type="text" name="menuName" autocomplete="off"
-                                                       placeholder="菜单名称"
+                                                       placeholder="请输入菜单名称"
                                                        class="layui-input">
                                             </div>
                                         </div>
@@ -49,7 +49,7 @@
                                             <label class="layui-form-label">菜单代码</label>
                                             <div class="layui-input-inline">
                                                 <input type="text" name="menuCode" autocomplete="off"
-                                                       placeholder="菜单代码"
+                                                       placeholder="请输入菜单代码"
                                                        class="layui-input">
                                             </div>
                                         </div>
@@ -224,9 +224,9 @@
                             layer.close(index);
                             $.ajax({
                                 type: 'POST',
-                                url: '/system/menu/batchDel',
+                                url: '/system/menu/del',
                                 data: {
-                                    idList: [id]
+                                    id: id
                                 },
                                 dataType: 'json',
                                 success: function (data) {

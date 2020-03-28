@@ -81,7 +81,9 @@ public class NumeralUtil {
 
     public static final long MULTIPLEXING_LONG_POSITIVE_ZERO = 0L;
     public static final long MULTIPLEXING_LONG_POSITIVE_ONE = 1L;
-    public static final long ORDERTIME_BETWEEN_THREE_HOURS = 3L;
+    public static final long MULTIPLEXING_LONG_POSITIVE_TWO = 2L;
+    public static final long MULTIPLEXING_LONG_POSITIVE_THREE = 3L;
+
     //毫秒单位
     public static final long POSITIVE_SIXTY_THOUSAND = 60000;//60秒，6万毫秒,1分钟
     public static final long POSITIVE_THIRTY_THOUSAND = 30000;//30秒，3万毫秒,0.5分钟

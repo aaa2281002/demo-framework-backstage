@@ -25,17 +25,15 @@
     </parent>
     <!-- 整体项目属性配置 -->
     <properties>
-        <!-- jedis版本号 -->
-        <jedis.version>3.0.1</jedis.version>
     </properties>
     <!-- 统一管理jar包 -->
     <dependencies>
         <!-- 开始-内部引用 -->
-        <dependency>
-            <groupId>com.framework</groupId>
-            <artifactId>XXXX-common</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.framework</groupId>-->
+            <!--<artifactId>XXXX-common</artifactId>-->
+            <!--<version>1.0.0</version>-->
+        <!--</dependency>-->
 
         <!--<dependency>-->
         <!--<groupId>com.framework</groupId>-->

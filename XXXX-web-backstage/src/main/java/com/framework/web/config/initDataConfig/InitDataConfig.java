@@ -1,17 +1,31 @@
 package com.framework.web.config.initDataConfig;
 
 import com.framework.common.util.other.NumeralUtil;
+import com.framework.common.util.other.SymbolUtil;
 import com.framework.common.util.redis.RedisKeyUtil;
 import com.framework.common.util.redis.RedisPrefixUtil;
 import com.framework.common.util.redis.RedisUtil;
-import com.framework.common.util.other.SymbolUtil;
-import com.framework.model.entity.system.*;
-import com.framework.service.service.system.*;
+import com.framework.model.entity.system.SystemButton;
+import com.framework.model.entity.system.SystemDict;
+import com.framework.model.entity.system.SystemMenu;
+import com.framework.model.entity.system.SystemRole;
+import com.framework.model.entity.system.SystemRoleMenu;
+import com.framework.model.entity.system.SystemRoleMenuButton;
+import com.framework.service.service.system.SystemButtonService;
+import com.framework.service.service.system.SystemDictService;
+import com.framework.service.service.system.SystemMenuService;
+import com.framework.service.service.system.SystemRoleMenuButtonService;
+import com.framework.service.service.system.SystemRoleMenuService;
+import com.framework.service.service.system.SystemRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author 邋遢龘鵺

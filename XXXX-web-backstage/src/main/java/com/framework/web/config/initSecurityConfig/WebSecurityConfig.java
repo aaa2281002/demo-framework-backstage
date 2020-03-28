@@ -2,7 +2,13 @@ package com.framework.web.config.initSecurityConfig;
 
 import com.framework.common.util.filter.FilterStringUtil;
 import com.framework.common.util.other.NumeralUtil;
-import com.framework.web.config.initLogin.*;
+import com.framework.web.config.initLogin.MyAuthenticationFailureHandler;
+import com.framework.web.config.initLogin.MyAuthenticationLogoutHandler;
+import com.framework.web.config.initLogin.MyAuthenticationProvider;
+import com.framework.web.config.initLogin.MyAuthenticationSuccessHandler;
+import com.framework.web.config.initLogin.MyPersistentTokenRepository;
+import com.framework.web.config.initLogin.MyUserDetailsService;
+import com.framework.web.config.initLogin.RememberMeConfig;
 import com.framework.web.other.filter.ParameterValueFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +29,16 @@ import org.springframework.validation.Validator;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 

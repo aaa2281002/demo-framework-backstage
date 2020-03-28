@@ -5,10 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
-//import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-//import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
+
+//import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+//import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 //import java.sql.DatabaseMetaData;
 //import java.sql.ResultSet;
 //import java.sql.SQLException;

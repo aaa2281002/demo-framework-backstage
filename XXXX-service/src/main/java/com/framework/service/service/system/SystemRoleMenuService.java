@@ -86,7 +86,7 @@ public interface SystemRoleMenuService {
 
     /**
      * @param roleId 1 角色编号
-     * @return java.util.List<com.framework.model.entity.system.SystemRoleMenu> 返回集合
+     * @return java.util.List<com.framework.model.entity.system.SystemRoleMenu>
      * @Titel 公共根据角色编号查询菜单代码集合
      * @Description 公共根据角色编号查询菜单代码集合
      * @Author 邋遢龘鵺
@@ -96,7 +96,7 @@ public interface SystemRoleMenuService {
 
     /**
      * @param menuId 1 菜单编号
-     * @return java.util.List<com.framework.model.entity.system.SystemRoleMenu> 返回集合
+     * @return java.util.List<com.framework.model.entity.system.SystemRoleMenu>
      * @Titel 公共根据菜单编号查询角色代码集合
      * @Description 公共根据菜单编号查询角色代码集合
      * @Author 邋遢龘鵺

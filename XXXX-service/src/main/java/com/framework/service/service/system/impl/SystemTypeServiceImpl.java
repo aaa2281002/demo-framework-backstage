@@ -172,10 +172,10 @@ public class SystemTypeServiceImpl extends BaseService implements SystemTypeServ
         if (record == null) {
             return r.ResponseResultFail();
         }
-        int num = this.isExist(record);
-        if (num > NumeralUtil.POSITIVE_ZERO) {
-            return r.ResponseResultFailRepeat();
-        }
+//        int num = this.isExist(record);
+//        if (num > NumeralUtil.POSITIVE_ZERO) {
+//            return r.ResponseResultFailRepeat();
+//        }
         Long userId = getUserId();
         Date date = new Date();
         record.setOperaterTime(date);
@@ -208,14 +208,17 @@ public class SystemTypeServiceImpl extends BaseService implements SystemTypeServ
     @Override
     public ResponseResult edit(SystemType record) {
         ResponseResult r = getResponseResult();
-        if (record == null || record.getId() == null) {
+        if (record == null || record.getId() == null || record.getId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
-        int num = this.isExist(record);
-        if (num > NumeralUtil.POSITIVE_ZERO) {
-            return r.ResponseResultFailRepeat();
+//        int num = this.isExist(record);
+//        if (num > NumeralUtil.POSITIVE_ZERO) {
+//            return r.ResponseResultFailRepeat();
+//        }
+        SystemType sb = this.selectByPrimaryKey(record.getId());
+        if(sb == null){
+            return r.ResponseResultFailRepeat().setMsg("修改类型信息不存在!");
         }
-//        SystemType sb = this.selectByPrimaryKey(record.getId());
         Date date = new Date();
         Long userId = getUserId();
         record.setOperaterStatus(NumeralUtil.POSITIVE_TWO);
@@ -300,6 +303,7 @@ public class SystemTypeServiceImpl extends BaseService implements SystemTypeServ
             Boolean is = this.isExist(param) > NumeralUtil.POSITIVE_ZERO ? Boolean.FALSE : Boolean.TRUE;
             return this.getResponseResult().ResponseResultSuccess().setData(is);
         } catch (Exception e) {
+            e.printStackTrace();
             return this.getResponseResult().ResponseResultFail().setData(Boolean.FALSE).setMsg(e.getMessage());
         }
     }

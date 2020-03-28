@@ -1,7 +1,6 @@
 package com.framework.web.controller.other.file;
 
 import com.framework.common.response.ResponseResult;
-import com.framework.common.util.io.ReadIOUtil;
 import com.framework.model.entity.other.FileInfo;
 import com.framework.service.service.other.FileInfoService;
 import com.framework.web.base.BaseController;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -140,12 +138,14 @@ public class FileInfoController extends BaseController {
         try {
             return fileInfoServiceImpl.upload(param);
         } catch (Exception e) {
+            e.printStackTrace();
             return getError();
         }
     }
 
     /**
-     * @param response 1 下载传输对象
+     * @param param    1 参数对象
+     * @param response 2 下载传输对象
      * @Titel 下载
      * @Description 下载
      * @Author 邋遢龘鵺

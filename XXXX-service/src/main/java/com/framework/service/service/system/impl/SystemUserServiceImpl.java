@@ -15,7 +15,11 @@ import org.springframework.session.Session;
 import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author 邋遢龘鵺
@@ -264,12 +268,12 @@ public class SystemUserServiceImpl extends BaseService implements SystemUserServ
     @Override
     public ResponseResult edit(SystemUser record) {
         ResponseResult r = getResponseResult();
-        if (record == null || record.getId() == null) {
+        if (record == null || record.getId() == null || record.getId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         SystemUser su = this.selectByPrimaryKey(record.getId());
         if (su == null) {
-            return r.ResponseResultFail();
+            return r.ResponseResultFailRepeat().setMsg("修改用户信息不存在!");
         }
         if (StringUtils.isNotEmpty(record.getPassword())) {
             if (!record.getPassword().equals(record.getConfirmPassword())) {

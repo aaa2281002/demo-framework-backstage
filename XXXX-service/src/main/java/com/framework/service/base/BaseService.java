@@ -1,6 +1,8 @@
 package com.framework.service.base;
 
 import com.framework.common.response.ResponseResult;
+import com.framework.common.util.array.StringToArrayUtil;
+import com.framework.common.util.other.SymbolUtil;
 import com.framework.common.util.redis.RedisUtil;
 import com.framework.model.entity.login.UserPrincipal;
 import com.framework.model.entity.system.SystemUser;
@@ -28,11 +30,11 @@ public class BaseService {
     private HttpServletRequest request;
 
     /**
+     * @return com.framework.common.response.ResponseResult
      * @Titel 创建公共返回对象
      * @Description 创建公共返回对象
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
-     * @return com.framework.common.response.ResponseResult
      */
     protected ResponseResult getResponseResult() {
         return new ResponseResult();
@@ -65,4 +67,17 @@ public class BaseService {
         SystemUser u = getUser();
         return u != null ? u.getId() : null;
     }
+
+    /**
+     * @param idStr 1   编号字符串
+     * @return java.util.List<java.lang.Long> 转long集合
+     * @Titel 编号字符串转集合
+     * @Description 编号字符串转集合
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/3/24 20:05
+     */
+    protected List<Long> getIdLongList(String idStr) {
+        return StringToArrayUtil.stringToLongList(idStr.split(SymbolUtil.NO_INPUT_METHOD_COMMA));
+    }
+
 }

@@ -211,12 +211,12 @@ public class SystemWhiteListIpServiceImpl extends BaseService implements SystemW
     @Override
     public ResponseResult edit(SystemWhiteListIp record) {
         ResponseResult r = getResponseResult();
-        if (record == null || record.getId() == null) {
+        if (record == null || record.getId() == null || record.getId().longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
         int num = this.isExist(record);
         if (num > NumeralUtil.POSITIVE_ZERO) {
-            return r.ResponseResultFailRepeat();
+            return r.ResponseResultFailRepeat().setMsg("修改系统后台操作白名单信息不存在!");
         }
         SystemWhiteListIp swli = this.selectByPrimaryKey(record.getId());
         Date date = new Date();
@@ -256,7 +256,6 @@ public class SystemWhiteListIpServiceImpl extends BaseService implements SystemW
         if (idList == null || idList.size() < NumeralUtil.POSITIVE_ONE) {
             return r.ResponseResultFail();
         }
-
         SystemWhiteListIp record = new SystemWhiteListIp();
         record.setIdList(idList);
         List<SystemWhiteListIp> buttonList = this.findByList(record);
@@ -310,7 +309,7 @@ public class SystemWhiteListIpServiceImpl extends BaseService implements SystemW
 
     /**
      * @param id 1 编号
-     * @return com.framework.model.entity.system.SystemBlackListIp
+     * @return com.framework.model.entity.system.SystemWhiteListIp
      * @Titel 本类根据ID查询数据信息
      * @Description 本类根据ID查询数据信息
      * @Author 邋遢龘鵺

@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * @Author 邋遢龘鵺
- * @ClassName com.lottery.controller.config.initCotsConfig
+ * @ClassName com.framework.web.config.initCotsConfig
  * @Description 跨域初始化配置类
  * @DateTime 2019/10/11
  * @Version 1.0
