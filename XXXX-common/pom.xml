@@ -275,6 +275,18 @@
         </dependency>
         <!-- excel生成jar引入 结束 -->
 
+        <!-- http请求jar引入 开始 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <!--<version>4.5.12</version>-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <!--<version>4.4.13</version>-->
+        </dependency>
+        <!-- http请求jar引入 结束 -->
     </dependencies>
 
     <build>

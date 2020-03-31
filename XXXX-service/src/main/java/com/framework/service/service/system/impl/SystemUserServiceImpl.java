@@ -390,9 +390,9 @@ public class SystemUserServiceImpl extends BaseService implements SystemUserServ
         if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
-        SystemUser sm = this.selectByPrimaryKey(id);
-        sm.setPassword(null);
-        return sm;
+        SystemUser p = this.selectByPrimaryKey(id);
+        p.setPassword(null);
+        return p;
 
     }
 

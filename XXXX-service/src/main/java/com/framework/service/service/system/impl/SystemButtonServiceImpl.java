@@ -9,7 +9,6 @@ import com.framework.dao.mapper.system.SystemButtonMapper;
 import com.framework.model.entity.system.SystemButton;
 import com.framework.model.entity.system.SystemMenu;
 import com.framework.model.entity.system.SystemRoleMenuButton;
-import com.framework.service.activemq.production.CeShiProduction;
 import com.framework.service.base.BaseService;
 import com.framework.service.service.system.SystemButtonService;
 import com.framework.service.service.system.SystemRoleMenuButtonService;
@@ -33,8 +32,8 @@ public class SystemButtonServiceImpl extends BaseService implements SystemButton
     private SystemButtonMapper systemButtonMapper;
     @Autowired
     private SystemRoleMenuButtonService systemRoleMenuButtonServiceImpl;
-    @Autowired
-    private CeShiProduction ceShiProduction;
+//    @Autowired
+//    private CeShiProduction ceShiProduction;
 
     /**
      * @param record 1 按钮实体类对象

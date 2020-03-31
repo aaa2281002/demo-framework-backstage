@@ -321,8 +321,8 @@ public class SystemTypeServiceImpl extends BaseService implements SystemTypeServ
         if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
-        SystemType sm = this.selectByPrimaryKey(id);
-        return sm;
+        SystemType p = this.selectByPrimaryKey(id);
+        return p;
     }
 
     /**

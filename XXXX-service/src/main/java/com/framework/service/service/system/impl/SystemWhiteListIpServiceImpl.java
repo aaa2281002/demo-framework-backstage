@@ -320,8 +320,8 @@ public class SystemWhiteListIpServiceImpl extends BaseService implements SystemW
         if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
-        SystemWhiteListIp sm = this.selectByPrimaryKey(id);
-        return sm;
+        SystemWhiteListIp p = this.selectByPrimaryKey(id);
+        return p;
     }
 
     /**

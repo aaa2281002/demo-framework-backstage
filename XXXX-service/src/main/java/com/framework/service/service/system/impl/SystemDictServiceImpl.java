@@ -321,8 +321,8 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
         if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
-        SystemDict sm = this.selectByPrimaryKey(id);
-        return sm;
+        SystemDict p = this.selectByPrimaryKey(id);
+        return p;
     }
 
     /**

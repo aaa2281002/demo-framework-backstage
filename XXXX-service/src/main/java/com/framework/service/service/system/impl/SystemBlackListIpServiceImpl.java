@@ -328,8 +328,8 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
         if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
-        SystemBlackListIp sm = this.selectByPrimaryKey(id);
-        return sm;
+        SystemBlackListIp p = this.selectByPrimaryKey(id);
+        return p;
     }
 
     /**
