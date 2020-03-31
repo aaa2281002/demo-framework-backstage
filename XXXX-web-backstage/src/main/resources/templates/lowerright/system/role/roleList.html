@@ -51,7 +51,7 @@
                             </div>
                             <div class="layui-inline"
                                  sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MANAGEMENT')">
-                                <a class="layui-btn" lay-submit="" lay-filter="role-search-btn" title="搜搜">
+                                <a class="layui-btn" lay-submit="" lay-filter="role-search" title="搜搜">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </a>
                             </div>
@@ -62,11 +62,11 @@
 
             <div class="layui-btn-group" style="min-width: 100%;">
                 <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MANAGEMENT:add')"
-                   class="layui-btn role-add-btn" title="添加">
+                   class="layui-btn role-add" title="添加">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </a>
                 <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MANAGEMENT:batchDel')"
-                   class="layui-btn layui-btn-danger role-batch-del-btn"
+                   class="layui-btn layui-btn-danger role-batch-del"
                    style="margin-left: 10px!important;" title="批量删除">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </a>
@@ -90,9 +90,9 @@
 
             <script type="text/html" id="isEnableCurrentTableBar">
                 {{#  if(d.isEnable == 1){ }}
-                是
+                <span style="color: limegreen;">是</span>
                 {{#  } else { }}
-                否
+                <span style="color: red;">否</span>
                 {{#  } }}
             </script>
             <script type="text/html" id="operaterStatusCurrentTableBar">
@@ -122,8 +122,8 @@
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MANAGEMENT:add')"]
         // 添加操作
-        $(document).off("click", ".role-add-btn");
-        $(document).on("click", ".role-add-btn", function () {
+        $(document).off("click", ".role-add");
+        $(document).on("click", ".role-add", function () {
             var title = "新增信息";
             var url = "/system/role/get/add";
             var formId = "roleFormAddId";
@@ -222,8 +222,8 @@
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MANAGEMENT:batchDel')"]
         // 批量删除操作
-        $(document).off("click", ".role-batch-del-btn");
-        $(document).on("click", ".role-batch-del-btn", function () {
+        $(document).off("click", ".role-batch-del");
+        $(document).on("click", ".role-batch-del", function () {
             var ids = common.getTableRowId(tableId, "id");
             if (ids.length == 0) {
                 layer.msg('请选中删除信息');
@@ -339,7 +339,7 @@
         });
 
         // 监听搜索操作
-        form.on('submit(role-search-btn)', function (data) {
+        form.on('submit(role-search)', function (data) {
             //执行搜索重载
             common.tableRefresh(tableId, data.field);
             return false;//返回false防止重复提交

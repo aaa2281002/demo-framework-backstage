@@ -56,7 +56,7 @@
                             </div>
                             <div class="layui-inline"
                                  sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_LOG_MANAGEMENT')">
-                                <a class="layui-btn" lay-submit="" lay-filter="log-search-btn" title="搜搜">
+                                <a class="layui-btn" lay-submit="" lay-filter="log-search" title="搜搜">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </a>
                             </div>
@@ -167,7 +167,7 @@
         });
 
         // 监听搜索操作
-        form.on('submit(log-search-btn)', function (data) {
+        form.on('submit(log-search)', function (data) {
             //执行搜索重载
             common.tableRefresh(tableId, data.field);
             return false;//返回false防止重复提交

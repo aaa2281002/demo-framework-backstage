@@ -67,7 +67,7 @@
                             </div>
                             <div class="layui-inline"
                                  sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_USER_MANAGEMENT')">
-                                <a class="layui-btn" lay-submit="" lay-filter="user-search-btn" title="搜搜">
+                                <a class="layui-btn" lay-submit="" lay-filter="user-search" title="搜搜">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                 </a>
                             </div>
@@ -78,21 +78,21 @@
 
             <div class="layui-btn-group" style="min-width: 100%;">
                 <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:add')"
-                   class="layui-btn user-add-btn" title="添加">
+                   class="layui-btn user-add" title="添加">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                 </a>
                 <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:upload')"
-                   class="layui-btn user-upload-btn"
+                   class="layui-btn user-upload"
                    style="margin-left: 10px!important;" title="上传">
                     <i class="fa fa-upload" aria-hidden="true"></i>
                 </a>
                 <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:upload')"
-                   class="layui-btn user-download-btn"
+                   class="layui-btn user-download"
                    style="margin-left: 10px!important;" title="下载">
                     <i class="fa fa-download" aria-hidden="true"></i>
                 </a>
                 <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:batchDel')"
-                   class="layui-btn layui-btn-danger user-batch-del-btn"
+                   class="layui-btn layui-btn-danger user-batch-del"
                    style="margin-left: 10px!important;" title="批量删除">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </a>
@@ -123,9 +123,9 @@
             </script>
             <script type="text/html" id="isEnableCurrentTableBar">
                 {{#  if(d.isEnable == 1){ }}
-                是
+                <span style="color: limegreen;">是</span>
                 {{#  } else { }}
-                否
+                <span style="color: red;">否</span>
                 {{#  } }}
             </script>
             <script type="text/html" id="operaterStatusCurrentTableBar">
@@ -155,8 +155,8 @@
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:add')"]
         // 添加操作
-        $(document).off("click", ".user-add-btn");
-        $(document).on("click", ".user-add-btn", function () {
+        $(document).off("click", ".user-add");
+        $(document).on("click", ".user-add", function () {
             var title = "新增信息";
             var url = "/system/user/get/add";
             var formId = "userFormAddId";
@@ -255,8 +255,8 @@
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:batchDel')"]
         // 批量删除操作
-        $(document).off("click", ".user-batch-del-btn");
-        $(document).on("click", ".user-batch-del-btn", function () {
+        $(document).off("click", ".user-batch-del");
+        $(document).on("click", ".user-batch-del", function () {
             var ids = common.getTableRowId(tableId, "id");
             if (ids.length == 0) {
                 layer.msg('请选中删除信息');
@@ -303,8 +303,8 @@
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:upload')"]
         // 上传操作
-        $(document).off("click", ".user-upload-btn");
-        $(document).on("click", ".user-upload-btn", function () {
+        $(document).off("click", ".user-upload");
+        $(document).on("click", ".user-upload", function () {
             var title = "上传附件";
             var url = "/system/user/get/upload";
             var formId = "userFormUploadId";
@@ -320,8 +320,8 @@
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:download')"]
         // 下载操作
-        $(document).off("click", ".user-download-btn");
-        $(document).on("click", ".user-download-btn", function () {
+        $(document).off("click", ".user-download");
+        $(document).on("click", ".user-download", function () {
             var url = "/other/file/info/download?code=user&id=1";
             window.location.href = url;
         });
@@ -406,7 +406,7 @@
         });
 
         // 监听搜索操作
-        form.on('submit(user-search-btn)', function (data) {
+        form.on('submit(user-search)', function (data) {
             //执行搜索重载
             common.tableRefresh(tableId, data.field);
             return false;//返回false防止重复提交

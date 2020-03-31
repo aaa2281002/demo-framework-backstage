@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="layui-inline"
                                      sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')">
-                                    <a class="layui-btn" lay-submit="" lay-filter="roleMenuButton-search-btn"
+                                    <a class="layui-btn" lay-submit="" lay-filter="roleMenuButton-search"
                                        title="搜搜">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </a>
@@ -52,11 +52,11 @@
             <div class="layuimini-main">
                 <div class="layui-btn-group" style="min-width: 100%">
                     <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT:save')"
-                       class="layui-btn menuButton-save-btn" title="保存">
+                       class="layui-btn menuButton-save" title="保存">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </a>
                     <a sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')"
-                       class="layui-btn layui-btn-warm menuButton-refresh-btn"
+                       class="layui-btn layui-btn-warm menuButton-refresh"
                        style="margin-left: 10px!important;" title="刷新菜单">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
                     </a>
@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="layui-inline"
                                      sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')">
-                                    <a class="layui-btn" lay-submit="" lay-filter="menuButton-search-btn" title="搜搜">
+                                    <a class="layui-btn" lay-submit="" lay-filter="menuButton-search" title="搜搜">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </a>
                                 </div>
@@ -142,7 +142,7 @@
         });
 
         // 角色搜索操作
-        form.on('submit(roleMenuButton-search-btn)', function (data) {
+        form.on('submit(roleMenuButton-search)', function (data) {
             //执行搜索重载
             roleMenuButtonTableSelectId = "";
             menuTreeSelectId = "";
@@ -239,7 +239,7 @@
         });
 
         // 表单搜索操作
-        form.on('submit(menuButton-search-btn)', function (data) {
+        form.on('submit(menuButton-search)', function (data) {
             //执行搜索重载
             common.tablePageRefresh(tableId, data.field);
             return false;//返回false防止重复提交
@@ -313,8 +313,8 @@
         });
 
         //树形刷新
-        $(document).off("click", ".menuButton-refresh-btn");
-        $(document).on("click", ".menuButton-refresh-btn", function () {
+        $(document).off("click", ".menuButton-refresh");
+        $(document).on("click", ".menuButton-refresh", function () {
             menuButtonData = [];
             menuButtonTreeRefresh({
                 data: getTreeData(),
@@ -323,8 +323,8 @@
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT:save')"]
         // 批量保存操作
-        $(document).off("click", ".menuButton-save-btn");
-        $(document).on("click", ".menuButton-save-btn", function () {
+        $(document).off("click", ".menuButton-save");
+        $(document).on("click", ".menuButton-save", function () {
             if (roleMenuButtonTableSelectId.length == 0) {
                 layer.msg('请选中角色信息');
                 return;

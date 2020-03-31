@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="layui-inline"
                                      sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_MANAGEMENT')">
-                                    <a class="layui-btn" lay-submit="" lay-filter="roleMenu-search-btn" title="搜搜">
+                                    <a class="layui-btn" lay-submit="" lay-filter="roleMenu-search" title="搜搜">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </a>
                                 </div>
@@ -51,11 +51,11 @@
             <div class="layuimini-main">
                 <div class="layui-btn-group" style="min-width: 100%">
                     <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_MANAGEMENT:save')"
-                       class="layui-btn roleMenu-save-btn" title="保存">
+                       class="layui-btn roleMenu-save" title="保存">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </a>
                     <a sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_MANAGEMENT')"
-                        class="layui-btn layui-btn-warm roleMenu-refresh-btn"
+                        class="layui-btn layui-btn-warm roleMenu-refresh"
                         style="margin-left: 10px!important;" title="刷新菜单">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
                     </a>
@@ -80,8 +80,8 @@
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_MANAGEMENT:save')"]
         // 批量保存操作
-        $(document).off("click", ".roleMenu-save-btn");
-        $(document).on("click", ".roleMenu-save-btn", function () {
+        $(document).off("click", ".roleMenu-save");
+        $(document).on("click", ".roleMenu-save", function () {
             if (roleMenuTableSelectId.length == 0) {
                 layer.msg('请选中角色信息');
                 return;
@@ -218,7 +218,7 @@
         });
 
         // 监听搜索操作
-        form.on('submit(roleMenu-search-btn)', function (data) {
+        form.on('submit(roleMenu-search)', function (data) {
             //执行搜索重载
             roleMenuTableSelectId = "";
             roleMenuTreeRefresh({
@@ -229,8 +229,8 @@
         });
 
         //树形刷新
-        $(document).off("click", ".roleMenu-refresh-btn");
-        $(document).on("click", ".roleMenu-refresh-btn", function () {
+        $(document).off("click", ".roleMenu-refresh");
+        $(document).on("click", ".roleMenu-refresh", function () {
             roleMenuTableSelectId = "";
             roleMenuTreeRefresh({
                 data: getTreeData(),
