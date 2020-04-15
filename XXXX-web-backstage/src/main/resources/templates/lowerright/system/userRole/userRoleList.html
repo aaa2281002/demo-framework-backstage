@@ -4,7 +4,7 @@
 <head
         th:replace="~{segmentation/_right_bottom_header::_header_common(~{::title},~{::link},~{::style})}">
     <meta charset="utf-8">
-    <title>用户角色关联管理</title>
+    <title>用户角色关联列表</title>
     <link>
     <style type="text/css"></style>
 </head>
@@ -35,7 +35,7 @@
                                     </div>
                                 </div>
                                 <div class="layui-inline"
-                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_USER_ROLE_MANAGEMENT')">
+                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_USER_ROLE_LIST_MANAGEMENT')">
                                     <a class="layui-btn" lay-submit="" lay-filter="userRole-user-search" title="搜搜">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </a>
@@ -45,7 +45,7 @@
                     </div>
                 </fieldset>
                 <div class="layui-btn-group" style="height: 38px;">
-                    <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_ROLE_MANAGEMENT:save')"
+                    <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_ROLE_LIST_MANAGEMENT:save')"
                        class="layui-btn layui-btn-normal userRole-save" title="保存">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </a>
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                                 <div class="layui-inline"
-                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_USER_ROLE_MANAGEMENT')">
+                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_USER_ROLE_LIST_MANAGEMENT')">
                                     <a class="layui-btn" lay-submit="" lay-filter="userRole-role-search" title="搜搜">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </a>
@@ -103,7 +103,7 @@
 <div th:replace="~{segmentation/_tail::_tail_common}"></div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    [# sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_USER_ROLE_MANAGEMENT')"]
+    [# sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_USER_ROLE_LIST_MANAGEMENT')"]
     layui.use(['form', 'table', 'common'], function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -201,11 +201,11 @@
         // table.on('sort(userRoleRoleTableFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
         //     //尽管我们的 table 自带排序功能，但并没有请求服务端。
         //     //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
-        //     var data = common.getFormData($("#userRole-search-form"));
-        //     data.sort = obj.field;//排序字段   在接口作为参数字段  field order
-        //     data.order = obj.type;//排序方式   在接口作为参数字段  field order
+        //     var queryData = common.getFormData($("#userRole-search-form"));
+        //     queryData.sort = obj.field;//排序字段   在接口作为参数字段  field order
+        //     queryData.order = obj.type;//排序方式   在接口作为参数字段  field order
         //     //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
-        //     common.tablePageRefresh(roleTableId, data);
+        //     common.tablePageRefresh(roleTableId, queryData);
         // });
 
         //角色单选事件绑定
@@ -226,11 +226,11 @@
         table.on('sort(userRoleUserTableFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             //尽管我们的 table 自带排序功能，但并没有请求服务端。
             //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
-            var data = common.getFormData($("#userRole-search-form"));
-            data.sort = obj.field;//排序字段   在接口作为参数字段  field order
-            data.order = obj.type;//排序方式   在接口作为参数字段  field order
+            var queryData = common.getFormData($("#userRole-search-form"));
+            queryData.sort = obj.field;//排序字段   在接口作为参数字段  field order
+            queryData.order = obj.type;//排序方式   在接口作为参数字段  field order
             //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
-            common.tableRefresh(userTableId, data);
+            common.tableRefresh(userTableId, queryData);
         });
 
         //用户监听搜索操作
@@ -254,8 +254,8 @@
                 success: function (data) {
                     if (data.code == Result.SUCCESS) {
                         userRoleData = data.data;
-                        var roleData = common.getFormData($("#userRole-role-search-form"));
-                        common.tablePageRefresh(roleTableId, roleData);
+                        var roleQueryData = common.getFormData($("#userRole-role-search-form"));
+                        common.tablePageRefresh(roleTableId, roleQueryData);
                     } else {
                         layer.msg(data.msg, {
                             icon: 2,
@@ -269,7 +269,7 @@
             });
         });
 
-        [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_ROLE_MANAGEMENT:save')"]
+        [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_ROLE_LIST_MANAGEMENT:save')"]
         // 批量保存操作
         $(document).off("click", ".userRole-save");
         $(document).on("click", ".userRole-save", function () {
@@ -302,10 +302,10 @@
                             }, function () {
                                 userRoleUserTableSelectId = "";
                                 userRoleRoleTableSelectId = "";
-                                var roleData = common.getFormData($("#userRole-role-search-form"));
-                                common.tablePageRefresh(roleTableId, roleData);
-                                var userData = common.getFormData($("#userRole-user-search-form"));
-                                common.tableRefresh(userTableId, userData);
+                                var roleQueryData = common.getFormData($("#userRole-role-search-form"));
+                                common.tablePageRefresh(roleTableId, roleQueryData);
+                                var userQueryData = common.getFormData($("#userRole-user-search-form"));
+                                common.tableRefresh(userTableId, userQueryData);
                             });
                         } else {
                             layer.msg(data.msg, {

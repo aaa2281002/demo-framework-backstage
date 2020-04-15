@@ -3,6 +3,7 @@ package com.framework.common.util.excel;
 import com.framework.common.annotation.ExcelVOAttribute;
 import com.framework.common.model.excel.ErrorVo;
 import com.framework.common.model.excel.StepPic;
+import com.framework.common.util.date.DateStyleUtil;
 import com.framework.common.util.other.NumeralUtil;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -578,7 +579,7 @@ public class ExcelUtil<T> {
                             if (Date.class.getName().equals(field.getType().getTypeName()) && obj != null) {
                                 String dateStr = "";
                                 if (StringUtils.isNotEmpty(attr.pattern())) {
-                                    Date date = DateUtil.getStringToDate(obj.toString(), null);
+                                    Date date = DateUtil.getExcelStringToDate(obj.toString());
                                     dateStr = DateFormatUtils.format(date, attr.pattern());
                                 } else {
                                     dateStr = obj.toString().substring(NumeralUtil.POSITIVE_ZERO, obj.toString().lastIndexOf(".0"));

@@ -53,7 +53,7 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insert(SystemBlackListIp record) {
+    public int insert(SystemBlackListIp record) {
         return systemBlackListIpMapper.insert(record);
     }
 
@@ -66,7 +66,7 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insertSelective(SystemBlackListIp record) {
+    public int insertSelective(SystemBlackListIp record) {
         return systemBlackListIpMapper.insertSelective(record);
     }
 
@@ -191,8 +191,8 @@ public class SystemBlackListIpServiceImpl extends BaseService implements SystemB
         record.setCreateTime(date);
         record.setOperaterStatus(NumeralUtil.POSITIVE_ONE);
         try {
-            long is = this.insert(record);
-            if (is > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
+            int is = this.insert(record);
+            if (is > NumeralUtil.POSITIVE_ZERO) {
                 super.redisUtil.setString(RedisKeyUtil.getSystemUserBlackListIpKey(record.getIp()), record);
                 return r.ResponseResultSuccess();
             }

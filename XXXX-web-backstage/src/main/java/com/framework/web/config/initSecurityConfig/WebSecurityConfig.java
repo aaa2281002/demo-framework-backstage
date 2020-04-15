@@ -54,7 +54,7 @@ import java.util.List;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
     //    @Autowired
 //    private InterceptorConfig interceptorConfig;
-    @Value("${spring.security.remember-me-time}")//登录记住我选择，单位秒
+    @Value("${spring.security.remember-me-time}")//登录记住我选择，(单位：秒)
     private Integer rememberMeTime;
     @Autowired//自定义身份验证实现类
     private MyAuthenticationProvider myAuthenticationProvider;
@@ -154,7 +154,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .tokenRepository(myPersistentTokenRepository)//redis格式存储
                 // 配置UserDetailsService
 //                .userDetailsService(myUserDetailsService)
-                // 配置Cookie过期时间,单位秒
+                // 配置Cookie过期时间,(单位：秒)
                 .tokenValiditySeconds(rememberMeTime);
 
         //关闭csrf保护，

@@ -27,7 +27,8 @@ public class BaseService {
     @Autowired
     protected RedisUtil redisUtil;
     @Autowired
-    private HttpServletRequest request;
+    protected HttpServletRequest request;
+
 
     /**
      * @return com.framework.common.response.ResponseResult

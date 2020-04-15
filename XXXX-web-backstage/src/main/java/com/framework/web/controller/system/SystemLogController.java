@@ -35,7 +35,7 @@ public class SystemLogController extends BaseController {
      * @DateTime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_LOG_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_LOG_LIST_MANAGEMENT')")
     public ModelAndView pageList() {
         return new ModelAndView(path + "logList");
     }
@@ -49,7 +49,7 @@ public class SystemLogController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/view")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_LOG_MANAGEMENT:view')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_LOG_LIST_MANAGEMENT:view')")
     public ModelAndView getView(Long id) {
         ModelAndView mv = new ModelAndView(path + "logView");
         mv.addObject("p", systemLogServiceImpl.getByIdParam(id));
@@ -67,7 +67,7 @@ public class SystemLogController extends BaseController {
     // method = RequestMethod.POST,
     @RequestMapping(value = "/findPageList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_LOG_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_LOG_LIST_MANAGEMENT')")
     public ResponseResult findPageList(SystemLog param) {
         return systemLogServiceImpl.findParamPageList(param);
     }

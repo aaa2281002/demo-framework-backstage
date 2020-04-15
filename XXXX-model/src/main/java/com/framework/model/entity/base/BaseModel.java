@@ -62,9 +62,11 @@ public class BaseModel implements Serializable {
     private String fuzzyValue;
     //搜索开始时间
     @DateTimeFormat(pattern = DateStyleUtil.FORMAT_YYYY_MM_DD_HH_MM_SS)
+    @JsonFormat(pattern = DateStyleUtil.FORMAT_YYYY_MM_DD_HH_MM_SS, timezone = DateStyleUtil.STRING_CHINA_TIMEZONE)
     private Date startTime;
     //搜索结束时间
     @DateTimeFormat(pattern = DateStyleUtil.FORMAT_YYYY_MM_DD_HH_MM_SS)
+    @JsonFormat(pattern = DateStyleUtil.FORMAT_YYYY_MM_DD_HH_MM_SS, timezone = DateStyleUtil.STRING_CHINA_TIMEZONE)
     private Date endTime;
     //排序字段
     private String sort;

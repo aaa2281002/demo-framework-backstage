@@ -287,6 +287,20 @@
             <!--<version>4.4.13</version>-->
         </dependency>
         <!-- http请求jar引入 结束 -->
+
+        <!-- 二维码生成 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+        <!-- 二维码生成 -->
     </dependencies>
 
     <build>

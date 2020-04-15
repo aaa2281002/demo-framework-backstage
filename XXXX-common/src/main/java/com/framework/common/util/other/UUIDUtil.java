@@ -18,6 +18,6 @@ public class UUIDUtil {
      * @DateTime 2019/10/11
      */
     public static String getUUID() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
+        return UUID.randomUUID().toString().replaceAll(SymbolUtil.NO_INPUT_METHOD_MINUS_SIGN, "");
     }
 }

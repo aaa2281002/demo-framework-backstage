@@ -4,7 +4,7 @@
 <head
         th:replace="~{segmentation/_right_bottom_header::_header_common(~{::title},~{::link},~{::style})}">
     <meta charset="utf-8">
-    <title>角色菜单关联管理</title>
+    <title>角色菜单关联列表</title>
     <link>
     <style type="text/css"></style>
 </head>
@@ -16,7 +16,7 @@
                 <fieldset class="layui-elem-field layuimini-search">
                     <legend>搜索信息</legend>
                     <div style="margin: 10px 10px 10px 10px">
-                        <form class="layui-form" id="roleMenu-search-form" action="">
+                        <form class="layui-form" id="role-search-form" action="">
                             <div class="layui-form-item">
                                 <div class="layui-inline">
                                     <label class="layui-form-label">角色名称</label>
@@ -35,7 +35,7 @@
                                     </div>
                                 </div>
                                 <div class="layui-inline"
-                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_MANAGEMENT')">
+                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_LIST_MANAGEMENT')">
                                     <a class="layui-btn" lay-submit="" lay-filter="roleMenu-search" title="搜搜">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </a>
@@ -50,11 +50,11 @@
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
             <div class="layuimini-main">
                 <div class="layui-btn-group" style="min-width: 100%">
-                    <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_MANAGEMENT:save')"
+                    <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_LIST_MANAGEMENT:save')"
                        class="layui-btn roleMenu-save" title="保存">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </a>
-                    <a sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_MANAGEMENT')"
+                    <a sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_LIST_MANAGEMENT')"
                         class="layui-btn layui-btn-warm roleMenu-refresh"
                         style="margin-left: 10px!important;" title="刷新菜单">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
@@ -68,7 +68,7 @@
 <div th:replace="~{segmentation/_tail::_tail_common}"></div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    [# sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_MANAGEMENT')"]
+    [# sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_LIST_MANAGEMENT')"]
     layui.use(['form', 'table', 'common', 'tree'], function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -78,7 +78,7 @@
             treeId = "roleMenuTreeId",
             tableId = "roleMenuTableId";
 
-        [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_MANAGEMENT:save')"]
+        [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_LIST_MANAGEMENT:save')"]
         // 批量保存操作
         $(document).off("click", ".roleMenu-save");
         $(document).on("click", ".roleMenu-save", function () {
@@ -110,8 +110,8 @@
                                 time: 1500
                             }, function () {
                                 roleMenuTableSelectId = "";
-                                var data = common.getFormData($("#role-search-form"));
-                                common.tableRefresh(tableId, data);
+                                var queryData = common.getFormData($("#role-search-form"));
+                                common.tableRefresh(tableId, queryData);
                                 roleMenuTreeRefresh({
                                     data: getTreeData(),
                                 });
@@ -202,11 +202,11 @@
         table.on('sort(roleMenuTableFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             //尽管我们的 table 自带排序功能，但并没有请求服务端。
             //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
-            var data = common.getFormData($("#roleMenu-search-form"));
-            data.sort = obj.field;//排序字段   在接口作为参数字段  field order
-            data.order = obj.type;//排序方式   在接口作为参数字段  field order
+            var queryData = common.getFormData($("#role-search-form"));
+            queryData.sort = obj.field;//排序字段   在接口作为参数字段  field order
+            queryData.order = obj.type;//排序方式   在接口作为参数字段  field order
             //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
-            common.tableRefresh(tableId, data);
+            common.tableRefresh(tableId, queryData);
         });
 
         //单选事件绑定

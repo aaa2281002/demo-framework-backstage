@@ -32,7 +32,7 @@ public interface SystemLogMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(SystemLog record);
+    int insert(SystemLog record);
 
     /**
      * @param record 1 系统日志实体类对象
@@ -42,7 +42,7 @@ public interface SystemLogMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(SystemLog record);
+    int insertSelective(SystemLog record);
 
     /**
      * @param record 1 系统日志实体类对象

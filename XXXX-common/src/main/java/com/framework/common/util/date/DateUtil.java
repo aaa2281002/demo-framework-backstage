@@ -5,6 +5,7 @@ import com.framework.common.util.other.NumeralUtil;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @Author 邋遢龘鵺
@@ -14,6 +15,18 @@ import java.util.Date;
  * @Version 1.0
  */
 public class DateUtil {
+
+    /**
+     * @return java.lang.String
+     * @Titel 生成唯一序列代码所属的键参数字符串
+     * @Description 生成唯一序列代码所属的键参数字符串
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/3/10 11:45
+     */
+    public static String getDateSeqString() {
+        SimpleDateFormat fm = new SimpleDateFormat(DateStyleUtil.FORMAT_YYYYMMDDHHMMSSSSS); // "yyyyMMdd G
+        return fm.format(new Date());
+    }
 
     /**
      * @param date   1 日期字符串
@@ -38,6 +51,33 @@ public class DateUtil {
         }
         return null;
     }
+
+    /**
+     * @param date 1 日期字符串
+     * @return java.util.Date
+     * @Titel 导出专用字符串转日期时间
+     * @Description 导出专用字符串转日期时间
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/1/8
+     */
+    public static Date getExcelStringToDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat(DateStyleUtil.STRING_EEE_MMM_DD_HH_MM_SS_ZZZ_YYYY, Locale.US);
+        if (date != null) {
+            try {
+                return sdf.parse(date);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+//    public static void main(String[] args) {
+//        Date date = getExcelStringToDate("Thu Feb 20 15:31:07 CST 2020");
+//        Date date2 = new Date("Thu Feb 20 15:31:07 CST 2020");
+//        System.out.println(getDateToString(date, DateStyleUtil.FORMAT_YYYY_MM_DD_HH_MM_SS));
+//        System.out.println(getDateToString(date2, DateStyleUtil.FORMAT_YYYY_MM_DD_HH_MM_SS));
+//    }
 
     /**
      * @param date   1 日期

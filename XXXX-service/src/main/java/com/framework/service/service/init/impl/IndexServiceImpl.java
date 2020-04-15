@@ -47,7 +47,7 @@ public class IndexServiceImpl extends BaseService implements IndexService {
     }
 
     //从redis中获取权限菜单
-    private void auth(String roleCode, Map<String, Object> menuInfoMap) {
+    private void auth(String roleCode, List<SystemMenu> rootList) {
         if (StringUtils.isEmpty(roleCode)) {
             return;
         }
@@ -59,10 +59,7 @@ public class IndexServiceImpl extends BaseService implements IndexService {
         if (sr.getMenuCodeList() == null || sr.getMenuCodeList().size() == 0) {
             return;
         }
-
-        List<SystemMenu> rootList = new ArrayList<SystemMenu>();
         List<SystemMenu> childList = new ArrayList<SystemMenu>();
-
         for (String menuCode : sr.getMenuCodeList()) {
             String roleMenuCode = roleCode + SymbolUtil.NO_INPUT_METHOD_COLON + menuCode;
             Object menuStr = redisUtil.getAuthMenuString(roleMenuCode);
@@ -76,7 +73,6 @@ public class IndexServiceImpl extends BaseService implements IndexService {
                     continue;
                 }
                 childList.add(sm);
-
             }
         }
         if (rootList.size() > NumeralUtil.POSITIVE_ZERO) {
@@ -90,17 +86,17 @@ public class IndexServiceImpl extends BaseService implements IndexService {
                     return arg0.getIndexSort().compareTo(arg1.getIndexSort());
                 }
             });
-            combinationMenu(rootList, childList, menuInfoMap);
+            combinationMenu(rootList, childList);
         }
     }
 
     //处理菜单
-    private void combinationMenu(List<SystemMenu> rootList, List<SystemMenu> childList, Map<String, Object> menuInfoMap) {
+    private void combinationMenu(List<SystemMenu> rootList, List<SystemMenu> childList) {
         //处理根菜单下所有子菜单
         for (SystemMenu s : rootList) {
             List<SystemMenu> childMenuList = getChildMenu(s.getId(), childList);
             s.setChildMenuList(childMenuList);
-            menuInfoMap.put(s.getMenuCode(), s);
+//            menuInfoMap.put(s.getMenuCode(), s);
         }
     }
 
@@ -114,26 +110,30 @@ public class IndexServiceImpl extends BaseService implements IndexService {
     @Override
     public ResponseResult findByMenuList() {
         ResponseResult r = getResponseResult();
-        Map<String, Object> menuInfoMap = new HashMap<String, Object>();
+//        Map<String, Object> menuInfoMap = new HashMap<String, Object>();
         SystemUser su = getUser();
+        List<SystemMenu> rootList = new ArrayList<SystemMenu>();
         if (super.authList.contains(su.getRoleCode())) {
             //从数据库中查询全部菜单
             SystemMenu sm = new SystemMenu();
             sm.setLtaeNum(NumeralUtil.POSITIVE_ZERO);
             SystemMenu sm2 = new SystemMenu();
             sm2.setGtaeNum(NumeralUtil.POSITIVE_ONE);
-            List<SystemMenu> rootList = systemMenuServiceImpl.findByList(sm);//根菜单集合
+            rootList = systemMenuServiceImpl.findByList(sm);//根菜单集合
             List<SystemMenu> childList = systemMenuServiceImpl.findByList(sm2);//子项菜单集合
             if (rootList != null) {
-                combinationMenu(rootList, childList, menuInfoMap);
+                combinationMenu(rootList, childList);
             }
         } else {
             //从redis根据权限代码获取菜单
-            auth(su.getRoleCode(), menuInfoMap);
+            auth(su.getRoleCode(), rootList);
+        }
+        if (rootList == null) {
+            rootList = new ArrayList<SystemMenu>();
         }
         Map<String, Object> objMap = new HashMap<String, Object>();
-        Map<String, Object> clearInfoMap = new HashMap<String, Object>();//清除map
-        clearInfoMap.put(InitMenuUtil.KEY_MENU_CLEAR_URL, InitMenuUtil.VALUE_MENU_CLEAR_URL);
+//        Map<String, Object> clearInfoMap = new HashMap<String, Object>();//清除map
+//        clearInfoMap.put(InitMenuUtil.KEY_MENU_CLEAR_URL, InitMenuUtil.VALUE_MENU_CLEAR_URL);
         Map<String, Object> homeInfo = new HashMap<String, Object>();//我的主页参数Map
         homeInfo.put(InitMenuUtil.KEY_MENU_NAME, InitMenuUtil.VALUE_MENU_HOME_NAME);
         homeInfo.put(InitMenuUtil.KEY_MENU_ICON, InitMenuUtil.VALUE_MENU_HOME_ICON);
@@ -142,10 +142,10 @@ public class IndexServiceImpl extends BaseService implements IndexService {
         logoInfoMap.put(InitMenuUtil.KEY_MENU_NAME, InitMenuUtil.VALUE_MENU_LOGO_NAME);
         logoInfoMap.put(InitMenuUtil.KEY_MENU_IMAGE, InitMenuUtil.VALUE_MENU_LOGO_IMG_PATH);
         logoInfoMap.put(InitMenuUtil.KEY_MENU_URL_PATH, InitMenuUtil.VALUE_MENU_LOGO_URL_PATH);
-        objMap.put(InitMenuUtil.KEY_CLEAR_INFO, clearInfoMap);
+//        objMap.put(InitMenuUtil.KEY_CLEAR_INFO, clearInfoMap);
         objMap.put(InitMenuUtil.KEY_HOME_INFO, homeInfo);
         objMap.put(InitMenuUtil.KEY_LOGO_INFO, logoInfoMap);
-        objMap.put(InitMenuUtil.KEY_MENU_INFO, menuInfoMap);
+        objMap.put(InitMenuUtil.KEY_MENU_INFO, rootList);
         try {
             return r.ResponseResultSuccess().setData(objMap);
         } catch (Exception e) {

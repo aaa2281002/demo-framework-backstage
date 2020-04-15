@@ -37,7 +37,7 @@ public class SystemLogServiceImpl extends BaseService implements SystemLogServic
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insert(SystemLog record) {
+    public int insert(SystemLog record) {
         return systemLogMapper.insert(record);
     }
 
@@ -51,7 +51,7 @@ public class SystemLogServiceImpl extends BaseService implements SystemLogServic
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insertSelective(SystemLog record) {
+    public int insertSelective(SystemLog record) {
         return systemLogMapper.insertSelective(record);
     }
 

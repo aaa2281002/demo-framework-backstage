@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="layui-form-item"
-                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:upload')">
+                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_LIST_MANAGEMENT:upload')">
                 <div class="layui-input-block">
                     <a class="layui-btn" lay-submit="" id="userFormUploadSubmit"
                        lay-filter="userFormUploadSubmit">开始上传</a>

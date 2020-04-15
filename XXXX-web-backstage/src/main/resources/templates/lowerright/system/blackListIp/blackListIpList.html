@@ -109,7 +109,7 @@
             common = layui.common,
             startTime = {},
             endTime = {},
-            num = 0,
+            numView = 0, numEdit = 0, numDel = 0,
             tableId = "blackListIpTableId";
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_BLACK_LIST_IP_MANAGEMENT:add')"]
@@ -119,32 +119,32 @@
             var title = "新增信息";
             var url = "/system/black/list/ip/get/add";
             var formId = "blackListIpFormAddId";
-            common.layer_show(title, url, 1000, 500, formId, null, null, null, function (index, layero) {
-                var data = common.getFormData($("#blackListIp-search-form"));
-                common.tableRefresh(tableId, data);
+            common.layer_show(title, url, null, null, formId, null, null, null, function (index, layero) {
+                var queryData = common.getFormData($("#blackListIp-search-form"));
+                common.tableRefresh(tableId, queryData);
             });
         });
         [/]
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_BLACK_LIST_IP_MANAGEMENT:view')"]
-        num = 1;
+        numView = 1;
         function initView() {
-            // 编辑操作
+            // 查看信息
             $(document).off("click", ".blackListIp-view");
             $(document).on("click", ".blackListIp-view", function () {
                 var title = "查看信息";
                 var url = "/system/black/list/ip/get/view?id=" + $(this).attr("value");
                 var formId = "blackListIpFormViewId";
-                common.layer_show(title, url, 1000, 500, formId, null, null, null, function (index, layero) {
-                    // var data = common.getFormData($("#blackListIp-search-form"));
-                    // common.tableRefresh(tableId,data);
+                common.layer_show(title, url, null, null, formId, null, null, null, function (index, layero) {
+                    // var queryData = common.getFormData($("#blackListIp-search-form"));
+                    // common.tableRefresh(tableId, queryData);
                 });
             });
         }
         [/]
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_BLACK_LIST_IP_MANAGEMENT:edit')"]
-        num = 2;
+        numEdit = 1;
         function initEdit() {
             // 编辑操作
             $(document).off("click", ".blackListIp-edit");
@@ -152,16 +152,16 @@
                 var title = "编辑信息";
                 var url = "/system/black/list/ip/get/edit?id=" + $(this).attr("value");
                 var formId = "blackListIpFormEditId";
-                common.layer_show(title, url, 1000, 500, formId, null, null, null, function (index, layero) {
-                    var data = common.getFormData($("#blackListIp-search-form"));
-                    common.tableRefresh(tableId, data);
+                common.layer_show(title, url, null, null, formId, null, null, null, function (index, layero) {
+                    var queryData = common.getFormData($("#blackListIp-search-form"));
+                    common.tableRefresh(tableId, queryData);
                 });
             });
         }
         [/]
 
         [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_BLACK_LIST_IP_MANAGEMENT:del')"]
-        num = 3;
+        numDel = 1;
         function initDel() {
             // 删除操作
             $(document).off("click", ".blackListIp-delete");
@@ -192,8 +192,8 @@
                                     shade: [0.3, '#f5f5f5'],
                                     time: 1500
                                 }, function () {
-                                    var data = common.getFormData($("#blackListIp-search-form"));
-                                    common.tableRefresh(tableId, data);
+                                    var queryData = common.getFormData($("#blackListIp-search-form"));
+                                    common.tableRefresh(tableId, queryData);
                                 });
                             } else {
                                 layer.msg(data.msg, {
@@ -241,8 +241,8 @@
                                 shade: [0.3, '#f5f5f5'],
                                 time: 1500
                             }, function () {
-                                var data = common.getFormData($("#blackListIp-search-form"));
-                                common.tableRefresh(tableId, data);
+                                var queryData = common.getFormData($("#blackListIp-search-form"));
+                                common.tableRefresh(tableId, queryData);
                             });
                         } else {
                             layer.msg(data.msg, {
@@ -262,13 +262,13 @@
 
         //表格数据完成后初始化
         function tableInit(res, curr, count) {
-            if(num > 0){
+            if (numView == 1) {
                 initView();
             }
-            if(num > 1){
+            if (numEdit == 1) {
                 initEdit();
             }
-            if(num > 2){
+            if (numDel == 1) {
                 initDel();
             }
             common.initCheckbokOrRadio(tableId, 1);
@@ -321,11 +321,11 @@
         table.on('sort(blackListIpTableFilter)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             //尽管我们的 table 自带排序功能，但并没有请求服务端。
             //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
-            var data = common.getFormData($("#blackListIp-search-form"));
-            data.sort = obj.field;//排序字段   在接口作为参数字段  field order
-            data.order = obj.type;//排序方式   在接口作为参数字段  field order
+            var queryData = common.getFormData($("#blackListIp-search-form"));
+            queryData.sort = obj.field;//排序字段   在接口作为参数字段  field order
+            queryData.order = obj.type;//排序方式   在接口作为参数字段  field order
             //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
-            common.tableRefresh(tableId, data);
+            common.tableRefresh(tableId, queryData);
         });
 
         // 监听搜索操作

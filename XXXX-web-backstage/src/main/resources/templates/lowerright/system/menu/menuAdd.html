@@ -92,7 +92,7 @@
                         </div>
                     </div>
                     <div class="layui-form-item"
-                         sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_MENU_MANAGEMENT:add')">
+                         sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_MENU_LIST_MANAGEMENT:add')">
                         <div class="layui-input-block">
                             <a class="layui-btn" lay-submit="" lay-filter="menuFormAddSubmit">保存</a>
                         </div>
@@ -105,7 +105,7 @@
         <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
         <script th:inline="javascript">
             /*<![CDATA[*/
-            [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_MENU_MANAGEMENT:add')"]
+            [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_MENU_LIST_MANAGEMENT:add')"]
             layui.use(['form', 'layedit', 'laydate'], function () {
                 var form = layui.form
                     , layer = layui.layer;

@@ -180,7 +180,8 @@
         </trim>
     </insert>
 
-    <insert id="insertList" parameterType="java.util.List">
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="id">
         insert into `system_user` (CREATE_ID, CREATE_TIME,
         OPERATER_ID, OPERATER_TIME, OPERATER_STATUS,
         IS_ENABLE, ACCOUNT_LOCKED, ACCOUNT_EXPIRED,

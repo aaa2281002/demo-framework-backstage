@@ -32,7 +32,7 @@ public interface SystemBlackListIpService {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(SystemBlackListIp record);
+    int insert(SystemBlackListIp record);
 
     /**
      * @param record 1 系统前端操作黑名单IP实体类对象
@@ -42,7 +42,7 @@ public interface SystemBlackListIpService {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(SystemBlackListIp record);
+    int insertSelective(SystemBlackListIp record);
 
     /**
      * @param record 1 系统前端操作黑名单IP实体类对象

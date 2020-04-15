@@ -16,7 +16,7 @@ import javax.annotation.PostConstruct;
  */
 @Configuration
 public class MyRedisHttpSessionConfiguration {
-    //设置redisSession存活时间，时间单位秒
+    //设置redisSession存活时间，时间(单位：秒)
     @Value("${spring.session.maxInactiveIntervalInSeconds}")
     private Integer myMaxInactiveIntervalInSeconds;
     @Autowired
@@ -24,7 +24,7 @@ public class MyRedisHttpSessionConfiguration {
 
     @PostConstruct
     private void afterPropertiesSet() {
-        //设置redisSession存活时间，时间单位秒
+        //设置redisSession存活时间，时间(单位：秒)
         redisIndexedSessionRepository.setDefaultMaxInactiveInterval(myMaxInactiveIntervalInSeconds);
     }
 }

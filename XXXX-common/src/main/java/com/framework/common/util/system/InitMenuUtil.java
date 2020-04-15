@@ -13,7 +13,7 @@ public class InitMenuUtil {
     //首页图标
     public final static String VALUE_MENU_HOME_ICON = "fa fa-home";
     //首页请求URL
-    public final static String VALUE_MENU_HOME_URL_PATH = "/home";
+    public final static String VALUE_MENU_HOME_URL_PATH = "home";
 
     //Logo系统名称
     public final static String VALUE_MENU_LOGO_NAME = "xxx管理系统";

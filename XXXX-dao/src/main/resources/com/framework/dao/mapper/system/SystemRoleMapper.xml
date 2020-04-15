@@ -108,7 +108,8 @@
         </trim>
     </insert>
 
-    <insert id="insertList" parameterType="java.util.List">
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="id">
         insert into system_role (CREATE_ID, CREATE_TIME,
         OPERATER_ID, OPERATER_TIME, OPERATER_STATUS, IS_ENABLE,
         ROLE_NAME, ROLE_CODE, ROLE_LEVEL, DESCRIPTION

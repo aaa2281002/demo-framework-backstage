@@ -3,6 +3,7 @@ package com.framework.model.entity.system;
 import com.framework.model.entity.base.BaseModel;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @Author 邋遢龘鵺

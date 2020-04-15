@@ -19,7 +19,7 @@ import java.util.Map;
  * @Version 1.0
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
-    private Logger logger = LoggerFactory.getLogger(XssHttpServletRequestWrapper.class);
+    private Logger log = LoggerFactory.getLogger(XssHttpServletRequestWrapper.class);
     //当前请求网址
     private String currentUrl;
 
@@ -136,7 +136,7 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
                 StringBuilder sb = new StringBuilder(this.currentUrl);
                 sb.append("已被过滤，因为参数中包含不允许sql的关键词(").append(keyword).append(");过滤前的参数：")
                         .append(value).append(";过滤后的参数：").append(paramValue);
-                logger.info(sb.toString());
+                log.info(sb.toString());
             }
         }
         return paramValue;

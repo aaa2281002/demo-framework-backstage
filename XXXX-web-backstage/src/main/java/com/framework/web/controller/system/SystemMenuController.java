@@ -40,7 +40,7 @@ public class SystemMenuController extends BaseController {
      * @DateTime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_MENU_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT')")
     public ModelAndView pageList() {
         return new ModelAndView(path + "menuList");
     }
@@ -54,7 +54,7 @@ public class SystemMenuController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/add")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT:add')")
     public ModelAndView getAdd(Long id) {
         ModelAndView mv = new ModelAndView(path + "menuAdd");
         mv.addObject("p", systemMenuServiceImpl.selectByPrimaryKey(id));
@@ -70,7 +70,7 @@ public class SystemMenuController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/edit")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT:edit')")
     public ModelAndView getEdit(Long id) {
         ModelAndView mv = new ModelAndView(path + "menuEdit");
         mv.addObject("p", systemMenuServiceImpl.getByIdParam(id));
@@ -86,7 +86,7 @@ public class SystemMenuController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/view")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_MANAGEMENT:view')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT:view')")
     public ModelAndView getView(Long id) {
         ModelAndView mv = new ModelAndView(path + "menuView");
         mv.addObject("p", systemMenuServiceImpl.getByIdParam(id));
@@ -104,7 +104,7 @@ public class SystemMenuController extends BaseController {
     // method = RequestMethod.POST,
     @RequestMapping(value = "/findPageList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_MENU_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT')")
     public ResponseResult findPageList(SystemMenu param) {
         try {
             return systemMenuServiceImpl.findParamPageList(param);
@@ -126,7 +126,7 @@ public class SystemMenuController extends BaseController {
      */
     @RequestMapping(value = "/findMenuTreeList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_MENU_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT')")
     public ResponseResult findMenuTreeList(Long id, Long pId, String keyword) {
         try {
             return systemMenuServiceImpl.findMenuTreeList(id, pId, keyword);
@@ -146,7 +146,7 @@ public class SystemMenuController extends BaseController {
      */
     @RequestMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT:add')")
     public ResponseResult save(SystemMenu param) {
         try {
             return systemMenuServiceImpl.save(param);
@@ -166,7 +166,7 @@ public class SystemMenuController extends BaseController {
      */
     @RequestMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT:edit')")
     public ResponseResult edit(SystemMenu param) {
         try {
             return systemMenuServiceImpl.edit(param);
@@ -186,7 +186,7 @@ public class SystemMenuController extends BaseController {
      */
     @RequestMapping(value = "/batchDel", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_MANAGEMENT:batchDel')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT:batchDel')")
     public ResponseResult del(@RequestParam(value = "idList[]") List<Long> idList) {
         try {
             return systemMenuServiceImpl.batchDeleteList(idList);
@@ -206,7 +206,7 @@ public class SystemMenuController extends BaseController {
      */
     @RequestMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_MANAGEMENT:del')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT:del')")
     public ResponseResult del(Long id) {
         try {
             return systemMenuServiceImpl.batchDeleteList(Arrays.asList(id));
@@ -216,21 +216,21 @@ public class SystemMenuController extends BaseController {
         }
     }
 
-    /**
-     * @param id       1 菜单编号
-     * @param menuCode 2 菜单代码
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 验证是否重复菜单code
-     * @Description 验证是否重复菜单code
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 18:00
-     */
-    @RequestMapping("/isExist")
-    @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_MANAGEMENT:isExist')")
-    public ResponseResult isExist(Long id, String menuCode) {
-        return systemMenuServiceImpl.isExist(id, menuCode);
-    }
+//    /**
+//     * @param id       1 菜单编号
+//     * @param menuCode 2 菜单代码
+//     * @return com.framework.common.response.ResponseResult
+//     * @Titel 验证是否重复菜单code
+//     * @Description 验证是否重复菜单code
+//     * @Author 邋遢龘鵺
+//     * @DateTime 2019/12/22 18:00
+//     */
+//    @RequestMapping("/isExist")
+//    @ResponseBody
+//    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_MENU_LIST_MANAGEMENT:isExist')")
+//    public ResponseResult isExist(Long id, String menuCode) {
+//        return systemMenuServiceImpl.isExist(id, menuCode);
+//    }
 
 
 }

@@ -14,8 +14,8 @@ import com.framework.model.entity.system.SystemRole;
 import com.framework.model.entity.system.SystemRoleMenu;
 import com.framework.model.entity.system.SystemRoleMenuButton;
 import com.framework.service.base.BaseService;
-import com.framework.service.service.system.SystemMenuService;
 import com.framework.service.service.system.SystemRoleMenuButtonService;
+import com.framework.service.service.system.SystemMenuService;
 import com.framework.service.service.system.SystemRoleMenuService;
 import com.framework.service.service.system.SystemRoleService;
 import org.apache.commons.lang3.StringUtils;
@@ -67,7 +67,7 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insert(SystemMenu record) {
+    public int insert(SystemMenu record) {
         return systemMenuMapper.insert(record);
     }
 
@@ -80,7 +80,7 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insertSelective(SystemMenu record) {
+    public int insertSelective(SystemMenu record) {
         return systemMenuMapper.insertSelective(record);
     }
 
@@ -252,8 +252,8 @@ public class SystemMenuServiceImpl extends BaseService implements SystemMenuServ
         record.setOperaterStatus(NumeralUtil.POSITIVE_ONE);
         record.setTarget(MenuUtil.MENU_STR_SELF);
         try {
-            long is = this.insert(record);
-            if (is > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
+            int is = this.insert(record);
+            if (is > NumeralUtil.POSITIVE_ZERO) {
                 super.redisUtil.setAuthMenuString(record.getMenuCode(), record);
                 return r.ResponseResultSuccess();
             }

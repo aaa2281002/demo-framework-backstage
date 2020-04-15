@@ -1,8 +1,8 @@
 package com.framework.service.service.system.impl;
 
 import com.framework.common.response.ResponseResult;
-import com.framework.common.util.encrypt.MD5Util;
 import com.framework.common.util.hump.HumpOrLineUtil;
+import com.framework.common.util.encrypt.MD5Util;
 import com.framework.common.util.other.NumeralUtil;
 import com.framework.dao.mapper.system.SystemUserMapper;
 import com.framework.model.entity.system.SystemUser;
@@ -15,11 +15,7 @@ import org.springframework.session.Session;
 import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author 邋遢龘鵺
@@ -59,7 +55,7 @@ public class SystemUserServiceImpl extends BaseService implements SystemUserServ
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insert(SystemUser record) {
+    public int insert(SystemUser record) {
         return systemUserMapper.insert(record);
     }
 
@@ -72,7 +68,7 @@ public class SystemUserServiceImpl extends BaseService implements SystemUserServ
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insertSelective(SystemUser record) {
+    public int insertSelective(SystemUser record) {
         return systemUserMapper.insertSelective(record);
     }
 
@@ -249,8 +245,8 @@ public class SystemUserServiceImpl extends BaseService implements SystemUserServ
         record.setCreateTime(date);
         record.setUserLevel(su.getUserLevel() + NumeralUtil.POSITIVE_ONE);
         try {
-            long is = this.insert(record);
-            return is > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO ? r.ResponseResultSuccess() : r.ResponseResultAddFail();
+            int is = this.insert(record);
+            return is > NumeralUtil.POSITIVE_ZERO ? r.ResponseResultSuccess() : r.ResponseResultAddFail();
         } catch (Exception e) {
             e.printStackTrace();
             return r.ResponseResultError();

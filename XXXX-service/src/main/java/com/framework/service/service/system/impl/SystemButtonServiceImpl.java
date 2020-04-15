@@ -57,7 +57,7 @@ public class SystemButtonServiceImpl extends BaseService implements SystemButton
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insert(SystemButton record) {
+    public int insert(SystemButton record) {
         return systemButtonMapper.insert(record);
     }
 
@@ -70,7 +70,7 @@ public class SystemButtonServiceImpl extends BaseService implements SystemButton
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insertSelective(SystemButton record) {
+    public int insertSelective(SystemButton record) {
         return systemButtonMapper.insertSelective(record);
     }
 
@@ -220,8 +220,8 @@ public class SystemButtonServiceImpl extends BaseService implements SystemButton
         record.setCreateTime(date);
         record.setOperaterStatus(NumeralUtil.POSITIVE_ONE);
         try {
-            long is = this.insert(record);
-            if (is > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
+            int is = this.insert(record);
+            if (is > NumeralUtil.POSITIVE_ZERO) {
                 //ceShiProduction.send(JSONObject.toJSONString(record));
                 super.redisUtil.setAuthButtonString(record.getButtonCode(), record);
                 return r.ResponseResultSuccess();

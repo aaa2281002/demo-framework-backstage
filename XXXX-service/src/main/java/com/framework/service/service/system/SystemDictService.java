@@ -31,7 +31,7 @@ public interface SystemDictService {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(SystemDict record);
+    int insert(SystemDict record);
 
     /**
      * @param record 1 字典实体类对象
@@ -41,7 +41,7 @@ public interface SystemDictService {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(SystemDict record);
+    int insertSelective(SystemDict record);
 
 
     /**
@@ -175,4 +175,14 @@ public interface SystemDictService {
      * @DateTime 2019/12/26 11:20
      */
     ResponseResult findParamPageList(SystemDict param);
+
+    /**
+     * @param dictKey 1
+     * @return com.framework.model.entity.system.SystemDict
+     * @Titel 根据字典键查询字典信息
+     * @Description 根据字典键查询字典信息
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/13 12:29
+     */
+    SystemDict getDictKey(String dictKey);
 }

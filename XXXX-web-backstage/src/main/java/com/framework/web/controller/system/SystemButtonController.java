@@ -40,7 +40,7 @@ public class SystemButtonController extends BaseController {
      * @DateTime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_BUTTON_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT')")
     public ModelAndView pageList() {
         return new ModelAndView(path + "buttonList");
     }
@@ -53,7 +53,7 @@ public class SystemButtonController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/add")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT:add')")
     public ModelAndView getAdd() {
         ModelAndView mv = new ModelAndView(path + "buttonAdd");
 //        mv.addObject("p", systemButtonServiceImpl.selectByPrimaryKey(id));
@@ -69,7 +69,7 @@ public class SystemButtonController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/edit")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT:edit')")
     public ModelAndView getEdit(Long id) {
         ModelAndView mv = new ModelAndView(path + "buttonEdit");
         mv.addObject("p", systemButtonServiceImpl.getByIdParam(id));
@@ -85,7 +85,7 @@ public class SystemButtonController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/view")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_MANAGEMENT:view')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT:view')")
     public ModelAndView getView(Long id) {
         ModelAndView mv = new ModelAndView(path + "buttonView");
         mv.addObject("p", systemButtonServiceImpl.getByIdParam(id));
@@ -103,7 +103,7 @@ public class SystemButtonController extends BaseController {
     // method = RequestMethod.POST,
     @RequestMapping(value = "/findPageList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_BUTTON_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT')")
     public ResponseResult findPageList(SystemButton param) {
         try {
             return systemButtonServiceImpl.findParamPageList(param);
@@ -121,7 +121,7 @@ public class SystemButtonController extends BaseController {
 //     */
 //    @RequestMapping(value = "/findParamList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 //    @ResponseBody
-//    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_MANAGEMENT:find')")
+//    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT:find')")
 //    public ResponseResult findParamList(SystemButton param) {
 //        try {
 //            return systemButtonServiceImpl.findParamList(param);
@@ -143,7 +143,7 @@ public class SystemButtonController extends BaseController {
      */
     @RequestMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT:add')")
     public ResponseResult save(SystemButton param) {
         try {
             return systemButtonServiceImpl.save(param);
@@ -163,7 +163,7 @@ public class SystemButtonController extends BaseController {
      */
     @RequestMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT:edit')")
     public ResponseResult edit(SystemButton param) {
 
         try {
@@ -184,7 +184,7 @@ public class SystemButtonController extends BaseController {
      */
     @RequestMapping(value = "/batchDel", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_MANAGEMENT:batchDel')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT:batchDel')")
     public ResponseResult del(@RequestParam(value = "idList[]") List<Long> idList) {
         try {
             return systemButtonServiceImpl.batchDeleteList(idList);
@@ -204,7 +204,7 @@ public class SystemButtonController extends BaseController {
      */
     @RequestMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_MANAGEMENT:del')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT:del')")
     public ResponseResult del(Long id) {
         try {
             return systemButtonServiceImpl.batchDeleteList(Arrays.asList(id));
@@ -214,20 +214,20 @@ public class SystemButtonController extends BaseController {
         }
     }
 
-    /**
-     * @param id         1 按钮编号
-     * @param buttonCode 2 按钮代码
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 验证是否重复按钮code
-     * @Description 验证是否重复按钮code
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 18:00
-     */
-    @RequestMapping("/isExist")
-    @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_MANAGEMENT:isExist')")
-    public ResponseResult isExist(Long id, String buttonCode) {
-        return systemButtonServiceImpl.isExist(id, buttonCode);
-    }
+//    /**
+//     * @param id         1 按钮编号
+//     * @param buttonCode 2 按钮代码
+//     * @return com.framework.common.response.ResponseResult
+//     * @Titel 验证是否重复按钮code
+//     * @Description 验证是否重复按钮code
+//     * @Author 邋遢龘鵺
+//     * @DateTime 2019/12/22 18:00
+//     */
+//    @RequestMapping("/isExist")
+//    @ResponseBody
+//    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BUTTON_LIST_MANAGEMENT:isExist')")
+//    public ResponseResult isExist(Long id, String buttonCode) {
+//        return systemButtonServiceImpl.isExist(id, buttonCode);
+//    }
 
 }

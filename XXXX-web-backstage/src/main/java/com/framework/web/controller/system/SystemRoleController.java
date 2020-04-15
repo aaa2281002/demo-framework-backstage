@@ -40,7 +40,7 @@ public class SystemRoleController extends BaseController {
      * @DateTime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_LIST_MANAGEMENT')")
     public ModelAndView pageList() {
         return new ModelAndView(path + "roleList");
     }
@@ -53,7 +53,7 @@ public class SystemRoleController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/add")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_LIST_MANAGEMENT:add')")
     public ModelAndView getAdd() {
         ModelAndView mv = new ModelAndView(path + "roleAdd");
 //        mv.addObject("p", systemRoleServiceImpl.selectByPrimaryKey(id));
@@ -69,7 +69,7 @@ public class SystemRoleController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/edit")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_LIST_MANAGEMENT:edit')")
     public ModelAndView getEdit(Long id) {
         ModelAndView mv = new ModelAndView(path + "roleEdit");
         mv.addObject("p", systemRoleServiceImpl.getByIdParam(id));
@@ -85,7 +85,7 @@ public class SystemRoleController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/view")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MANAGEMENT:view')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_LIST_MANAGEMENT:view')")
     public ModelAndView getView(Long id) {
         ModelAndView mv = new ModelAndView(path + "roleView");
         mv.addObject("p", systemRoleServiceImpl.getByIdParam(id));
@@ -103,7 +103,7 @@ public class SystemRoleController extends BaseController {
     // method = RequestMethod.POST,
     @RequestMapping(value = "/findPageList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_LIST_MANAGEMENT')")
     public ResponseResult findPageList(SystemRole param) {
         try {
             return systemRoleServiceImpl.findParamPageList(param);
@@ -123,7 +123,7 @@ public class SystemRoleController extends BaseController {
      */
     @RequestMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_LIST_MANAGEMENT:add')")
     public ResponseResult save(SystemRole param) {
         try {
             return systemRoleServiceImpl.save(param);
@@ -143,7 +143,7 @@ public class SystemRoleController extends BaseController {
      */
     @RequestMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_LIST_MANAGEMENT:edit')")
     public ResponseResult edit(SystemRole param) {
         try {
             return systemRoleServiceImpl.edit(param);
@@ -163,7 +163,7 @@ public class SystemRoleController extends BaseController {
      */
     @RequestMapping(value = "/batchDel", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MANAGEMENT:batchDel')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_LIST_MANAGEMENT:batchDel')")
     public ResponseResult del(@RequestParam(value = "idList[]") List<Long> idList) {
         try {
             return systemRoleServiceImpl.batchDeleteList(idList);
@@ -183,7 +183,7 @@ public class SystemRoleController extends BaseController {
      */
     @RequestMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MANAGEMENT:del')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_LIST_MANAGEMENT:del')")
     public ResponseResult del(Long id) {
         try {
             return systemRoleServiceImpl.batchDeleteList(Arrays.asList(id));
@@ -193,19 +193,19 @@ public class SystemRoleController extends BaseController {
         }
     }
 
-    /**
-     * @param id       1 角色编号
-     * @param roleCode 2 角色代码
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 验证是否重复角色code
-     * @Description 验证是否重复角色code
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 18:00
-     */
-    @RequestMapping("/isExist")
-    @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MANAGEMENT:isExist')")
-    public ResponseResult isExist(Long id, String roleCode) {
-        return systemRoleServiceImpl.isExist(id, roleCode);
-    }
+//    /**
+//     * @param id       1 角色编号
+//     * @param roleCode 2 角色代码
+//     * @return com.framework.common.response.ResponseResult
+//     * @Titel 验证是否重复角色code
+//     * @Description 验证是否重复角色code
+//     * @Author 邋遢龘鵺
+//     * @DateTime 2019/12/22 18:00
+//     */
+//    @RequestMapping("/isExist")
+//    @ResponseBody
+//    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_LIST_MANAGEMENT:isExist')")
+//    public ResponseResult isExist(Long id, String roleCode) {
+//        return systemRoleServiceImpl.isExist(id, roleCode);
+//    }
 }

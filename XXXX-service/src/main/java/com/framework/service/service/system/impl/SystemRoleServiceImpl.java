@@ -67,7 +67,7 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insert(SystemRole record) {
+    public int insert(SystemRole record) {
         return systemRoleMapper.insert(record);
     }
 
@@ -80,7 +80,7 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insertSelective(SystemRole record) {
+    public int insertSelective(SystemRole record) {
         return systemRoleMapper.insertSelective(record);
     }
 
@@ -250,8 +250,8 @@ public class SystemRoleServiceImpl extends BaseService implements SystemRoleServ
         record.setCreateTime(date);
         record.setRoleLevel(level);
         try {
-            long is = this.insert(record);
-            if (is > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
+            int is = this.insert(record);
+            if (is > NumeralUtil.POSITIVE_ZERO) {
                 super.redisUtil.setAuthRoleString(record.getRoleCode(), record);
                 return r.ResponseResultSuccess();
             }

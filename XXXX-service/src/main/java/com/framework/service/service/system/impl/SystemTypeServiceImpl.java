@@ -49,7 +49,7 @@ public class SystemTypeServiceImpl extends BaseService implements SystemTypeServ
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insert(SystemType record) {
+    public int insert(SystemType record) {
         return systemTypeMapper.insert(record);
     }
 
@@ -62,7 +62,7 @@ public class SystemTypeServiceImpl extends BaseService implements SystemTypeServ
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insertSelective(SystemType record) {
+    public int insertSelective(SystemType record) {
         return systemTypeMapper.insertSelective(record);
     }
 
@@ -184,8 +184,8 @@ public class SystemTypeServiceImpl extends BaseService implements SystemTypeServ
         record.setCreateTime(date);
         record.setOperaterStatus(NumeralUtil.POSITIVE_ONE);
         try {
-            long is = this.insert(record);
-            if (is > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
+            int is = this.insert(record);
+            if (is > NumeralUtil.POSITIVE_ZERO) {
                 //ceShiProduction.send(JSONObject.toJSONString(record));
 //                super.redisUtil.setString(record.getTypeCode(), record);
                 return r.ResponseResultSuccess();

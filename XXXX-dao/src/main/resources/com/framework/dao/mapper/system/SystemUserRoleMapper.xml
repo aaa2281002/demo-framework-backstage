@@ -48,7 +48,8 @@
         </trim>
     </insert>
 
-    <insert id="insertList" parameterType="java.util.List">
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="id">
         insert into tb_system_user_role (USER_ID, ROLE_ID)
         <foreach collection="list" item="item" index="index" separator="union all">
             SELECT

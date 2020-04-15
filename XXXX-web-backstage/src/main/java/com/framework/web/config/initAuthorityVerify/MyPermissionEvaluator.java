@@ -1,8 +1,8 @@
 package com.framework.web.config.initAuthorityVerify;
 
 import com.framework.common.util.other.NumeralUtil;
-import com.framework.common.util.other.SymbolUtil;
 import com.framework.common.util.redis.RedisUtil;
+import com.framework.common.util.other.SymbolUtil;
 import com.framework.common.util.system.SystemUtil;
 import com.framework.model.entity.login.UserPrincipal;
 import com.framework.model.entity.system.SystemButton;

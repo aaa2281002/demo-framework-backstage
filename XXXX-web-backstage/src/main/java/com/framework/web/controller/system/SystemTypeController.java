@@ -41,7 +41,7 @@ public class SystemTypeController extends BaseController {
      * @DateTime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_TYPE_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_TYPE_LIST_MANAGEMENT')")
     public ModelAndView pageList() {
         return new ModelAndView(path + "typeList");
     }
@@ -54,7 +54,7 @@ public class SystemTypeController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/add")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_LIST_MANAGEMENT:add')")
     public ModelAndView getAdd() {
         ModelAndView mv = new ModelAndView(path + "typeAdd");
         return mv;
@@ -69,7 +69,7 @@ public class SystemTypeController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/edit")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_LIST_MANAGEMENT:edit')")
     public ModelAndView getEdit(Long id) {
         ModelAndView mv = new ModelAndView(path + "typeEdit");
         mv.addObject("p", systemTypeServiceImpl.getByIdParam(id));
@@ -85,7 +85,7 @@ public class SystemTypeController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/view")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_MANAGEMENT:view')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_LIST_MANAGEMENT:view')")
     public ModelAndView getView(Long id) {
         ModelAndView mv = new ModelAndView(path + "typeView");
         mv.addObject("p", systemTypeServiceImpl.getByIdParam(id));
@@ -103,7 +103,7 @@ public class SystemTypeController extends BaseController {
     // method = RequestMethod.POST,
     @RequestMapping(value = "/findPageList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_TYPE_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_TYPE_LIST_MANAGEMENT')")
     public ResponseResult findPageList(SystemType param) {
         try {
             return systemTypeServiceImpl.findParamPageList(param);
@@ -123,7 +123,7 @@ public class SystemTypeController extends BaseController {
      */
     @RequestMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_LIST_MANAGEMENT:add')")
     public ResponseResult save(SystemType param, HttpServletResponse response) {
         try {
             return systemTypeServiceImpl.save(param);
@@ -143,7 +143,7 @@ public class SystemTypeController extends BaseController {
      */
     @RequestMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_LIST_MANAGEMENT:edit')")
     public ResponseResult edit(SystemType param) {
         try {
             return systemTypeServiceImpl.edit(param);
@@ -163,7 +163,7 @@ public class SystemTypeController extends BaseController {
      */
     @RequestMapping(value = "/batchDel", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_MANAGEMENT:batchDel')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_LIST_MANAGEMENT:batchDel')")
     public ResponseResult del(@RequestParam(value = "idList[]") List<Long> idList) {
         try {
             return systemTypeServiceImpl.batchDeleteList(idList);
@@ -183,7 +183,7 @@ public class SystemTypeController extends BaseController {
      */
     @RequestMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_MANAGEMENT:del')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_LIST_MANAGEMENT:del')")
     public ResponseResult del(Long id) {
         try {
             return systemTypeServiceImpl.batchDeleteList(Arrays.asList(id));
@@ -193,20 +193,20 @@ public class SystemTypeController extends BaseController {
         }
     }
 
-    /**
-     * @param id       1 类型编号
-     * @param typeCode 2 类型代码
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 验证是否重复类型code
-     * @Description 验证是否重复类型code
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 18:00
-     */
-    @RequestMapping("/isExist")
-    @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_MANAGEMENT:isExist')")
-    public ResponseResult isExist(Long id, String typeCode) {
-        return systemTypeServiceImpl.isExist(id, typeCode);
-    }
+//    /**
+//     * @param id       1 类型编号
+//     * @param typeCode 2 类型代码
+//     * @return com.framework.common.response.ResponseResult
+//     * @Titel 验证是否重复类型code
+//     * @Description 验证是否重复类型code
+//     * @Author 邋遢龘鵺
+//     * @DateTime 2019/12/22 18:00
+//     */
+//    @RequestMapping("/isExist")
+//    @ResponseBody
+//    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_TYPE_LIST_MANAGEMENT:isExist')")
+//    public ResponseResult isExist(Long id, String typeCode) {
+//        return systemTypeServiceImpl.isExist(id, typeCode);
+//    }
 
 }

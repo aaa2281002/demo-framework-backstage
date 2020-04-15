@@ -194,20 +194,20 @@ public class SystemWhiteListIpController extends BaseController {
         }
     }
 
-    /**
-     * @param id 1 系统后台操作白名单IP编号
-     * @param ip 2 系统后台操作白名单IP
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 验证是否重复IP白名单
-     * @Description 验证是否重复IP白名单
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 18:00
-     */
-    @RequestMapping("/isExist")
-    @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_WHITE_LIST_IP_MANAGEMENT:isExist')")
-    public ResponseResult isExist(Long id, String ip) {
-        return systemWhiteListIpServiceImpl.isExist(id, ip);
-    }
+//    /**
+//     * @param id 1 系统后台操作白名单IP编号
+//     * @param ip 2 系统后台操作白名单IP
+//     * @return com.framework.common.response.ResponseResult
+//     * @Titel 验证是否重复IP白名单
+//     * @Description 验证是否重复IP白名单
+//     * @Author 邋遢龘鵺
+//     * @DateTime 2019/12/22 18:00
+//     */
+//    @RequestMapping("/isExist")
+//    @ResponseBody
+//    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_WHITE_LIST_IP_MANAGEMENT:isExist')")
+//    public ResponseResult isExist(Long id, String ip) {
+//        return systemWhiteListIpServiceImpl.isExist(id, ip);
+//    }
 
 }

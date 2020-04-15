@@ -205,7 +205,7 @@
 //     * {@inheritDoc}
 //     */
 //    @Override
-//    public long insert(String statement) {
+//    public int insert(String statement) {
 //        return this.sqlSessionProxy.insert(statement);
 //    }
 //
@@ -213,7 +213,7 @@
 //     * {@inheritDoc}
 //     */
 //    @Override
-//    public long insert(String statement, Object parameter) {
+//    public int insert(String statement, Object parameter) {
 //        return this.sqlSessionProxy.insert(statement, parameter);
 //    }
 //

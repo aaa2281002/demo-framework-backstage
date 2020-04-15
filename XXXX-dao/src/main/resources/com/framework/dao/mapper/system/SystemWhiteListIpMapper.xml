@@ -46,8 +46,7 @@
       )
     </insert>
 
-    <insert id="insertSelective" parameterType="com.framework.model.entity.system.SystemWhiteListIp"
-            useGeneratedKeys="true"
+    <insert id="insertSelective" parameterType="com.framework.model.entity.system.SystemWhiteListIp" useGeneratedKeys="true"
             keyProperty="id">
         insert into system_white_list_ip
         <trim prefix="(" suffix=")" suffixOverrides=",">

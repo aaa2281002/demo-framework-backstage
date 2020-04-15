@@ -4,7 +4,7 @@
 <head
         th:replace="~{segmentation/_right_bottom_header::_header_common(~{::title},~{::link},~{::style})}">
     <meta charset="utf-8">
-    <title>菜单按钮关联管理</title>
+    <title>菜单按钮关联列表</title>
     <link>
     <style type="text/css"></style>
 </head>
@@ -35,7 +35,7 @@
                                     </div>
                                 </div>
                                 <div class="layui-inline"
-                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')">
+                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT')">
                                     <a class="layui-btn" lay-submit="" lay-filter="roleMenuButton-search"
                                        title="搜搜">
                                         <i class="fa fa-search" aria-hidden="true"></i>
@@ -51,11 +51,11 @@
         <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
             <div class="layuimini-main">
                 <div class="layui-btn-group" style="min-width: 100%">
-                    <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT:save')"
+                    <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT:save')"
                        class="layui-btn menuButton-save" title="保存">
                         <i class="fa fa-floppy-o" aria-hidden="true"></i>
                     </a>
-                    <a sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')"
+                    <a sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT')"
                        class="layui-btn layui-btn-warm menuButton-refresh"
                        style="margin-left: 10px!important;" title="刷新菜单">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
@@ -88,7 +88,7 @@
                                     </div>
                                 </div>
                                 <div class="layui-inline"
-                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')">
+                                     sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT')">
                                     <a class="layui-btn" lay-submit="" lay-filter="menuButton-search" title="搜搜">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </a>
@@ -105,7 +105,7 @@
 <div th:replace="~{segmentation/_tail::_tail_common}"></div>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    [# sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')"]
+    [# sec:authorize="hasPermission(#authorization.authentication,'menus','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT')"]
     layui.use(['form', 'table', 'common', 'tree'], function () {
         var $ = layui.jquery,
             form = layui.form,
@@ -124,11 +124,11 @@
             //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
             roleMenuButtonTableSelectId = "";
             menuTreeSelectId = "";
-            var data = common.getFormData($("#roleMenuButton-search-form"));
-            data.sort = obj.field;//排序字段   在接口作为参数字段  field order
-            data.order = obj.type;//排序方式   在接口作为参数字段  field order
+            var queryData = common.getFormData($("#roleMenuButton-search-form"));
+            queryData.sort = obj.field;//排序字段   在接口作为参数字段  field order
+            queryData.order = obj.type;//排序方式   在接口作为参数字段  field order
             //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
-            common.tableRefresh(roleTableId, data);
+            common.tableRefresh(roleTableId, queryData);
         });
 
         //角色单选事件绑定
@@ -296,8 +296,8 @@
                     success: function (data) {
                         if (data.code == Result.SUCCESS) {
                             menuButtonData = data.data;
-                            var buttonData = common.getFormData($("#menuButton-search-form"));
-                            common.tablePageRefresh(tableId, buttonData);
+                            var queryData = common.getFormData($("#menuButton-search-form"));
+                            common.tablePageRefresh(tableId, queryData);
                         } else {
                             layer.msg(data.msg, {
                                 icon: 2,
@@ -321,7 +321,7 @@
             });
         });
 
-        [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT:save')"]
+        [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT:save')"]
         // 批量保存操作
         $(document).off("click", ".menuButton-save");
         $(document).on("click", ".menuButton-save", function () {
@@ -357,8 +357,8 @@
                                 time: 1500
                             }, function () {
                                 menuButtonData = [];
-                                var data = common.getFormData($("#role-search-form"));
-                                common.tablePageRefresh(tableId, data);
+                                var queryData = common.getFormData($("#menuButton-search-form"));
+                                common.tablePageRefresh(tableId, queryData);
                                 menuButtonTreeRefresh({
                                     data: getTreeData(),
                                 });

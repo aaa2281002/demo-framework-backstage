@@ -41,7 +41,7 @@ public class SystemDictController extends BaseController {
      * @DateTime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_DICT_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_DICT_LIST_MANAGEMENT')")
     public ModelAndView pageList() {
         return new ModelAndView(path + "dictList");
     }
@@ -54,7 +54,7 @@ public class SystemDictController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/add")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_LIST_MANAGEMENT:add')")
     public ModelAndView getAdd() {
         ModelAndView mv = new ModelAndView(path + "dictAdd");
         return mv;
@@ -69,7 +69,7 @@ public class SystemDictController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/edit")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_LIST_MANAGEMENT:edit')")
     public ModelAndView getEdit(Long id) {
         ModelAndView mv = new ModelAndView(path + "dictEdit");
         mv.addObject("p", systemDictServiceImpl.getByIdParam(id));
@@ -85,7 +85,7 @@ public class SystemDictController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/view")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_MANAGEMENT:view')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_LIST_MANAGEMENT:view')")
     public ModelAndView getView(Long id) {
         ModelAndView mv = new ModelAndView(path + "dictView");
         mv.addObject("p", systemDictServiceImpl.getByIdParam(id));
@@ -103,7 +103,7 @@ public class SystemDictController extends BaseController {
     // method = RequestMethod.POST,
     @RequestMapping(value = "/findPageList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_DICT_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_DICT_LIST_MANAGEMENT')")
     public ResponseResult findPageList(SystemDict param) {
         try {
             return systemDictServiceImpl.findParamPageList(param);
@@ -123,7 +123,7 @@ public class SystemDictController extends BaseController {
      */
     @RequestMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_LIST_MANAGEMENT:add')")
     public ResponseResult save(SystemDict param, HttpServletResponse response) {
         try {
             return systemDictServiceImpl.save(param);
@@ -143,7 +143,7 @@ public class SystemDictController extends BaseController {
      */
     @RequestMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_LIST_MANAGEMENT:edit')")
     public ResponseResult edit(SystemDict param) {
         try {
             return systemDictServiceImpl.edit(param);
@@ -163,7 +163,7 @@ public class SystemDictController extends BaseController {
      */
     @RequestMapping(value = "/batchDel", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_MANAGEMENT:batchDel')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_LIST_MANAGEMENT:batchDel')")
     public ResponseResult del(@RequestParam(value = "idList[]") List<Long> idList) {
         try {
             return systemDictServiceImpl.batchDeleteList(idList);
@@ -183,7 +183,7 @@ public class SystemDictController extends BaseController {
      */
     @RequestMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_MANAGEMENT:del')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_LIST_MANAGEMENT:del')")
     public ResponseResult del(Long id) {
         try {
             return systemDictServiceImpl.batchDeleteList(Arrays.asList(id));
@@ -193,20 +193,20 @@ public class SystemDictController extends BaseController {
         }
     }
 
-    /**
-     * @param id      1 字典编号
-     * @param dictKey 2 字典键
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 验证是否重复字典键
-     * @Description 验证是否重复字典键
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 18:00
-     */
-    @RequestMapping("/isExist")
-    @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_MANAGEMENT:isExist')")
-    public ResponseResult isExist(Long id, String dictKey) {
-        return systemDictServiceImpl.isExist(id, dictKey);
-    }
+//    /**
+//     * @param id      1 字典编号
+//     * @param dictKey 2 字典键
+//     * @return com.framework.common.response.ResponseResult
+//     * @Titel 验证是否重复字典键
+//     * @Description 验证是否重复字典键
+//     * @Author 邋遢龘鵺
+//     * @DateTime 2019/12/22 18:00
+//     */
+//    @RequestMapping("/isExist")
+//    @ResponseBody
+//    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_DICT_LIST_MANAGEMENT:isExist')")
+//    public ResponseResult isExist(Long id, String dictKey) {
+//        return systemDictServiceImpl.isExist(id, dictKey);
+//    }
 
 }

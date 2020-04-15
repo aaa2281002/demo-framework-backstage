@@ -4,7 +4,6 @@ import com.framework.model.entity.system.SystemWhiteListIp;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 /**
  * @Author 邋遢龘鵺
  * @ClassName com.framework.dao.mapper.system
@@ -43,7 +42,7 @@ public interface SystemWhiteListIpMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(SystemWhiteListIp record);
+    int insert(SystemWhiteListIp record);
 
     /**
      * @param record 1 系统后台操作白名单IP实体类对象
@@ -53,7 +52,7 @@ public interface SystemWhiteListIpMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(SystemWhiteListIp record);
+    int insertSelective(SystemWhiteListIp record);
 
 
     /**

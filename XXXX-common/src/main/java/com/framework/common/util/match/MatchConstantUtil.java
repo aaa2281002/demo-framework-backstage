@@ -8,5 +8,11 @@ package com.framework.common.util.match;
  * @Version 1.0
  */
 public class MatchConstantUtil {
-    public static final String XXXX = "";
+    //银行-定时任务规则
+    public static final String REGEX_TIMETASK = "^((((([1-9]{1}\\d*)|([0]{1}))(\\.(\\d{1,2})))|(\\d*))((,(((([1-9]{1}\\d*)|([0]{1}))(\\.(\\d{1,2})))|(\\d*)))*))$";
+    //商户-费率进行校验
+    public static final String REGEX_FEERATE = "^([0-1])(\\.(\\d){0,5})?$";
+    //商户-费率进行校验
+    public static final String REGEX_WHITELIST_IP = "^((25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)((,(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|[0-1]\\d{2}|[1-9]?\\d))*))$";
+
 }

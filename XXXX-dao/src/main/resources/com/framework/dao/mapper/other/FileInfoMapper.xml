@@ -60,9 +60,6 @@
             keyProperty="id">
         insert into t_file_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                ID,
-            </if>
             <if test="createId != null">
                 CREATE_ID,
             </if>
@@ -95,9 +92,6 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=BIGINT},
-            </if>
             <if test="createId != null">
                 #{createId,jdbcType=BIGINT},
             </if>
@@ -131,7 +125,8 @@
         </trim>
     </insert>
 
-    <insert id="insertList" parameterType="java.util.List">
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="id">
         insert into t_file_info (
         CREATE_ID, CREATE_TIME,
         OPERATER_ID, OPERATER_TIME, OPERATER_STATUS,
@@ -341,10 +336,10 @@
             AND p.OPERATER_STATUS &lt;= #{ltaeOperaterStatus,jdbcType=INTEGER}
         </if>
         <if test="businessId != null">
-            AND p.BUSINESS_ID = #{businessId,jdbcType=BIGINT},
+            AND p.BUSINESS_ID = #{businessId,jdbcType=BIGINT}
         </if>
         <if test="code != null and code != ''">
-            AND p.CODE = #{code,jdbcType=VARCHAR},
+            AND p.CODE = #{code,jdbcType=VARCHAR}
         </if>
         <if test="fileName != null and fileName != ''">
             AND p.FILE_NAME = #{fileName,jdbcType=VARCHAR}

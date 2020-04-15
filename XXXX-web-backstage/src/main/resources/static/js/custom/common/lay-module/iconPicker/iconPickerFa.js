@@ -1,6 +1,6 @@
 /**
  * fa图标选择器 根据开源项目https://gitee.com/wujiawei0926/iconpicker修改而来
- * @Author wujiawei0926@yeah.net chung@99php.cn
+ * @author wujiawei0926@yeah.net chung@99php.cn
  * @version 1.1
  */
 

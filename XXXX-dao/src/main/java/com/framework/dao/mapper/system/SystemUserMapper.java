@@ -43,7 +43,7 @@ public interface SystemUserMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(SystemUser record);
+    int insert(SystemUser record);
 
     /**
      * @param record 1 用户实体类对象
@@ -53,7 +53,7 @@ public interface SystemUserMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(SystemUser record);
+    int insertSelective(SystemUser record);
 
     /**
      * @param list 1 用户批量添加集合

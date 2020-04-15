@@ -32,7 +32,7 @@ public interface SystemButtonService {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(SystemButton record);
+    int insert(SystemButton record);
 
     /**
      * @param record 1 按钮实体类对象
@@ -42,7 +42,7 @@ public interface SystemButtonService {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(SystemButton record);
+    int insertSelective(SystemButton record);
 
     /**
      * @param list 1 按钮批量添加集合

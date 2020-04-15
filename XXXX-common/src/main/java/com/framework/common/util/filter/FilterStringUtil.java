@@ -14,6 +14,7 @@ import java.util.List;
  * @Version 1.0
  */
 public class FilterStringUtil {
+    //后台管理-开始
     public final static String FILTER_STRING_LOGIN = "/login";//登陆
     public final static String FILTER_STRING_LOGIN_PAGE = "/loginPage";//过期跳转
     public final static String FILTER_STRING_LOGIN_PAGE_INVALID = "/loginPage?invalid";//session失效跳转

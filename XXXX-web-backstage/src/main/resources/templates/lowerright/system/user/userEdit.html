@@ -19,9 +19,7 @@
                 <label class="layui-form-label"><span class="required-red">*</span>账户名
                 </label>
                 <div class="layui-input-block">
-                    <input type="text" lay-verify="loginName" lay-verType="tips"
-                           th:value="${p.loginName}"
-                           placeholder="请输入用户名" autocomplete="off" class="layui-input disabled" disabled>
+                    <span class="view-span" th:text="${p.loginName}"></span>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -85,7 +83,7 @@
                 </div>
             </div>
             <div class="layui-form-item"
-                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:level')">
+                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_LIST_MANAGEMENT:level')">
                 <label class="layui-form-label"><span class="required-red">*</span>级别
                 </label>
                 <div class="layui-input-block">
@@ -145,7 +143,7 @@
                 </div>
             </div>
             <div class="layui-form-item"
-                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:edit')">
+                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_LIST_MANAGEMENT:edit')">
                 <div class="layui-input-block">
                     <a class="layui-btn" lay-submit="" lay-filter="userFormEditSubmit">保存</a>
                 </div>
@@ -158,17 +156,12 @@
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script th:inline="javascript">
     /*<![CDATA[*/
-    [# sec:authorize = "hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:edit')"]
+    [# sec:authorize = "hasPermission(#authorization.authentication,'button','SYSTEM_USER_LIST_MANAGEMENT:edit')"]
     layui.use(['form', 'layedit', 'laydate'], function () {
         var form = layui.form
             , layer = layui.layer;
         //自定义验证规则
         form.verify({
-            loginName: function (value) {
-                if (value.length < 6 || value.length > 25) {
-                    return '账户名最少6个字符或最多25个字符';
-                }
-            },
             password: function (value) {
                 if (!value) {
                     return;
@@ -202,7 +195,7 @@
             },
             isEnable: function (value) {
             },
-            [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_MANAGEMENT:level')"]
+            [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_LIST_MANAGEMENT:level')"]
             userLevel: function (value) {
                 if (value.length > 7) {
                     return '级别最多7个字符';

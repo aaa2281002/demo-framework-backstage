@@ -4,7 +4,6 @@ import com.framework.model.entity.other.FileInfo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 /**
  * @Author 邋遢龘鵺
  * @ClassName com.framework.dao.mapper.other
@@ -53,7 +52,7 @@ public interface FileInfoMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(FileInfo record);
+    int insert(FileInfo record);
 
     /**
      * @param record 1 文件实体类对象
@@ -63,7 +62,7 @@ public interface FileInfoMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(FileInfo record);
+    int insertSelective(FileInfo record);
 
     /**
      * @param list 1 文件批量添加集合

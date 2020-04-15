@@ -40,7 +40,7 @@ public class SystemUserController extends BaseController {
      * @DateTime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_LIST_MANAGEMENT')")
     public ModelAndView pageList() {
         return new ModelAndView(path + "userList");
     }
@@ -53,7 +53,7 @@ public class SystemUserController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/add")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:add')")
     public ModelAndView getAdd() {
         ModelAndView mv = new ModelAndView(path + "userAdd");
 //        mv.addObject("p", systemUserServiceImpl.selectByPrimaryKey(id));
@@ -68,7 +68,7 @@ public class SystemUserController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/upload")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:upload')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:upload')")
     public ModelAndView getUpload() {
         ModelAndView mv = new ModelAndView(path + "userUpload");
         return mv;
@@ -83,7 +83,7 @@ public class SystemUserController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/edit")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:edit')")
     public ModelAndView getEdit(Long id) {
         ModelAndView mv = new ModelAndView(path + "userEdit");
         mv.addObject("p", systemUserServiceImpl.getByIdParam(id));
@@ -99,7 +99,7 @@ public class SystemUserController extends BaseController {
      * @DateTime 2019/12/14 18:21
      */
     @RequestMapping("/get/view")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:view')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:view')")
     public ModelAndView getView(Long id) {
         ModelAndView mv = new ModelAndView(path + "userView");
         mv.addObject("p", systemUserServiceImpl.getByIdParam(id));
@@ -117,7 +117,7 @@ public class SystemUserController extends BaseController {
     // method = RequestMethod.POST,
     @RequestMapping(value = "/findPageList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_LIST_MANAGEMENT')")
     public ResponseResult findPageList(SystemUser param) {
         try {
             return systemUserServiceImpl.findParamPageList(param);
@@ -137,7 +137,7 @@ public class SystemUserController extends BaseController {
      */
     @RequestMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:add')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:add')")
     public ResponseResult save(SystemUser param) {
         try {
             return systemUserServiceImpl.save(param);
@@ -157,7 +157,7 @@ public class SystemUserController extends BaseController {
      */
     @RequestMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:edit')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:edit')")
     public ResponseResult edit(SystemUser param) {
         try {
             return systemUserServiceImpl.edit(param);
@@ -177,7 +177,7 @@ public class SystemUserController extends BaseController {
      */
     @RequestMapping(value = "/batchDel", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:batchDel') ")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:batchDel') ")
     public ResponseResult batchDel(@RequestParam(value = "idList[]") List<Long> idList) {
         try {
             return systemUserServiceImpl.batchDeleteList(idList);
@@ -197,7 +197,7 @@ public class SystemUserController extends BaseController {
      */
     @RequestMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:del')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:del')")
     public ResponseResult del(Long id) {
         try {
             return systemUserServiceImpl.batchDeleteList(Arrays.asList(id));
@@ -207,19 +207,19 @@ public class SystemUserController extends BaseController {
         }
     }
 
-    /**
-     * @param id        1 用户编号
-     * @param loginName 2 账户号
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 验证是否重复账户号
-     * @Description 验证是否重复账户号
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 18:00
-     */
-    @RequestMapping("/isExist")
-    @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_MANAGEMENT:isExist')")
-    public ResponseResult isExist(Long id, String loginName) {
-        return systemUserServiceImpl.isExist(id, loginName);
-    }
+//    /**
+//     * @param id        1 用户编号
+//     * @param loginName 2 账户号
+//     * @return com.framework.common.response.ResponseResult
+//     * @Titel 验证是否重复账户号
+//     * @Description 验证是否重复账户号
+//     * @Author 邋遢龘鵺
+//     * @DateTime 2019/12/22 18:00
+//     */
+//    @RequestMapping("/isExist")
+//    @ResponseBody
+//    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:isExist')")
+//    public ResponseResult isExist(Long id, String loginName) {
+//        return systemUserServiceImpl.isExist(id, loginName);
+//    }
 }

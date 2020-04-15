@@ -193,20 +193,21 @@ public class SystemBlackListIpController extends BaseController {
         }
     }
 
-    /**
-     * @param id 1 系统前端操作黑名单IP编号
-     * @param ip 2 系统前端操作黑名单IP
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 验证是否重复系统前端操作黑名单IP
-     * @Description 验证是否重复系统前端操作黑名单IP
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 18:04
-     */
-    @RequestMapping("/isExist")
-    @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BLACK_LIST_IP_MANAGEMENT:isExist')")
-    public ResponseResult isExist(Long id, String ip) {
-        return systemBlackListIpServiceImpl.isExist(id, ip);
-    }
+//    /**
+//     * @param id   1 系统接口操作白名单IP编号
+//     * @param code 2 系统接口操作白名单代码
+//     * @param ip   3 系统接口操作白名单IP
+//     * @return com.framework.common.response.ResponseResult
+//     * @Titel 验证是否重复系统接口操作白名单IP
+//     * @Description 验证是否重复系统接口操作白名单IP
+//     * @Author 邋遢龘鵺
+//     * @DateTime 2019/12/22 18:04
+//     */
+//    @RequestMapping("/isExist")
+//    @ResponseBody
+//    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_BLACK_LIST_IP_MANAGEMENT:isExist')")
+//    public ResponseResult isExist(Long id, String code, String ip) {
+//        return systemBlackListIpServiceImpl.isExist(id, code, ip);
+//    }
 
 }

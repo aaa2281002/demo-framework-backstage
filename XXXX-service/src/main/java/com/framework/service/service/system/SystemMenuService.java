@@ -32,7 +32,7 @@ public interface SystemMenuService {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(SystemMenu record);
+    int insert(SystemMenu record);
 
     /**
      * @param record 1 菜单实体类对象
@@ -42,7 +42,7 @@ public interface SystemMenuService {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(SystemMenu record);
+    int insertSelective(SystemMenu record);
 
     /**
      * @param list 1 菜单批量添加集合

@@ -70,7 +70,7 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insert(FileInfo record) {
+    public int insert(FileInfo record) {
         return fileInfoMapper.insert(record);
     }
 
@@ -83,7 +83,7 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insertSelective(FileInfo record) {
+    public int insertSelective(FileInfo record) {
         return fileInfoMapper.insertSelective(record);
     }
 
@@ -216,8 +216,8 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
         record.setCreateTime(date);
         record.setOperaterStatus(NumeralUtil.POSITIVE_ONE);
         try {
-            long is = this.insert(record);
-            if (is > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
+            int is = this.insert(record);
+            if (is > NumeralUtil.POSITIVE_ZERO) {
                 return r.ResponseResultSuccess();
             }
             return r.ResponseResultAddFail();
@@ -336,8 +336,8 @@ public class FileInfoServiceImpl extends BaseService implements FileInfoService 
         if (id == null || id.longValue() < NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ONE) {
             return null;
         }
-        FileInfo sm = this.selectByPrimaryKey(id);
-        return sm != null ? sm : null;
+        FileInfo p = this.selectByPrimaryKey(id);
+        return p != null ? p : null;
 
     }
 

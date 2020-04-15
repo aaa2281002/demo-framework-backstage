@@ -49,7 +49,7 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insert(SystemDict record) {
+    public int insert(SystemDict record) {
         return systemDictMapper.insert(record);
     }
 
@@ -62,7 +62,7 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insertSelective(SystemDict record) {
+    public int insertSelective(SystemDict record) {
         return systemDictMapper.insertSelective(record);
     }
 
@@ -185,8 +185,8 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
         record.setCreateTime(date);
         record.setOperaterStatus(NumeralUtil.POSITIVE_ONE);
         try {
-            long is = this.insert(record);
-            if (is > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
+            int is = this.insert(record);
+            if (is > NumeralUtil.POSITIVE_ZERO) {
                 //ceShiProduction.send(JSONObject.toJSONString(record));
                 super.redisUtil.setString(RedisKeyUtil.getPermissionDictKey(record.getDictKey()), record);
                 return r.ResponseResultSuccess();
@@ -217,7 +217,7 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
             return r.ResponseResultFailRepeat();
         }
         SystemDict sb = this.selectByPrimaryKey(record.getId());
-        if(sb == null){
+        if (sb == null) {
             return r.ResponseResultFailRepeat().setMsg("修改字典信息不存在!");
         }
         Date date = new Date();
@@ -351,5 +351,20 @@ public class SystemDictServiceImpl extends BaseService implements SystemDictServ
             e.printStackTrace();
             return r.ResponseResultFail();
         }
+    }
+
+    /**
+     * @param dictKey 1
+     * @return com.framework.model.entity.system.SystemDict
+     * @Titel 根据字典键查询字典信息
+     * @Description 根据字典键查询字典信息
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/13 12:29
+     */
+    public SystemDict getDictKey(String dictKey) {
+        SystemDict param = new SystemDict();
+        param.setDictKey(dictKey);
+        List<SystemDict> list = systemDictMapper.findByList(param);
+        return (list != null && list.size() > NumeralUtil.POSITIVE_ZERO) ? list.get(NumeralUtil.POSITIVE_ZERO) : null;
     }
 }

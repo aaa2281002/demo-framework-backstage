@@ -42,7 +42,7 @@ public class SystemRoleMenuController extends BaseController {
      * @DateTime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_LIST_MANAGEMENT')")
     public ModelAndView pageList() {
         return new ModelAndView(path + "roleMenuList");
     }
@@ -57,7 +57,7 @@ public class SystemRoleMenuController extends BaseController {
      */
     @RequestMapping(value = "/findRoleParamList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_LIST_MANAGEMENT')")
     public ResponseResult findRoleParamList(SystemRole param) {
         return systemRoleServiceImpl.findParamPageList(param);
     }
@@ -74,7 +74,7 @@ public class SystemRoleMenuController extends BaseController {
      */
     @RequestMapping(value = "/findMenuTreeList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_LIST_MANAGEMENT')")
     public ResponseResult findMenuTreeList(Long roleId, Long id, Long pId, String keyword) {
         try {
             return systemRoleMenuServiceImpl.findMenuTreeList(roleId, id, pId, keyword);
@@ -94,7 +94,7 @@ public class SystemRoleMenuController extends BaseController {
      */
     @RequestMapping(value = "/findByParamList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_LIST_MANAGEMENT')")
     public ResponseResult findByParamList(SystemRoleMenu param) {
         return systemRoleMenuServiceImpl.findByParamList(param);
     }
@@ -110,7 +110,7 @@ public class SystemRoleMenuController extends BaseController {
      */
     @RequestMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MENU_MANAGEMENT:save')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MENU_LIST_MANAGEMENT:save')")
     public ResponseResult save(Long roleId, @RequestParam(value = "menuIdList[]", required = false) List<Long> menuIdList) {
         return systemRoleMenuServiceImpl.save(roleId, menuIdList);
     }

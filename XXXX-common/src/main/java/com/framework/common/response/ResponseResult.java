@@ -94,9 +94,11 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 成功返回
-     *
-     * @return
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 成功返回
+     * @Description 成功返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public ResponseResult ResponseResultSuccess() {
         this.code = ResponseResultStatus.SUCCESS;
@@ -106,9 +108,11 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 操作失败返回
-     *
-     * @return
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 操作失败返回
+     * @Description 操作失败返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public ResponseResult ResponseResultFail() {
         this.code = ResponseResultStatus.FAIL;
@@ -117,9 +121,26 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 添加操作失败返回
-     *
-     * @return
+     * @param code 1 错误代码
+     * @param msg  2  返回描述
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 操作失败返回
+     * @Description 操作失败返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
+     */
+    public ResponseResult ResponseResultFail(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
+        return this;
+    }
+
+    /**
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 添加操作失败返回
+     * @Description 添加操作失败返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public ResponseResult ResponseResultAddFail() {
         this.code = ResponseResultStatus.FAIL;
@@ -128,9 +149,11 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 更新=修改失败返回
-     *
-     * @return
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 更新=修改失败返回
+     * @Description 更新=修改失败返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public ResponseResult ResponseResultUpdateFail() {
         this.code = ResponseResultStatus.FAIL;
@@ -139,9 +162,11 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 删除失败返回
-     *
-     * @return
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 删除失败返回
+     * @Description 删除失败返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public ResponseResult ResponseResultDeleteFail() {
         this.code = ResponseResultStatus.FAIL;
@@ -150,9 +175,11 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 重复添加操作失败返回
-     *
-     * @return
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 重复添加操作失败返回
+     * @Description 重复添加操作失败返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public ResponseResult ResponseResultFailRepeat() {
         this.code = ResponseResultStatus.FAIL;
@@ -161,9 +188,11 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 异常返回
-     *
-     * @return
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 异常返回
+     * @Description 异常返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public ResponseResult ResponseResultError() {
         this.code = ResponseResultStatus.ERROR;
@@ -172,9 +201,11 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 没登录返回
-     *
-     * @return
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 没登录返回
+     * @Description 没登录返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public ResponseResult ResponseResultNoLogin() {
         this.code = ResponseResultStatus.NO_LOGIN;
@@ -183,9 +214,11 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 登录成功返回
-     *
-     * @return
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 登录成功返回
+     * @Description 登录成功返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public ResponseResult ResponseResultLogin() {
         this.code = ResponseResultStatus.SUCCESS;
@@ -195,9 +228,11 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 无权限操作返回
-     *
-     * @return
+     * @return com.framework.common.response.ResponseResult
+     * @Titel 无权限操作返回
+     * @Description 无权限操作返回
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public ResponseResult ResponseResultNoPermission() {
         this.code = ResponseResultStatus.NO_PERMISSION;
@@ -206,9 +241,11 @@ public class ResponseResult implements Serializable {
     }
 
     /**
-     * 转成JSON字符串
-     *
-     * @return
+     * @return java.lang.String
+     * @Titel 转成JSON字符串
+     * @Description 转成JSON字符串
+     * @Author 邋遢龘鵺
+     * @DateTime 2020/4/2 18:43
      */
     public String toJsonString() {
         Map<String, Object> map = new HashMap<String, Object>();

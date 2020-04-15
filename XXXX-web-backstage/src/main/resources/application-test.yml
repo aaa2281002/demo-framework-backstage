@@ -6,12 +6,12 @@ spring:
     #上传路径存储目录
     upload-dir: H:\test-demo-framework-backstage
   security:
-    #登录记住我选择，单位秒=1天
+    #登录记住我选择，(单位：秒)=1天
     remember-me-time: 86400
     #token令牌有效天数,单位天
     token-valid-days: 15
-    #配置不角色验证权限全部放过集合
-    auth-list: xxx,xxxx
+    #配置角色不验证权限全部放过集合
+    auth-list: xxx,system_ultra_admin
   redis:
     ##redis-cache缓存时间，单位(分)
     entityttl: 60
@@ -41,7 +41,7 @@ spring:
     read-one:
       name: read
       driverClassName: com.mysql.cj.jdbc.Driver #?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8,数据连接8.X版本jar
-      jdbcUrl: jdbc:mysql://localhost:3306/demoframework?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+      jdbcUrl: jdbc:mysql://localhost:3306/demoframework?allowMultiQueries=true&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
       #      driverClassName: com.mysql.jdbc.Driver #?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8,数据连接5.X版本jar
       #      jdbcUrl: jdbc:mysql://127.0.0.1:3306/demoframework?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
       username: root
@@ -49,7 +49,7 @@ spring:
     write-one:
       name: write #?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
       driverClassName: com.mysql.cj.jdbc.Driver #?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8,数据连接8.X版本jar
-      jdbcUrl: jdbc:mysql://localhost:3306/demoframework2?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+      jdbcUrl: jdbc:mysql://localhost:3306/demoframework2?allowMultiQueries=true&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
       #      driverClassName: com.mysql.jdbc.Driver #?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false,数据连接5.X版本jar
       #      jdbcUrl: jdbc:mysql://127.0.0.1:3306/demoframework?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
       username: root

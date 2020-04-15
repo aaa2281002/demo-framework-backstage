@@ -41,7 +41,7 @@ public interface SystemRoleMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(SystemRole record);
+    int insert(SystemRole record);
 
     /**
      * @param record 1 角色实体类对象
@@ -51,7 +51,7 @@ public interface SystemRoleMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(SystemRole record);
+    int insertSelective(SystemRole record);
 
     /**
      * @param list 1 角色批量添加集合

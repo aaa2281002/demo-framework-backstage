@@ -46,7 +46,7 @@ public class SystemUserRoleController extends BaseController {
      * @DateTime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_ROLE_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_ROLE_LIST_MANAGEMENT')")
     public ModelAndView pageList() {
         return new ModelAndView(path + "userRoleList");
     }
@@ -62,7 +62,7 @@ public class SystemUserRoleController extends BaseController {
     // method = RequestMethod.POST,
     @RequestMapping(value = "/findUserRoleUserPageList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_ROLE_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_ROLE_LIST_MANAGEMENT')")
     public ResponseResult findUserRoleUserPageList(SystemUser param) {
         try {
             return systemUserServiceImpl.findParamPageList(param);
@@ -83,7 +83,7 @@ public class SystemUserRoleController extends BaseController {
     // method = RequestMethod.POST,
     @RequestMapping(value = "/findUserRoleRolePageList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_ROLE_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_ROLE_LIST_MANAGEMENT')")
     public ResponseResult findUserRoleRolePageList(SystemRole param) {
         try {
             return systemRoleServiceImpl.findParamPageList(param);
@@ -103,7 +103,7 @@ public class SystemUserRoleController extends BaseController {
      */
     @RequestMapping(value = "/findByParamList")
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_ROLE_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_ROLE_LIST_MANAGEMENT')")
     public ResponseResult findByParamList(SystemUserRole param) {
         return systemUserRoleServiceImpl.findByParamList(param);
     }
@@ -119,7 +119,7 @@ public class SystemUserRoleController extends BaseController {
      */
     @RequestMapping(value = "/save")
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_ROLE_MANAGEMENT:save')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_ROLE_LIST_MANAGEMENT:save')")
     public ResponseResult save(Long userId, @RequestParam(value = "roleIdList[]", required = false) List<Long> roleIdList) {
         return systemUserRoleServiceImpl.save(userId, roleIdList);
     }

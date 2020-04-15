@@ -49,7 +49,7 @@ public class SystemWhiteListIpServiceImpl extends BaseService implements SystemW
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insert(SystemWhiteListIp record) {
+    public int insert(SystemWhiteListIp record) {
         return systemWhiteListIpMapper.insert(record);
     }
 
@@ -63,7 +63,7 @@ public class SystemWhiteListIpServiceImpl extends BaseService implements SystemW
      * @DateTime 2019/12/26 9:31
      */
     @Override
-    public long insertSelective(SystemWhiteListIp record) {
+    public int insertSelective(SystemWhiteListIp record) {
         return systemWhiteListIpMapper.insertSelective(record);
     }
 
@@ -188,8 +188,8 @@ public class SystemWhiteListIpServiceImpl extends BaseService implements SystemW
         record.setCreateTime(date);
         record.setOperaterStatus(NumeralUtil.POSITIVE_ONE);
         try {
-            long is = this.insert(record);
-            if (is > NumeralUtil.MULTIPLEXING_LONG_POSITIVE_ZERO) {
+            int is = this.insert(record);
+            if (is > NumeralUtil.POSITIVE_ZERO) {
                 super.redisUtil.setString(RedisKeyUtil.getSystemUserWhiteListIpKey(record.getIp()), record);
                 return r.ResponseResultSuccess();
             }

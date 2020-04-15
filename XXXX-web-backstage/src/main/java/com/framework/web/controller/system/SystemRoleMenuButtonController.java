@@ -3,11 +3,11 @@ package com.framework.web.controller.system;
 import com.framework.common.response.ResponseResult;
 import com.framework.common.util.system.SystemUtil;
 import com.framework.model.entity.system.SystemButton;
-import com.framework.model.entity.system.SystemRole;
 import com.framework.model.entity.system.SystemRoleMenuButton;
+import com.framework.model.entity.system.SystemRole;
 import com.framework.service.service.system.SystemButtonService;
-import com.framework.service.service.system.SystemMenuService;
 import com.framework.service.service.system.SystemRoleMenuButtonService;
+import com.framework.service.service.system.SystemMenuService;
 import com.framework.service.service.system.SystemRoleService;
 import com.framework.web.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class SystemRoleMenuButtonController extends BaseController {
      * @DateTime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT')")
     public ModelAndView pageList() {
         return new ModelAndView(path + "roleMenuButtonList");
     }
@@ -64,7 +64,7 @@ public class SystemRoleMenuButtonController extends BaseController {
      */
     @RequestMapping(value = "/findRoleParamList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT')")
     public ResponseResult findRoleParamList(SystemRole param) {
         return systemRoleServiceImpl.findParamPageList(param);
     }
@@ -81,7 +81,7 @@ public class SystemRoleMenuButtonController extends BaseController {
      */
     @RequestMapping(value = "/findMenuTreeList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT')")
     public ResponseResult findMenuTreeList(Long id, Long pId, String keyword) {
         try {
             return systemMenuServiceImpl.findMenuTreeList(id, pId, keyword);
@@ -101,7 +101,7 @@ public class SystemRoleMenuButtonController extends BaseController {
      */
     @RequestMapping(value = "/findButtonParamList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT')")
     public ResponseResult findButtonParamList(SystemButton p) {
         try {
             return systemButtonServiceImpl.findParamList(p);
@@ -121,7 +121,7 @@ public class SystemRoleMenuButtonController extends BaseController {
      */
     @RequestMapping(value = "/findByParamList")
     @ResponseBody
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT')")
     public ResponseResult findByParamList(SystemRoleMenuButton param) {
         try {
             return systemRoleMenuButtonServiceImpl.findByParamList(param);
@@ -142,7 +142,7 @@ public class SystemRoleMenuButtonController extends BaseController {
      */
     @RequestMapping(value = "/save")
     @ResponseBody//
-    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MENU_BUTTON_MANAGEMENT:save')")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_ROLE_MENU_BUTTON_LIST_MANAGEMENT:save')")
     public ResponseResult save(Long roleId, Long menuId, @RequestParam(value = "buttonIdList[]", required = false) List<Long> buttonIdList) {
         try {
             return systemRoleMenuButtonServiceImpl.save(roleId, menuId, buttonIdList);

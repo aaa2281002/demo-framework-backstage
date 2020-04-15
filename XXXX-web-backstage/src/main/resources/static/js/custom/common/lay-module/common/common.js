@@ -206,10 +206,10 @@ layui.define(["layer", "table"], function (exports) {
                 url = "404.html";
             }
             if (w == null || w == '') {
-                w = 800;
+                w = ($(window).width() - 50);
             }
             if (h == null || h == '') {
-                h = ($(window).height() - 50);
+                h = ($(window).height() - 10);
             }
             layer.open({
                 id: formId,

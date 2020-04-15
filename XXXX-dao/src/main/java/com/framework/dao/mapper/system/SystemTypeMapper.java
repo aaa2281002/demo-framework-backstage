@@ -4,7 +4,6 @@ import com.framework.model.entity.system.SystemType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 /**
  * @Author 邋遢龘鵺
  * @ClassName com.framework.dao.mapper.system
@@ -42,7 +41,7 @@ public interface SystemTypeMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(SystemType record);
+    int insert(SystemType record);
 
     /**
      * @param record 1 类型实体类对象
@@ -52,7 +51,7 @@ public interface SystemTypeMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(SystemType record);
+    int insertSelective(SystemType record);
 
 
     /**

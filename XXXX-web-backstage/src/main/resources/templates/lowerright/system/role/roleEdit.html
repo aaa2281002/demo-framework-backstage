@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="layui-form-item"
-                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MANAGEMENT:level')">
+                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_LIST_MANAGEMENT:level')">
                 <label class="layui-form-label"><span class="required-red">*</span>角色等级
                 </label>
                 <div class="layui-input-block">
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="layui-form-item"
-                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MANAGEMENT:edit')">
+                 sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_LIST_MANAGEMENT:edit')">
                 <div class="layui-input-block">
                     <a class="layui-btn" lay-submit="" lay-filter="roleFormEditSubmit">保存</a>
                 </div>
@@ -82,7 +82,7 @@
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script th:inline="javascript">
     /*<![CDATA[*/
-    [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MANAGEMENT:edit')"]
+    [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_LIST_MANAGEMENT:edit')"]
     layui.use(['form', 'layedit', 'laydate'], function () {
         var form = layui.form
             , layer = layui.layer;
@@ -98,7 +98,7 @@
                     return '角色代码最多64个字符';
                 }
             },
-            [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_MANAGEMENT:level')"]
+            [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_ROLE_LIST_MANAGEMENT:level')"]
             roleLevel: function (value) {
             },
             [/]

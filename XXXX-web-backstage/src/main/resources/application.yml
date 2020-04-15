@@ -7,8 +7,9 @@ mybatis:
   type-aliases-package: com.framework.model.entity
 spring:
   profiles:
-#    active: formal,redis-cluster #redis分片集群
-    active: test #测试环境
+#    active: formal,redis-cluster #正式环境
+#    active: test,redis-alone-test #测试环境
+    active: local,redis-alone #本地环境
 #  freemarker:
 #    cache: false #缓存配置
 #    charset: UTF-8 #编码格式
@@ -55,7 +56,7 @@ spring:
   session:
     store-type: redis
     timeout: 3600s
-    maxInactiveIntervalInSeconds: 1800 #设置redisSession存活时间，时间单位秒
+    maxInactiveIntervalInSeconds: 1800 #设置redisSession存活时间，时间(单位：秒)
 
 logging:
   level:
@@ -72,7 +73,7 @@ logging:
       springframework:
         web: error # 打印请求异常
     root: INFO
-  path: /demo
+  path: /test/jdk/log/XXXX-web-backstage
 #
 #XXXX-web:
 #  service:
@@ -84,4 +85,5 @@ logging:
 #    webId: XXXX-web-backstage
 #  zuulGateway:
 #    zuulGatewayId: XXXX-gateway
+
 

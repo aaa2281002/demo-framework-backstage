@@ -44,7 +44,7 @@ public class IndexController extends BaseController {
      */
     @RequestMapping(value = "/home")
     public ModelAndView home() {
-        return new ModelAndView("/home/home");
+        return new ModelAndView("home/home");
     }
 
     /**

@@ -51,7 +51,7 @@ public final class RedisUtil {
      * @DateTime 2019/10/11
      */
     public void expireTime(String key, long time) {
-        if (time > 0) {
+        if (time > NumeralUtil.POSITIVE_ZERO) {
             redisTemplate.expire(key, time, TimeUnit.SECONDS);
         } else {
             throw new RuntimeException("设置的时间不能为0或者小于0！！");
@@ -207,7 +207,7 @@ public final class RedisUtil {
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public boolean setStringIf(String key, String value) {
+    public boolean setStringIf(String key, Object value) {
         try {
             return redisTemplate.opsForValue().setIfAbsent(key, value);
         } catch (Exception e) {
@@ -219,20 +219,20 @@ public final class RedisUtil {
     /**
      * @param key   1 键
      * @param value 2 值
-     * @param time  2 时间值，单位秒
+     * @param time  2 时间值，(单位：秒)
      * @return boolean true成功，false失败
      * @Titel 登录token存储, 30分钟
      * @Description 登录token存储, 30分钟
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public boolean setStringIf(String key, String value, long time) {
+    public boolean setStringIf(String key, Object value, long time) {
         try {
             boolean is = redisTemplate.opsForValue().setIfAbsent(key, value);
-            if (time > 0) {
+            if (is & time > NumeralUtil.POSITIVE_ZERO) {
                 expireTime(key, time);
             }
-            return Boolean.TRUE;
+            return is;
         } catch (Exception e) {
             e.printStackTrace();
             return Boolean.FALSE;
@@ -326,7 +326,7 @@ public final class RedisUtil {
      */
     public boolean setList(String key, Object value, long time) {
         try {
-            if (time > 0) {
+            if (time > NumeralUtil.POSITIVE_ZERO) {
                 redisTemplate.opsForList().rightPush(key, value);
                 this.expireTime(key, time);
                 return Boolean.TRUE;
@@ -350,7 +350,7 @@ public final class RedisUtil {
      */
     public boolean setListAll(String key, Object value, long time) {
         try {
-            if (time > 0) {
+            if (time > NumeralUtil.POSITIVE_ZERO) {
                 redisTemplate.opsForList().rightPushAll(key, value);
                 this.expireTime(key, time);
                 return Boolean.TRUE;
@@ -511,7 +511,7 @@ public final class RedisUtil {
     public boolean setHashMapTime(String key, Map<String, Object> map, long time) {
         try {
             this.redisTemplate.opsForHash().putAll(key, map);
-            if (time > 0) {
+            if (time > NumeralUtil.POSITIVE_ZERO) {
                 expireTime(key, time);
             }
             return Boolean.TRUE;
@@ -536,7 +536,7 @@ public final class RedisUtil {
     public boolean setHashMapTime(String key, String mapKey, Object value, long time) {
         try {
             this.redisTemplate.opsForHash().put(key, mapKey, value);
-            if (time > 0) {
+            if (time > NumeralUtil.POSITIVE_ZERO) {
                 expireTime(key, time);
             }
             return Boolean.TRUE;

@@ -4,7 +4,6 @@ import com.framework.model.entity.system.SystemDict;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 /**
  * @Author 邋遢龘鵺
  * @ClassName com.framework.dao.mapper.system
@@ -42,7 +41,7 @@ public interface SystemDictMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insert(SystemDict record);
+    int insert(SystemDict record);
 
     /**
      * @param record 1 字典实体类对象
@@ -52,7 +51,7 @@ public interface SystemDictMapper {
      * @Author 邋遢龘鵺
      * @DateTime 2019/12/26 9:31
      */
-    long insertSelective(SystemDict record);
+    int insertSelective(SystemDict record);
 
 
     /**
