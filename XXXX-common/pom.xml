@@ -42,7 +42,7 @@
         <!-- 加密jar版本号 -->
         <commons-codec.version>1.12</commons-codec.version>
         <!-- excel导出导入JAR -->
-        <apache.poi.version>4.1.1</apache.poi.version>
+        <apache.poi.version>5.2.1</apache.poi.version>
     </properties>
 
     <!-- 统一管理jar包 -->
