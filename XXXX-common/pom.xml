@@ -38,7 +38,7 @@
         <!-- jedis版本号 -->
         <jedis.version>3.0.1</jedis.version>
         <!-- 阿里巴巴fastjson版本号 -->
-        <alibaba-fastjson.version>1.2.56</alibaba-fastjson.version>
+        <alibaba-fastjson.version>1.2.83</alibaba-fastjson.version>
         <!-- 加密jar版本号 -->
         <commons-codec.version>1.12</commons-codec.version>
         <!-- excel导出导入JAR -->
