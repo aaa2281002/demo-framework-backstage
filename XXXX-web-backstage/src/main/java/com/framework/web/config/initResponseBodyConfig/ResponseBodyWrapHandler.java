@@ -4,7 +4,7 @@
 //import com.framework.common.util.ConstantUtil;
 //import com.framework.common.util.RedisUtil;
 //import com.framework.common.util.TokenUtil;
-//import com.framework.model.entity.system.SystemUser;
+//import com.framework.model.system.SystemUser;
 //import org.apache.commons.lang3.StringUtils;
 //import org.springframework.core.MethodParameter;
 //import org.springframework.web.context.request.NativeWebRequest;
@@ -14,11 +14,11 @@
 //import javax.servlet.http.HttpServletRequest;
 //
 ///**
-// * @Author 邋遢龘鵺
-// * @ClassName com.framework.web.config.initResponseBodyConfig
-// * @Description 响应正文包装处理类WebMvcConfigurationSupport
-// * @DateTime 2019/10/11
-// * @Version 1.0
+// * @author 邋遢龘鵺
+// * @className com.framework.web.config.initResponseBodyConfig
+// * @description 响应正文包装处理类WebMvcConfigurationSupport
+// * @datetime 2019/10/11
+// * @version 1.0
 // */
 //
 //public class ResponseBodyWrapHandler implements HandlerMethodReturnValueHandler {

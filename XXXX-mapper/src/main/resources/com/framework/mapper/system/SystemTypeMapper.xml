@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.mapper.system.SystemTypeMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.system.SystemType">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="CREATE_ID" jdbcType="BIGINT" property="createId"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId"/>
+        <result column="OPERATER_TIME" property="operaterTime"/>
+        <result column="OPERATER_STATUS" jdbcType="INTEGER" property="operaterStatus"/>
+        <result column="IS_ENABLE" jdbcType="INTEGER" property="isEnable"/>
+        <result column="PARENT_ID" jdbcType="BIGINT" property="parentId"/>
+        <result column="TYPE_NAME" jdbcType="VARCHAR" property="typeName"/>
+        <result column="TYPE_CODE" jdbcType="VARCHAR" property="typeCode"/>
+        <result column="TYPE_VALUE" jdbcType="INTEGER" property="typeValue"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        p.ID, p.IS_ENABLE, p.PARENT_ID, p.TYPE_NAME, p.TYPE_CODE, p.TYPE_VALUE, p.DESCRIPTION
+    </sql>
+
+    <update id="delete" parameterType="com.framework.model.system.SystemType">
+        UPDATE system_type
+        SET OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime}
+        WHERE ID = #{id,jdbcType=BIGINT}
+        <if test="parentId != null">
+            AND PARENT_ID = #{parentId,jdbcType=BIGINT}
+        </if>
+    </update>
+
+    <update id="deleteList" parameterType="com.framework.model.system.SystemType">
+        UPDATE system_type SET
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime}
+        WHERE ID IN
+        <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        <if test="parentId != null">
+            AND PARENT_ID = #{parentId,jdbcType=BIGINT}
+        </if>
+    </update>
+
+    <insert id="insertSelective" parameterType="com.framework.model.system.SystemType" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">-->
+            <!--ID,-->
+            <!--</if>-->
+            <if test="createId != null">
+                CREATE_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="operaterId != null">
+                OPERATER_ID,
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME,
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS,
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE,
+            </if>
+            <if test="parentId != null">
+                PARENT_ID,
+            </if>
+            <if test="typeName != null and typeName != ''">
+                TYPE_NAME,
+            </if>
+            <if test="typeCode != null and typeCode != ''">
+                TYPE_CODE,
+            </if>
+            <if test="typeValue != null">
+                TYPE_VALUE,
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">-->
+            <!--#{id,jdbcType=BIGINT},-->
+            <!--</if>-->
+            <if test="createId != null">
+                #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="operaterId != null">
+                #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="typeName != null and typeName != ''">
+                #{typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="typeCode != null and typeCode != ''">
+                #{typeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="typeValue != null">
+                #{typeValue,jdbcType=INTEGER},
+            </if>
+            <if test="description != null and description != ''">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.system.SystemType">
+        update system_type
+        <set>
+            <if test="createId != null">
+                CREATE_ID = #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME = #{createTime},
+            </if>
+            <if test="operaterId != null">
+                OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME = #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                PARENT_ID = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="typeName != null and typeName != ''">
+                TYPE_NAME = #{typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="typeCode != null and typeCode != ''">
+                TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+            </if>
+            <if test="typeValue != null ">
+                TYPE_VALUE = #{typeValue,jdbcType=INTEGER},
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_type p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} and p.OPERATER_STATUS > -1
+    </select>
+
+    <select id="selectByParam" parameterType="com.framework.model.system.SystemType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_type p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <select id="isExist" parameterType="com.framework.model.system.SystemType" resultType="java.lang.Integer">
+        select COUNT(p.Id)
+        from system_type p
+        where p.OPERATER_STATUS > -2
+        <if test="typeCode != null and typeCode != ''">
+            and p.TYPE_CODE = #{typeCode}
+        </if>
+        <if test="typeValue != null">
+            and p.TYPE_VALUE = #{typeValue}
+        </if>
+        <if test="parentId != null">
+            and p.PARENT_ID = #{parentId,jdbcType=BIGINT}
+        </if>
+        <if test="id != null">
+            and p.ID != #{id}
+        </if>
+    </select>
+
+    <select id="findPageList" parameterType="com.framework.model.system.SystemType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_type p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+            <if test="order != null and order != ''">${order}</if>
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findPageListCount" parameterType="com.framework.model.system.SystemType" resultType="INTEGER">
+        select COUNT(p.ID)
+        from system_type p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.system.SystemType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        from system_type p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByCodeList" parameterType="com.framework.model.system.vo.SystemTypeVo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_type p
+        INNER JOIN system_type st on st.ID = p.PARENT_ID and st.TYPE_CODE = #{parentTypeCode} and st.PARENT_ID = 0 and
+        st.OPERATER_STATUS > 0
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <if test="fuzzyType == 'isEnable'">
+            and p.IS_ENABLE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'parentId'">
+            and p.PARENT_ID LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'typeName'">
+            and p.TYPE_NAME LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'typeCode'">
+            and p.TYPE_CODE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'typeValue'">
+            and p.TYPE_VALUE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'description'">
+            and p.DESCRIPTION LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+    </sql>
+
+    <sql id="searchConditionSql">
+        <if test="search != null and search != ''">
+            AND (
+            p.IS_ENABLE LIKE CONCAT('%', #{search}, '%')
+            or p.PARENT_ID LIKE CONCAT('%', #{search}, '%')
+            or p.TYPE_NAME LIKE CONCAT('%', #{search}, '%')
+            or p.TYPE_CODE LIKE CONCAT('%', #{search}, '%')
+            or p.TYPE_VALUE LIKE CONCAT('%', #{search}, '%')
+            or p.DESCRIPTION LIKE CONCAT('%', #{search}, '%')
+            )
+        </if>
+    </sql>
+
+    <sql id="conditionSql">
+        <include refid="BaseMapper.publicWhereId" />
+        <if test="isEnable != null">
+            and p.IS_ENABLE = #{isEnable,jdbcType=INTEGER}
+        </if>
+        <if test="parentId != null">
+            and p.PARENT_ID = #{parentId,jdbcType=BIGINT}
+        </if>
+        <if test="typeName != null and typeName != ''">
+            and p.TYPE_NAME = #{typeName,jdbcType=VARCHAR}
+        </if>
+        <if test="typeCode != null and typeCode != ''">
+            and p.TYPE_CODE = #{typeCode,jdbcType=VARCHAR}
+        </if>
+        <if test="typeValue != null">
+            and p.TYPE_VALUE = #{typeValue,jdbcType=INTEGER}
+        </if>
+        <if test="description != null and description != ''">
+            and p.DESCRIPTION = #{description,jdbcType=VARCHAR}
+        </if>
+        <include refid="BaseMapper.publicWhereStatus" />
+        <include refid="BaseMapper.publicWhereUserId" />
+        <include refid="BaseMapper.publicWhereCreateTime" />
+    </sql>
+
+    <sql id="vagueConditionSql">
+        <include refid="BaseMapper.publicWhereId" />
+        <if test="isEnable != null">
+            and p.IS_ENABLE LIKE CONCAT('%', #{isEnable,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="parentId != null">
+            and p.PARENT_ID LIKE CONCAT('%', #{parentId,jdbcType=BIGINT}, '%')
+        </if>
+        <if test="typeName != null and typeName != ''">
+            and p.TYPE_NAME LIKE CONCAT('%', #{typeName,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="typeCode != null and typeCode != ''">
+            and p.TYPE_CODE LIKE CONCAT('%', #{typeCode,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="typeValue != null">
+            and p.TYPE_VALUE LIKE CONCAT('%', #{typeValue,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="description != null and description != ''">
+            and p.DESCRIPTION LIKE CONCAT('%', #{description,jdbcType=VARCHAR}, '%')
+        </if>
+        <include refid="BaseMapper.publicWhereStatus" />
+        <include refid="BaseMapper.publicWhereUserId" />
+        <include refid="BaseMapper.publicWhereCreateTime" />
+    </sql>
+
+</mapper>

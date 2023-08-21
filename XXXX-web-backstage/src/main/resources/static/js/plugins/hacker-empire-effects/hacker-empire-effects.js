@@ -1,4 +1,4 @@
-$(function(){
+$(function () {
     function init() {
         var canvas = document.getElementById("hacker-empire-effects");
         var ctx = canvas.getContext("2d");
@@ -24,7 +24,7 @@ $(function(){
                 ctx.font = "20px 微软雅黑";
                 ctx.fillStyle = "green";
                 //显示的值， X轴坐标， Y轴坐标
-                ctx.fillText(str.charAt(Math.floor(Math.random()*str.length)),i*20,posY[i]*20);
+                ctx.fillText(str.charAt(Math.floor(Math.random() * str.length)), i * 20, posY[i] * 20);
                 // ctx.fillText(String.fromCharCode(65 + Math.random() * 62), i * 20, posY[i] * 20);
                 posY[i]++;
                 if (posY[i] * 20 > window.innerHeight) {
@@ -35,6 +35,7 @@ $(function(){
                 }
             }
         }
+
         setInterval(loop, 100);
     };
 

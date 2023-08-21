@@ -16,11 +16,11 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.cache
- * @Description 自定义生成缓存键
- * @Date 2020/1/13 14:13
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.cache
+ * @description 自定义生成缓存键
+ * @date 2020/1/13 14:13
  */
 @Component(value = "springCacheKeyGenerator")
 public class SpringCacheKeyGenerator implements KeyGenerator {
@@ -33,10 +33,10 @@ public class SpringCacheKeyGenerator implements KeyGenerator {
     /**
      * @param clazz 1 当前对象参数class
      * @return boolean 成功为true，失败为false
-     * @Titel 根据对象判断参数类型
-     * @Description 根据对象判断参数类型
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/13 18:57
+     * @titel 根据对象判断参数类型
+     * @description 根据对象判断参数类型
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/13 18:57
      */
     public static boolean isSimpleValueType(Class<?> clazz) {
         return (ClassUtils.isPrimitiveOrWrapper(clazz)
@@ -53,10 +53,10 @@ public class SpringCacheKeyGenerator implements KeyGenerator {
     /**
      * @param obj 1 实体类对象变量
      * @return java.lang.String 返回json字符串
-     * @Titel 缓存方法中实体类转JSON字符串方法
-     * @Description 缓存方法中实体类转JSON字符串方法
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/13 18:56
+     * @titel 缓存方法中实体类转JSON字符串方法
+     * @description 缓存方法中实体类转JSON字符串方法
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/13 18:56
      */
     public static String toJson(Object obj) {
 //        return JSON.toJSONString(obj, SerializerFeature.WriteMapNullValue, SerializerFeature.DisableCircularReferenceDetect);
@@ -68,10 +68,10 @@ public class SpringCacheKeyGenerator implements KeyGenerator {
      * @param method 2 方法对象
      * @param params 3 参数数组对象
      * @return java.lang.Object 返回生成键
-     * @Titel 根据Cacheable注解生成对应的键
-     * @Description 根据Cacheable注解生成对应的键
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/14 9:42
+     * @titel 根据Cacheable注解生成对应的键
+     * @description 根据Cacheable注解生成对应的键
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/14 9:42
      */
     @Override
     public Object generate(Object target, Method method, Object... params) {

@@ -4,7 +4,7 @@
 <head
         th:replace="~{segmentation/_right_bottom_header::_header_common(~{::title},~{::link},~{::style})}">
     <meta charset="utf-8">
-    <title>用户个人信息修改</title>
+    <title>用户个人信息编辑</title>
     <link>
     <style type="text/css"></style>
 </head>
@@ -12,7 +12,7 @@
 <div class="layuimini-container">
     <div class="layuimini-main">
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-            <legend>用户个人信息修改</legend>
+            <legend>用户个人信息编辑</legend>
         </fieldset>
         <form class="layui-form" id="userFormEdit" action="">
             <input type="hidden" id="id" name="id" th:value="${p.id}"/>
@@ -21,6 +21,16 @@
                 </label>
                 <div class="layui-input-block">
                     <span class="view-span" sec:authentication="name"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label"><span class="required-red">*</span>姓名
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" name="name" lay-verify="required"
+                           lay-verType="tips"
+                           th:value="${p.name}"
+                           placeholder="请输入电话" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -55,13 +65,18 @@
 <div th:replace="~{segmentation/_tail::_tail_common}"></div>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script th:inline="javascript">
-    layui.use(['form', 'layedit', 'common'], function () {
-        var form = layui.form
-            , layer = layui.layer
-            , common = layui.common
-        ;
+    layui.use(['form', 'common'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            common = layui.common;
+
         //自定义验证规则
         form.verify({
+            name: function (value) {
+                if (value.length > 20) {
+                    return '姓名最多20个字符';
+                }
+            },
             telphone: function (value) {
                 if (value.length > 20) {
                     return '电话最多20个字符';

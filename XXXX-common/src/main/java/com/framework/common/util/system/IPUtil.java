@@ -5,20 +5,20 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.system
- * @Description IP获取工具类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.system
+ * @description IP获取工具类
+ * @datetime 2019/10/11
  */
 public class IPUtil {
     /**
      * @param request 1 javax.servlet.http.HttpServletRequest
      * @return java.lang.String 不存在返回空值或null
-     * @Titel 获取IP地址
-     * @Description 获取IP地址
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 获取IP地址
+     * @description 获取IP地址
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public static String getIpAddr(HttpServletRequest request) {
 

@@ -1,11 +1,11 @@
 package com.framework.common.util.date;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.date
- * @Description 日期工具类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.date
+ * @description 日期工具类
+ * @datetime 2019/10/11
  */
 public class DateStyleUtil {
     public static final String FORMAT_YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.mapper.system.SystemLogMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.system.SystemLog">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId"/>
+        <result column="OPERATER_TIME" property="operaterTime"/>
+        <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName"/>
+        <result column="IP" jdbcType="VARCHAR" property="ip"/>
+        <result column="OPERATER_TITLE" jdbcType="VARCHAR" property="operaterTitle"/>
+        <result column="OPERATER_CONTENT" jdbcType="VARCHAR" property="operaterContent"/>
+        <result column="COMPANY_CODE" jdbcType="VARCHAR" property="companyCode"/>
+        <result column="COMPANY_ID" jdbcType="BIGINT" property="companyId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        p.ID, p.OPERATER_ID, p.OPERATER_TIME, p.LOGIN_NAME, p.IP, p.OPERATER_TITLE, p.OPERATER_CONTENT, p.COMPANY_CODE, p.COMPANY_ID
+    </sql>
+
+    <!--<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">-->
+    <!--delete from system_log-->
+    <!--where ID = #{id,jdbcType=BIGINT}-->
+    <!--</delete>-->
+
+    <insert id="insertSelective" parameterType="com.framework.model.system.SystemLog" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">-->
+            <!--ID,-->
+            <!--</if>-->
+            <if test="operaterId != null">
+                OPERATER_ID,
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME,
+            </if>
+            <if test="loginName != null and loginName != ''">
+                LOGIN_NAME,
+            </if>
+            <if test="ip != null and ip != ''">
+                IP,
+            </if>
+            <if test="operaterTitle != null and operaterTitle != ''">
+                OPERATER_TITLE,
+            </if>
+            <if test="companyCode != null and companyCode != ''">
+                COMPANY_CODE,
+            </if>
+            <if test="companyId != null">
+                COMPANY_ID,
+            </if>
+            <if test="operaterContent != null and operaterContent != ''">
+                OPERATER_CONTENT,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">-->
+            <!--#{id,jdbcType=BIGINT},-->
+            <!--</if>-->
+            <if test="operaterId != null">
+                #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                #{operaterTime},
+            </if>
+            <if test="loginName != null and loginName != ''">
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null and ip != ''">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="operaterTitle != null and operaterTitle != ''">
+                #{operaterTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="companyCode != null and companyCode != ''">
+                #{companyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterContent != null and operaterContent != ''">
+                #{operaterContent,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.system.SystemLog">
+        update system_log
+        <set>
+            <if test="operaterId != null">
+                OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME = #{operaterTime},
+            </if>
+            <if test="loginName != null and loginName != ''">
+                LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null and ip != ''">
+                IP = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="operaterTitle != null and operaterTitle != ''">
+                OPERATER_TITLE = #{operaterTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="companyCode != null and companyCode != ''">
+                COMPANY_CODE = #{companyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                COMPANY_ID = #{companyId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterContent != null and operaterContent != ''">
+                OPERATER_CONTENT = #{operaterContent,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_log p
+        where p.ID = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="findPageList" parameterType="com.framework.model.system.SystemLog" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_log p
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+            <if test="order != null and order != ''">${order}</if>
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findPageListCount" parameterType="com.framework.model.system.SystemLog" resultType="INTEGER">
+        select COUNT(p.ID)
+        from system_log p
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.system.SystemLog" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from system_log p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <if test="fuzzyType == 'operaterUserName'">
+            AND p.OPERATER_ID in (SELECT u.ID FROM `SYSTEM_USER`u WHERE u.LOGIN_NAME LIKE
+            CONCAT('%',#{fuzzyValue},'%') AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="fuzzyType == 'loginName'">
+            and p.LOGIN_NAME LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'ip'">
+            and p.IP LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'operaterTitle'">
+            and p.OPERATER_TITLE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'operaterContent'">
+            and p.OPERATER_CONTENT LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'companyCode'">
+            and p.COMPANY_CODE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'companyId'">
+            and p.COMPANY_ID LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+    </sql>
+
+    <sql id="searchConditionSql">
+        <if test="search != null and search != ''">
+            AND (
+            p.LOGIN_NAME LIKE CONCAT('%', #{search}, '%')
+            or p.IP LIKE CONCAT('%', #{search}, '%')
+            or p.OPERATER_TITLE LIKE CONCAT('%', #{search}, '%')
+            or p.OPERATER_CONTENT LIKE CONCAT('%', #{search}, '%')
+            or p.COMPANY_CODE LIKE CONCAT('%', #{search}, '%')
+            or p.COMPANY_ID LIKE CONCAT('%', #{search}, '%')
+            )
+        </if>
+    </sql>
+
+    <sql id="conditionSql">
+        <include refid="BaseMapper.publicWhereId"/>
+
+        <if test="startTime != null">
+            AND p.OPERATER_TIME &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND p.OPERATER_TIME &lt;= #{endTime}
+        </if>
+        <if test="operaterUserName != null and operaterUserName != ''">
+            AND p.OPERATER_ID = (SELECT u.ID FROM `SYSTEM_USER`u WHERE u.LOGIN_NAME =
+            #{operaterUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="loginName != null and loginName != ''">
+            and p.LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+        </if>
+        <if test="ip != null and ip != ''">
+            and p.IP = #{ip,jdbcType=VARCHAR}
+        </if>
+        <if test="operaterTitle != null and operaterTitle != ''">
+            and p.OPERATER_TITLE = #{operaterTitle,jdbcType=VARCHAR}
+        </if>
+        <if test="operaterContent != null and operaterContent != ''">
+            and p.OPERATER_CONTENT = #{operaterContent,jdbcType=VARCHAR}
+        </if>
+        <if test="companyCode != null and companyCode != ''">
+            and p.COMPANY_CODE = #{companyCode,jdbcType=VARCHAR}
+        </if>
+        <if test="companyId != null">
+            and p.COMPANY_ID = #{companyId,jdbcType=BIGINT}
+        </if>
+        <!--        <include refid="BaseMapper.publicWhereStatus"/>-->
+        <!--        <include refid="BaseMapper.publicWhereCreateTime"/>-->
+    </sql>
+
+    <sql id="vagueConditionSql">
+        <include refid="BaseMapper.publicWhereId"/>
+        <if test="loginName != null and loginName != ''">
+            and p.LOGIN_NAME LIKE CONCAT('%', #{loginName,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="ip != null and ip != ''">
+            and p.IP LIKE CONCAT('%', #{ip,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="operaterTitle != null and operaterTitle != ''">
+            and p.OPERATER_TITLE LIKE CONCAT('%', #{operaterTitle,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="operaterContent != null and operaterContent != ''">
+            and p.OPERATER_CONTENT LIKE CONCAT('%', #{operaterContent,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="companyCode != null and companyCode != ''">
+            and p.COMPANY_CODE LIKE CONCAT('%', #{companyCode,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="companyId != null">
+            and p.COMPANY_ID LIKE CONCAT('%', #{companyId,jdbcType=BIGINT}, '%')
+        </if>
+        <!--        <include refid="BaseMapper.publicWhereStatus"/>-->
+        <!--        <include refid="BaseMapper.publicWhereUserId"/>-->
+        <!--        <include refid="BaseMapper.publicWhereCreateTime"/>-->
+    </sql>
+
+</mapper>

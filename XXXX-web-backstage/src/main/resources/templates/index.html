@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" >
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head
         th:replace="~{segmentation/_header::_header_common(~{::title},~{::link},~{::style})}">
     <meta charset="utf-8">
@@ -35,20 +35,23 @@
 
             <ul class="layui-nav layui-layout-right">
                 <li class="layui-nav-item" lay-unselect>
-                    <a href="javascript:;" data-refresh="刷新"><i class="fa fa-refresh"></i></a>
+                    <a href="javascript:;" title="刷新页面" data-refresh="刷新页面"><i class="fa fa-refresh"></i></a>
                 </li>
                 <!--<li class="layui-nav-item" lay-unselect>-->
-                    <!--<a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>-->
+                <!--<a href="javascript:;" data-clear="清理" class="layuimini-clear"><i class="fa fa-trash-o"></i></a>-->
                 <!--</li>-->
+                <li class="layui-nav-item" lay-unselect th:if="${@systemUserServiceImpl.isAuth()}">
+                    <a href="javascript:;" title="更新缓存" data-retweet="更新缓存" class="layuimini-retweet"><i class="fa fa-retweet"></i></a>
+                </li>
                 <li class="layui-nav-item mobile layui-hide-xs" lay-unselect>
                     <a href="javascript:;" data-check-screen="full"><i class="fa fa-arrows-alt"></i></a>
                 </li>
                 <li class="layui-nav-item layuimini-setting">
                     <a href="javascript:;" sec:authentication="name"></a>
                     <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:;" layuimini-content-href="page/user-setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>
-                        </dd>
+                        <!--<dd>-->
+                        <!--<a href="javascript:;" layuimini-content-href="page/user-setting.html" data-title="基本资料" data-icon="fa fa-gears">基本资料<span class="layui-badge-dot"></span></a>-->
+                        <!--</dd>-->
                         <dd>
                             <a href="javascript:;" layuimini-content-href="/personal/center/user/show" data-title="基本资料"
                                data-icon="fa fa-eye">基本资料
@@ -60,7 +63,7 @@
                                data-icon="fa fa-key">修改密码</a>
                         </dd>
                         <dd>
-                            <a href="javascript:;" data-iframe-tab="/personal/center/reset/info" data-title="修改信息"
+                            <a href="javascript:;" layuimini-content-href="/personal/center/reset/info" data-title="修改信息"
                                data-icon="fa fa-cog">修改信息</a>
                         </dd>
                         <dd>
@@ -127,15 +130,16 @@
 <!--/_footer 作为公共模版分离出去-->
 
 <script th:inline="javascript">
-    layui.use(['layer',  'miniAdmin'], function () {
+    layui.use(['layer', 'miniAdmin'], function () {
         var $ = layui.jquery,
             miniAdmin = layui.miniAdmin
-            ;
+        ;
         //
         // layuimini.init('initMenu');
         var options = {
-            iniUrl: 'initMenu',    // 初始化接口
+            iniUrl: '/init/menu',    // 初始化接口
             clearUrl: "", // 缓存清理接口
+            retweetUrl: "/cache/refresh", // 缓存刷新接口
             urlHashLocation: true,      // 是否打开hash定位
             bgColorDefault: 1,          // 主题默认配置
             multiModule: true,          // 是否开启多模块

@@ -35,11 +35,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.http
- * @Description 请求工具类
- * @Date 2020/3/29 15:18
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.http
+ * @description 请求工具类
+ * @date 2020/3/29 15:18
  */
 public class HttpClientUtil {
     private static SSLContextBuilder builder = null;
@@ -83,10 +83,10 @@ public class HttpClientUtil {
     /**
      * @param url 1 请求地址
      * @return java.lang.String
-     * @Titel String格式字符串get请求
-     * @Description String格式字符串get请求
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:36
+     * @titel String格式字符串get请求
+     * @description String格式字符串get请求
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:36
      */
     public static String getString(String url) throws Exception {
         return getString(url, null, null);
@@ -96,10 +96,10 @@ public class HttpClientUtil {
      * @param url    1 请求地址
      * @param header 2 头部信息Map集合
      * @return java.lang.String
-     * @Titel String格式字符串get请求
-     * @Description String格式字符串get请求
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:36
+     * @titel String格式字符串get请求
+     * @description String格式字符串get请求
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:36
      */
     public static String getString(String url, Map<String, Object> header) throws Exception {
         return getString(url, header, null);
@@ -109,10 +109,10 @@ public class HttpClientUtil {
      * @param parameter 1 参数map集合
      * @param url       2 请求地址
      * @return java.lang.String
-     * @Titel String格式字符串get请求
-     * @Description String格式字符串get请求
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:37
+     * @titel String格式字符串get请求
+     * @description String格式字符串get请求
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:37
      */
     public static String getString(Map<String, Object> parameter, String url) throws Exception {
         return getString(url, null, parameter);
@@ -123,10 +123,10 @@ public class HttpClientUtil {
      * @param header    2 头部信息
      * @param parameter 3 地址栏后跟随参数
      * @return java.lang.String
-     * @Titel String格式字符串get请求
-     * @Description String格式字符串get请求
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:37
+     * @titel String格式字符串get请求
+     * @description String格式字符串get请求
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:37
      */
     public static String getString(String url, Map<String, Object> header, Map<String, Object> parameter) throws Exception {
         // System.out.println(logPrefix + " post=url:" + url);
@@ -166,10 +166,10 @@ public class HttpClientUtil {
      * @param jsonObjectStr 1 json字符串
      * @param url           2 请求地址
      * @return java.lang.String
-     * @Titel String格式JSON字符串post请求
-     * @Description String格式JSON字符串post请求
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:38
+     * @titel String格式JSON字符串post请求
+     * @description String格式JSON字符串post请求
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:38
      */
     public static String postString(String jsonObjectStr, String url) throws Exception {
         return postString(jsonObjectStr, url, null, null);
@@ -180,10 +180,10 @@ public class HttpClientUtil {
      * @param jsonObjectStr 2 json字符串
      * @param url           3 请求地址
      * @return java.lang.String
-     * @Titel String格式JSON字符串post请求
-     * @Description String格式JSON字符串post请求
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:38
+     * @titel String格式JSON字符串post请求
+     * @description String格式JSON字符串post请求
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:38
      */
     public static String postString(Map<String, Object> header, String jsonObjectStr, String url) throws Exception {
         return postString(jsonObjectStr, url, header, null);
@@ -193,10 +193,10 @@ public class HttpClientUtil {
      * @param url          1 请求地址
      * @param parameterMap 2 请求参数map
      * @return java.lang.String
-     * @Titel parameterMap格式post请求
-     * @Description
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:41
+     * @titel parameterMap格式post请求
+     * @description
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:41
      */
     public static String postString(String url, Map<String, Object> parameterMap) throws Exception {
         return postString(null, url, null, parameterMap);
@@ -207,10 +207,10 @@ public class HttpClientUtil {
      * @param header       2 header信息map
      * @param parameterMap 3 请求参数map
      * @return java.lang.String
-     * @Titel parameterMap格式post请求
-     * @Description parameterMap格式post请求
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:43
+     * @titel parameterMap格式post请求
+     * @description parameterMap格式post请求
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:43
      */
     public static String postString(String url, Map<String, Object> header, Map<String, Object> parameterMap) throws Exception {
         return postString(null, url, header, parameterMap);
@@ -223,10 +223,10 @@ public class HttpClientUtil {
      * @param header        3 头部参数map集合
      * @param parameterMap  4 请求参数map
      * @return java.lang.String
-     * @Titel String格式JSON字符串post请求
-     * @Description String格式JSON字符串post请求
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:44
+     * @titel String格式JSON字符串post请求
+     * @description String格式JSON字符串post请求
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:44
      */
     public static String postString(String jsonObjectStr, String url, Map<String, Object> header, Map<String, Object> parameterMap) throws Exception {
         HttpPost httpPost = new HttpPost();
@@ -280,10 +280,10 @@ public class HttpClientUtil {
      * @param httpRequestBase 1 请求封装对象
      * @return java.lang.String
      * @throws Exception
-     * @Titel http请求方法
-     * @Description http请求方法
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:46
+     * @titel http请求方法
+     * @description http请求方法
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:46
      */
     private static String sendEntity(HttpRequestBase httpRequestBase) throws Exception {
         CloseableHttpClient client = getHttpClient();
@@ -317,10 +317,10 @@ public class HttpClientUtil {
     /**
      * @return org.apache.http.impl.client.CloseableHttpClient
      * @throws Exception
-     * @Titel 创建请求参数对象
-     * @Description 创建请求参数对象
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:48
+     * @titel 创建请求参数对象
+     * @description 创建请求参数对象
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:48
      */
     public static CloseableHttpClient getHttpClient() throws Exception {
         CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(sslsf).setConnectionManager(cm).setConnectionManagerShared(true).build();
@@ -331,10 +331,10 @@ public class HttpClientUtil {
     /**
      * @param cookie 1  密匙
      * @return org.apache.http.impl.client.CloseableHttpClient
-     * @Titel 创建请求参数对象，给请求设置cookie参数
-     * @Description 创建请求参数对象，给请求设置cookie参数
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/29 15:49
+     * @titel 创建请求参数对象，给请求设置cookie参数
+     * @description 创建请求参数对象，给请求设置cookie参数
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/29 15:49
      */
     public static CloseableHttpClient getHttpClient(Cookie cookie) throws Exception {
         CookieStore cookieStore = new BasicCookieStore();

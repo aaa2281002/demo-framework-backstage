@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head
+        th:replace="~{segmentation/_right_bottom_header::_header_common(~{::title},~{::link},~{::style})}">
+    <title>系统后台黑名单IP查看</title>
+    <link>
+    <style type="text/css"></style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>系统后台黑名单IP查看</legend>
+        </fieldset>
+        <form class="layui-form" id="backstageBlackListIpFormView" action="">
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">IP
+                </label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text="${p.ip}"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">是否启用
+                </label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:each="item : ${@systemTypeServiceImpl.findByCodeList('isEnable')}"
+                          th:text="${item.typeName}"
+                          th:if="${p.isEnable == item.typeValue}"
+                          th:style="${item.typeValue == 1 ? 'color: limegreen;' : 'color: red;' }"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">描述
+                </label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text="${p.description}"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">创建人</label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text="${p.createUserName}"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">创建时间</label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text="${#dates.format(p.createTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">操作人</label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text="${p.operaterUserName}"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">操作时间</label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:text=" ${#dates.format(p.operaterTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                </div>
+            </div>
+            <div class="layui-form-item" pane="">
+                <label class="layui-form-label">操作状态</label>
+                <div class="layui-input-block">
+                    <span class="view-span" th:each="item : ${@systemTypeServiceImpl.findByCodeList('operaterStatus')}"
+                          th:text="${item.typeName}"
+                          th:if="${p.operaterStatus + '' == item.typeCode}" ></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

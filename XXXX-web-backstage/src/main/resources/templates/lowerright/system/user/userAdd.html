@@ -73,12 +73,12 @@
                 <label class="layui-form-label"><span class="required-red">*</span>是否启用
                 </label>
                 <div class="layui-input-block">
-                    <input type="radio" name="isEnable" lay-verify="required|isEnable"
-                           lay-verType="tips"
-                           value="1" title="是">
-                    <input type="radio" name="isEnable" lay-verify="required|isEnable"
-                           lay-verType="tips"
-                           value="2" title="否" checked>
+                    <input th:each="item : ${@systemTypeServiceImpl.findByCodeList('isEnable')}"
+                           th:title="${item.typeName}"
+                           th:value="${item.typeValue}"
+                           th:checked="${1 == item.typeValue}"
+                           type="radio" name="isEnable" lay-verify="required|isEnable"
+                           lay-verType="tips">
                 </div>
             </div>
             <div class="layui-form-item" pane="">
@@ -87,7 +87,7 @@
                 <div class="layui-input-block">
                     <input type="radio" name="accountLocked" lay-verify="required|accountLocked"
                            lay-verType="tips"
-                           value="-1" title="是">
+                           value="2" title="是">
                     <input type="radio" name="accountLocked" lay-verify="required|accountLocked"
                            lay-verType="tips"
                            value="1" title="否" checked>
@@ -99,7 +99,7 @@
                 <div class="layui-input-block">
                     <input type="radio" name="accountExpired" lay-verify="required|accountExpired"
                            lay-verType="tips"
-                           value="-1" title="是">
+                           value="2" title="是">
                     <input type="radio" name="accountExpired" lay-verify="required|accountExpired"
                            lay-verType="tips"
                            value="1" title="否" checked>
@@ -111,7 +111,7 @@
                 <div class="layui-input-block">
                     <input type="radio" name="credentialsExpired" lay-verify="required|credentialsExpired"
                            lay-verType="tips"
-                           value="-1" title="是">
+                           value="2" title="是">
                     <input type="radio" name="credentialsExpired" lay-verify="required|credentialsExpired"
                            lay-verType="tips"
                            value="1" title="否" checked>
@@ -137,13 +137,21 @@
 </div>
 
 <div th:replace="~{segmentation/_tail::_tail_common}"></div>
+<script th:src="@{/js/plugins/jsencrypt/jsencrypt.js?v=1.0.0}"
+        charset="utf-8" type="text/javascript"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script th:inline="javascript">
     /*<![CDATA[*/
     [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_USER_LIST_MANAGEMENT:add')"]
-    layui.use(['form', 'layedit', 'laydate'], function () {
-        var form = layui.form
-            , layer = layui.layer;
+    layui.use(['form', 'encryption'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            encryption = layui.encryption;
+
+        encryption.setKeySize(2048);
+        var regPhone =
+            /^((\+86|0086)?\s*)((134[0-8]\d{7})|(((13([0-3]|[5-9]))|(14[5-9])|15([0-3]|[5-9])|(16(2|[5-7]))|17([0-3]|[5-8])|18[0-9]|19(1|[8-9]))\d{8})|(14(0|1|4)0\d{7})|(1740([0-5]|[6-9]|[10-12])\d{7}))$/;
+        var regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
         //自定义验证规则
         form.verify({
             loginName: function (value) {
@@ -170,10 +178,18 @@
                 if (value.length > 20) {
                     return '电话最多20个字符';
                 }
+                //自定义验证规则
+                if (!regPhone.test(value)) {
+                    return "请输入正确手机号码!";
+                }
             },
             myEmail: function (value) {
                 if (value.length > 32) {
                     return '邮箱最多32个字符';
+                }
+                //自定义验证规则
+                if (!regEmail.test(value)) {
+                    return "请输入正确邮箱!";
                 }
             },
             isEnable: function (value) {
@@ -196,6 +212,8 @@
 
         //监听提交
         form.on('submit(userFormAddSubmit)', function (data) {
+            data.field.password = encryption.encryptPublicKey(data.field.password);
+            data.field.confirmPassword = encryption.encryptPublicKey(data.field.confirmPassword);
             $.ajax({
                 type: 'POST',
                 url: '/system/user/save',
@@ -208,6 +226,7 @@
                             shade: [0.3, '#f5f5f5'],
                             time: 1500
                         }, function () {
+                            $("#userList", window.parent.document).attr('value', 1);
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
                         });

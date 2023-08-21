@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.model
- * @Description 验证码图片实体类参数类
- * @DateTime 2019/12/21 11:13
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.model
+ * @description 验证码图片实体类参数类
+ * @datetime 2019/12/21 11:13
  */
 public class CaptchaImage implements Serializable {
-    private static final long serialVersionUID = -6233883220979658384L;
+    private static final long serialVersionUID = -1L;
     /**
      * 随机数
      */

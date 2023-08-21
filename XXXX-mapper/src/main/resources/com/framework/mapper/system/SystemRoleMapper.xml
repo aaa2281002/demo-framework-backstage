@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.mapper.system.SystemRoleMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.system.SystemRole">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="CREATE_ID" jdbcType="BIGINT" property="createId"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId"/>
+        <result column="OPERATER_TIME" property="operaterTime"/>
+        <result column="OPERATER_STATUS" jdbcType="INTEGER" property="operaterStatus"/>
+        <result column="IS_ENABLE" jdbcType="INTEGER" property="isEnable"/>
+        <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName"/>
+        <result column="ROLE_CODE" jdbcType="VARCHAR" property="roleCode"/>
+        <result column="ROLE_LEVEL" jdbcType="INTEGER" property="roleLevel"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        p.ID, p.IS_ENABLE, p.ROLE_NAME, p.ROLE_CODE, p.ROLE_LEVEL, p.DESCRIPTION
+    </sql>
+
+    <update id="delete" parameterType="com.framework.model.system.SystemRole">
+        UPDATE system_role
+        SET OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            OPERATER_ID     = #{operaterId,jdbcType=BIGINT},
+            OPERATER_TIME   = #{operaterTime}
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="deleteList" parameterType="com.framework.model.system.SystemRole">
+        UPDATE system_role SET
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime}
+        WHERE ID IN
+        <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <insert id="insertSelective" parameterType="com.framework.model.system.SystemRole" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                CREATE_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="operaterId != null">
+                OPERATER_ID,
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME,
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS,
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE,
+            </if>
+            <if test="roleName != null and roleName != ''">
+                ROLE_NAME,
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                ROLE_CODE,
+            </if>
+            <if test="roleLevel != null">
+                ROLE_LEVEL,
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="operaterId != null">
+                #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="roleName != null and roleName != ''">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                #{roleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roleLevel != null">
+                #{roleLevel,jdbcType=INTEGER},
+            </if>
+            <if test="description != null and description != ''">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_role (CREATE_ID, CREATE_TIME,
+        OPERATER_ID, OPERATER_TIME, OPERATER_STATUS, IS_ENABLE,
+        ROLE_NAME, ROLE_CODE, ROLE_LEVEL, DESCRIPTION
+        )
+        <foreach collection="list" item="item" index="index" separator="union all">
+            SELECT
+            #{item.createId,jdbcType=BIGINT}, #{item.createTime},
+            #{item.operaterId,jdbcType=BIGINT}, #{item.operaterTime}, #{item.operaterStatus,jdbcType=INTEGER},
+            #{isEnable,jdbcType=INTEGER}, #{item.roleName,jdbcType=VARCHAR}, #{item.roleCode,jdbcType=VARCHAR},
+            #{item.roleLevel,jdbcType=INTEGER}, #{item.description,jdbcType=VARCHAR}
+            FROM dual
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.system.SystemRole">
+        update system_role
+        <set>
+            <if test="operaterId != null">
+                OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME = #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="roleName != null">
+                ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleCode != null">
+                ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roleLevel != null">
+                ROLE_LEVEL = #{roleLevel,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update system_role
+            <set>
+                <if test="item.operaterId != null">
+                    OPERATER_ID = #{item.operaterId,jdbcType=BIGINT},
+                </if>
+                <if test="item.operaterTime != null">
+                    OPERATER_TIME = #{item.operaterTime},
+                </if>
+                <if test="item.operaterStatus != null">
+                    OPERATER_STATUS = #{item.operaterStatus,jdbcType=INTEGER},
+                </if>
+                <if test="item.isEnable != null">
+                    IS_ENABLE = #{item.isEnable,jdbcType=INTEGER},
+                </if>
+                <if test="item.roleName != null and item.roleName != ''">
+                    ROLE_NAME = #{item.roleName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.roleCode != null and item.roleCode != ''">
+                    ROLE_CODE = #{item.roleCode,jdbcType=VARCHAR},
+                </if>
+                <if test="roleLevel != null">
+                    ROLE_LEVEL = #{item.roleLevel,jdbcType=INTEGER},
+                </if>
+                <if test="item.description != null">
+                    DESCRIPTION = #{item.description,jdbcType=VARCHAR}
+                </if>
+            </set>
+            where ID = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_role p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} AND p.OPERATER_STATUS > -1
+        <if test="gtaeNum != null">
+            AND p.ROLE_LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="gtNum != null">
+            AND p.ROLE_LEVEL &gt; #{gtNum,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="isExist" parameterType="com.framework.model.system.SystemRole" resultType="java.lang.Integer">
+        select COUNT(p.Id)
+        from system_role p
+        where p.OPERATER_STATUS > -2
+        <!--<if test="roleName != null and roleName != ''">-->
+        <!--and p.ROLE_NAME = #{roleName}-->
+        <!--</if>-->
+        <if test="roleCode != null and roleCode != ''">
+            and p.ROLE_CODE = #{roleCode}
+        </if>
+        <if test="id != null">
+            and p.ID != #{id}
+        </if>
+    </select>
+
+    <select id="findPageList" parameterType="com.framework.model.system.SystemRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_role p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+            <if test="order != null and order != ''">${order}</if>
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findPageListCount" parameterType="com.framework.model.system.SystemRole" resultType="INTEGER">
+        select COUNT(p.ID)
+        from system_role p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.system.SystemRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        from system_role p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByInitList" parameterType="com.framework.model.system.SystemRole" resultMap="BaseResultMap">
+        select
+        p.ID, p.IS_ENABLE, p.ROLE_NAME, p.ROLE_CODE, p.ROLE_LEVEL
+        from system_role p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <if test="fuzzyType == 'isEnable'">
+            and p.IS_ENABLE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'roleName'">
+            and p.ROLE_NAME LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'roleCode'">
+            and p.ROLE_CODE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'roleLevel'">
+            and p.ROLE_LEVEL LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'description'">
+            and p.DESCRIPTION LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+    </sql>
+
+    <sql id="searchConditionSql">
+        <if test="search != null and search != ''">
+            AND (
+            p.IS_ENABLE LIKE CONCAT('%', #{search}, '%')
+            or p.ROLE_NAME LIKE CONCAT('%', #{search}, '%')
+            or p.ROLE_CODE LIKE CONCAT('%', #{search}, '%')
+            or p.ROLE_LEVEL LIKE CONCAT('%', #{search}, '%')
+            or p.DESCRIPTION LIKE CONCAT('%', #{search}, '%')
+            )
+        </if>
+    </sql>
+
+    <sql id="conditionSql">
+        <include refid="BaseMapper.publicWhereId" />
+        <if test="isEnable != null">
+            and p.IS_ENABLE = #{isEnable,jdbcType=INTEGER}
+        </if>
+        <if test="roleName != null and roleName != ''">
+            and p.ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+            and p.ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+        </if>
+        <if test="roleLevel != null">
+            and p.ROLE_LEVEL = #{roleLevel,jdbcType=INTEGER}
+        </if>
+        <if test="gtaeNum != null">
+            AND p.ROLE_LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="gtNum != null">
+            AND p.ROLE_LEVEL &gt; #{gtNum,jdbcType=INTEGER}
+        </if>
+        <if test="ltaeNum != null">
+            AND p.ROLE_LEVEL &lt;= #{ltaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="ltNum != null">
+            AND p.ROLE_LEVEL &lt; #{ltNum,jdbcType=INTEGER}
+        </if>
+        <if test="description != null and description != ''">
+            and p.DESCRIPTION = #{description,jdbcType=VARCHAR}
+        </if>
+        <include refid="BaseMapper.publicWhereStatus" />
+        <include refid="BaseMapper.publicWhereUserId" />
+        <include refid="BaseMapper.publicWhereCreateTime" />
+    </sql>
+
+    <sql id="vagueConditionSql">
+        <include refid="BaseMapper.publicWhereId" />
+        <if test="isEnable != null">
+            and p.IS_ENABLE LIKE CONCAT('%', #{isEnable,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="roleName != null and roleName != ''">
+            and p.ROLE_NAME LIKE CONCAT('%', #{roleName,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="roleCode != null and roleCode != ''">
+            and p.ROLE_CODE LIKE CONCAT('%', #{roleCode,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="roleLevel != null">
+            and p.ROLE_LEVEL LIKE CONCAT('%', #{roleLevel,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="description != null and description != ''">
+            and p.DESCRIPTION LIKE CONCAT('%', #{description,jdbcType=VARCHAR}, '%')
+        </if>
+        <include refid="BaseMapper.publicWhereStatus" />
+        <include refid="BaseMapper.publicWhereUserId" />
+        <include refid="BaseMapper.publicWhereCreateTime" />
+    </sql>
+
+</mapper>

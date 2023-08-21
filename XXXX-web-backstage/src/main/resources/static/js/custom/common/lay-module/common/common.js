@@ -22,15 +22,15 @@ layui.define(["layer", "table"], function (exports) {
         return ids;
     }
 
-    common = new function () {
+    this.common = new function () {
 
         /**
          * 删除当前打开tabs
          * @param value 对应lay-id
          */
-        this.closeThisTabs = function(value){
+        this.closeThisTabs = function (value) {
             $(parent.top.document).find(".layui-tab[lay-filter=layuiminiTab]")
-                .children(".layui-tab-title").find(">li[lay-id='"+value+"']")
+                .children(".layui-tab-title").find(">li[lay-id='" + value + "']")
                 .find("i.layui-tab-close").click();
         }
 
@@ -206,24 +206,29 @@ layui.define(["layer", "table"], function (exports) {
                 url = "404.html";
             }
             if (w == null || w == '') {
-                w = ($(window).width() - 50);
+                // w = ($(window).width() - 50);
+                w = "100%";
             }
             if (h == null || h == '') {
-                h = ($(window).height() - 10);
+                // h = ($(window).height() - 10);
+                h = "100%";
             }
             layer.open({
                 id: formId,
                 type: 2,
-                area: [w + 'px', h + 'px'],
+                area: [w, h],
                 fixed: false, //不固定
                 maxmin: true,
                 shade: 0.4,
                 title: title,
                 content: url,
-                success: successFun,
-                yes: yesFun,
-                cancel: cancelFun,
-                end: endFun
+                success: successFun,//层弹出后的成功回调方法：layero前层DOM，index当前层索引
+                yes: yesFun,//第一个按钮事件，也可以叫btn1
+                cancel: cancelFun, //右上角关闭按钮触发的回调：默认会自动触发关闭。如果不想关闭，return false即可
+                // full:full,//还原后触发的回调：携带一个参数，即当前层DOM
+                // min:min,//还原后触发的回调：携带一个参数，即当前层DOM
+                // restore:restore,//还原后触发的回调：携带一个参数，即当前层DOM
+                end: endFun //层销毁后触发的回调：无论是确认还是取消，只要层被销毁了，end都会执行，不携带任何参数。
             });
         }
 
@@ -334,6 +339,141 @@ layui.define(["layer", "table"], function (exports) {
             }
         }
 
+        //验证是否小数或整数
+        var regular = /^(0|(0.[1-9])|(0.[0-9]{1,2}[^0])|([1-9][0-9]*)+(.[0-9]{1,2})|([1-9][0-9]*))?$/;
+        /**
+         * 验证是否小数或整数
+         * @param value 参数值
+         * @returns {boolean} false成功， ture失败
+         */
+        this.isNumber = function (value) {
+            if (regular.test(value)) {
+                //为正确整数和小数返回 false
+                return false;
+            }
+            //错误返回true
+            return true;
+        }
+
+        /**
+         * 根据form表单Id获取表单数据组装data返回
+         * @param formId 表单编号
+         * @returns {key:value,key:value} 返回map键值对格式值
+         */
+        this.serializeData = function (formId) {
+            var formArray = $("#" + formId).serializeArray();
+            var data = {};
+            $.each(formArray, function (i, field) {
+                data[field.name] = field.value;
+            });
+            return data;
+        };
+
+        /**
+         * 根据form表单Id获取表单数据组装data返回
+         * @param url 上传地址
+         * @param fieldName 后台上传变量名
+         * @param allowedFileTypes:['image/*'] 文件限制
+         * @returns uploadImage 返回map键值对格式值
+         */
+        this.uploadImage = function (url, fieldName, allowedFileTypes) {
+            var wangEditorIndexClose = null;
+            fieldName = !fieldName ? "file" : fieldName;
+            url = !url ? '/other/annex/wangeditor/image/upload' : url;
+            allowedFileTypes = !allowedFileTypes ? ['image/*'] : allowedFileTypes;
+            var uploadImage = {
+                //上传地址
+                server: url,
+                //设置对应服务端接受参数变量名
+                fieldName: fieldName,
+                // 单个文件的最大体积限制，默认为 2M
+                maxFileSize: 1 * 1024 * 1024, // 1M
+                // 最多可上传几个文件，默认为 100
+                maxNumberOfFiles: 1,
+                // 选择文件时的类型限制，默认为 ['image/*'] 。如不想限制，则设置为 []
+                allowedFileTypes: allowedFileTypes,
+                // 自定义上传参数，例如传递验证的 token 等。参数会被添加到 formData 中，一起上传到服务端。
+                meta: {
+                    // token: 'xxx',
+                    // otherKey: 'yyy'
+                },
+                // 将 meta 拼接到 url 参数中，默认 false
+                metaWithUrl: false,
+                // // 自定义增加 http  header
+                // headers: {
+                //     Accept: 'text/x-json',
+                //     otherKey: 'xxx'
+                // },
+                // // 跨域是否传递 cookie ，默认为 false
+                // withCredentials: true,
+                // // 超时时间，默认为 10 秒
+                // timeout: 5 * 1000, // 5 秒
+
+                // 上传之前触发
+                onBeforeUpload: function () {
+                    wangEditorIndexClose = layer.load(5);
+                },
+                // 上传进度的回调函数
+                onProgress: function (progress) {
+                    // onProgress(progress) {       // JS 语法
+                    // progress 是 0-100 的数字
+                    console.log('progress', progress)
+                },
+                // 单个文件上传成功之后
+                onSuccess: function (file, res) {
+                    console.log(res);
+                    layer.close(wangEditorIndexClose);
+                    // onSuccess(file, res) {          // JS 语法
+                    console.log(`上传成功`, res)
+                },
+                // 单个文件上传失败
+                onFailed: function (file, res) {
+                    console.log(res);
+                    layer.close(wangEditorIndexClose);
+                    layer.msg("系统繁忙，请稍后尝试!", {
+                        icon: 2,
+                        time: 3000
+                    });
+                    // onFailed(file, res) {           // JS 语法
+                    console.log(`上传失败`, res)
+                },
+                // 上传错误，或者触发 timeout 超时
+                onError: function (file, err, res) {  // TS 语法
+                    console.log(res);
+                    layer.close(wangEditorIndexClose);
+                    layer.msg("系统内部错误，请联系管理员!", {
+                        icon: 2,
+                        time: 3000
+                    });
+                    // onError(file, err, res) {               // JS 语法
+                    console.log(`上传出错`, err, res)
+                },
+
+                // 自定义插入图片
+                customInsert: function (res, insertFn) {
+                    layer.close(wangEditorIndexClose);
+                    if(JSON.stringify(res) == '{}'){
+                        return;
+                    }
+                    if (res.data == null || res.code != 0 || res.code != '0') {
+                        layer.msg(res.msg, {
+                            icon: 2,
+                            time: 3000
+                        });
+                        return;
+                    }
+                    console.log(res);
+                    // customInsert(res, insertFn) {                  // JS 语法
+                    // res 即服务端的返回结果
+                    // 从 res 中找到 url alt href ，然后插入图片
+                    // 参数1：图片 src ，必须
+                    // 参数2：图片描述文字，非必须
+                    // 参数3：图片的链接，非必须
+                    insertFn(res.data.url, '', '');
+                },
+            };
+            return uploadImage;
+        };
     }
 
     exports("common", common);

@@ -1,0 +1,91 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <!-- 对应maven的model版本号 -->
+    <modelVersion>4.0.0</modelVersion>
+    <!-- src/main目录结构 -->
+    <groupId>com.framework</groupId>
+    <!-- 可以认为是Maven构建的项目名，比如你的项目中有子项目，就可以使用"项目名-子项目名"的命名方式 -->
+    <artifactId>XXXX-mapper</artifactId>
+    <!-- 版本号，SNAPSHOT意为快照，说明该项目还在开发中，是不稳定的版本。在Maven中很重要的一点是，groupId、artifactId、version三个元素生成了一个Maven项目的基本坐标，这非常重要，我在使用和研究Maven的时候多次感受到了这点。 -->
+    <version>1.0.0</version>
+    <!-- 项目打包的类型，可以使jar、war、rar、ear、pom，默认是jar -->
+    <packaging>jar</packaging>
+    <!-- 名称 -->
+    <name>${project.artifactId}</name>
+    <!-- 描述 -->
+    <description>XXXX-mapper,数据库对应链接类层</description>
+    <!-- 上级引用 -->
+    <parent>
+        <!-- 可以认为是Maven构建的项目名，比如你的项目中有子项目，就可以使用"项目名-子项目名"的命名方式 -->
+        <artifactId>demo-framework-backstage</artifactId>
+        <!-- src/main目录结构 -->
+        <groupId>com.framework</groupId>
+        <!-- 版本号，SNAPSHOT意为快照，说明该项目还在开发中，是不稳定的版本。在Maven中很重要的一点是，groupId、artifactId、version三个元素生成了一个Maven项目的基本坐标，这非常重要，我在使用和研究Maven的时候多次感受到了这点。 -->
+        <version>1.0.0</version>
+    </parent>
+    <!-- 整体项目属性配置 -->
+    <properties>
+        <!-- 版本号 -->
+    </properties>
+
+    <!-- 统一管理jar包 -->
+    <dependencies>
+        <!-- 开始-内部引用 start -->
+        <dependency>
+            <groupId>com.framework</groupId>
+            <artifactId>XXXX-model</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>com.framework</groupId>-->
+        <!--<artifactId>XXXX-common</artifactId>-->
+        <!--<version>1.0.0</version>-->
+        <!--</dependency>-->
+        <!-- 结束-内部引用 -->
+    </dependencies>
+
+
+    <build>
+        <finalName>${project.name}</finalName>
+        <plugins>
+            <plugin>
+                <!-- maven打包支持,configuration中的配置表示输出两个jar，其中以exe结尾的jar用于执行，另一个可以被依赖 start -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.framework.web.start.WebBParentApplication</mainClass>
+                    <classifier>exe</classifier>
+                </configuration>
+                <!-- maven打包支持,configuration中的配置表示输出两个jar，其中以exe结尾的jar用于执行，另一个可以被依赖 end -->
+            </plugin>
+        </plugins>
+
+        <!-- 编译打包处理对应目录下配置文件路径配置 start -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <!-- 添加文件引用组 -->
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <!-- 排除引用文件组 -->
+                <excludes>
+                    <!--<exclude>**/*.properties</exclude>-->
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 添加文件引用组 -->
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <!-- 排除引用文件组 -->
+                <excludes>
+                    <!--<exclude>**/*.properties</exclude>-->
+                </excludes>
+            </resource>
+        </resources>
+        <!-- 编译打包处理对应目录下配置文件路径配置 end -->
+    </build>
+</project>

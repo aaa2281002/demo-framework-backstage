@@ -1,7 +1,11 @@
 package com.framework.web.other.interceptor;
 
+import com.alibaba.fastjson.JSONObject;
 import com.framework.common.response.ResponseResult;
 import com.framework.common.util.redis.RedisUtil;
+import com.framework.model.system.SystemMenu;
+import com.framework.model.system.SystemRole;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -12,11 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.other.interceptor
- * @Description 请求拦截器
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.other.interceptor
+ * @description 请求拦截器
+ * @datetime 2019/10/11
  */
 @Configuration
 public class InterceptorConfig implements HandlerInterceptor {
@@ -33,10 +37,10 @@ public class InterceptorConfig implements HandlerInterceptor {
      * @param response 2 响应对象
      * @param handler  3 参数对象
      * @return boolean
-     * @Titel 进入controller层之前拦截请求
-     * @Description 进入controller层之前拦截请求
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/3/28 13:08
+     * @titel 进入controller层之前拦截请求
+     * @description 进入controller层之前拦截请求
+     * @author 邋遢龘鵺
+     * @datetime 2020/3/28 13:08
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -95,11 +99,11 @@ public class InterceptorConfig implements HandlerInterceptor {
 //            return r.ResponseResultNoPermission();
 //        }
 //        //验证用户===============================================================
-//        Object userStr = redisUtil.getLoginSystemUserString(loginName.toString());
-//        if (userStr == null) {
+//        String userStr = redisUtil.getLoginSystemUserString(loginName.toString());
+//        if (StringUtils.isEmpty(userStr)) {
 //            return r.ResponseResultNoPermission();
 //        }
-//        SystemUser user = (SystemUser) userStr;
+//        SystemUser user = JSONObject.parseObject(userStr,SystemUser.class);
 //        if (user == null || StringUtils.isEmpty(user.getRoleCode())) {
 //            return r.ResponseResultNoPermission();
 //        }
@@ -120,7 +124,7 @@ public class InterceptorConfig implements HandlerInterceptor {
 //        if (roleStr == null) {
 //            return r.ResponseResultNoPermission();
 //        }
-//        SystemRole systemRole = (SystemRole) roleStr;
+//        SystemRole systemRole = JSONObject.parseObject(roleStr, SystemRole.class);
 //        if (systemRole == null || systemRole.getIsEnable() > NumeralUtil.POSITIVE_ONE) {
 //            return r.ResponseResultNoPermission();
 //        }
@@ -128,12 +132,12 @@ public class InterceptorConfig implements HandlerInterceptor {
 //        if (systemRole.getMenuCodeList() == null || !systemRole.getMenuCodeList().contains(opMenu)) {
 //            return r.ResponseResultNoPermission();
 //        }
-//        Object menuStr = redisUtil.getAuthMenuString(opMenu);
-//        if (menuStr == null) {
+//        String menuStr = redisUtil.getAuthMenuString(opMenu);
+//        if (StringUtils.isEmpty(menuStr)) {
 //            return r.ResponseResultNoPermission();
 //        }
 //        //判断菜单是否空和禁用
-//        SystemMenu systemMenu = (SystemMenu) menuStr;
+//        SystemMenu systemMenu = JSONObject.parseObject(menuStr, SystemMenu.class);
 //        if (systemMenu == null || systemMenu.getIsEnable() > NumeralUtil.POSITIVE_ONE) {
 //            return r.ResponseResultNoPermission();
 //        }
@@ -157,11 +161,11 @@ public class InterceptorConfig implements HandlerInterceptor {
 //        if (StringUtils.isEmpty(opButton)) {
 //            return r.ResponseResultNoPermission();
 //        }
-//        Object buttonStr = redisUtil.getAuthButtonString(opButton);
-//        if (buttonStr == null) {
+//        String buttonStr = redisUtil.getAuthButtonString(opButton);
+//        if (StringUtils.isEmpty(buttonStr)) {
 //            return r.ResponseResultNoPermission();
 //        }
-//        SystemButton systemButton = (SystemButton) buttonStr;
+//        SystemButton systemButton = JSONObject.parseObject(buttonStr, SystemButton.class);
 //        //判断按钮是否空和禁用
 //        if (systemButton == null || systemButton.getIsEnable() > NumeralUtil.POSITIVE_ONE) {
 //            return r.ResponseResultNoPermission();

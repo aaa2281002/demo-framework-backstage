@@ -11,11 +11,11 @@ import org.springframework.cache.annotation.EnableCaching;
 //import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.start
- * @Description 后台管理启动类
- * @DateTime 2019/10/11
- * @Version 1.0 , exclude = {DataSourceAutoConfiguration.class}
+ * @author 邋遢龘鵺
+ * @version 1.0 , exclude = {DataSourceAutoConfiguration.class}
+ * @className com.framework.web.start
+ * @description 后台管理启动类
+ * @datetime 2019/10/11
  */
 //@EnableJms
 @SpringBootApplication(scanBasePackages = "com.framework.**")//

@@ -1,25 +1,31 @@
 package com.framework.web.config.initSecurityConfig;
 
+import com.framework.common.model.properties.IgnoredUrlsProperties;
 import com.framework.common.util.filter.FilterStringUtil;
 import com.framework.common.util.other.NumeralUtil;
-import com.framework.web.config.initLogin.MyAuthenticationFailureHandler;
-import com.framework.web.config.initLogin.MyAuthenticationLogoutHandler;
-import com.framework.web.config.initLogin.MyAuthenticationProvider;
-import com.framework.web.config.initLogin.MyAuthenticationSuccessHandler;
-import com.framework.web.config.initLogin.MyPersistentTokenRepository;
-import com.framework.web.config.initLogin.MyUserDetailsService;
-import com.framework.web.config.initLogin.RememberMeConfig;
+import com.framework.web.config.initSecurityConfig.initLogin.MyAuthenticationFailureHandler;
+import com.framework.web.config.initSecurityConfig.initLogin.MyAuthenticationLogoutHandler;
+import com.framework.web.config.initSecurityConfig.initLogin.MyAuthenticationProvider;
+import com.framework.web.config.initSecurityConfig.initLogin.MyAuthenticationSuccessHandler;
+import com.framework.web.config.initSecurityConfig.initLogin.MyPersistentTokenRepository;
+import com.framework.web.config.initSecurityConfig.initLogin.MyUserDetailsService;
+import com.framework.web.config.initSecurityConfig.initLogin.RememberMeConfig;
 import com.framework.web.other.filter.ParameterValueFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
@@ -43,11 +49,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.config.initSecurityConfig
- * @Description web请求安全拦截配置
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.config.initSecurityConfig
+ * @description web请求安全拦截配置
+ * @datetime 2019/10/11
  */
 @Configuration
 @EnableWebSecurity
@@ -64,24 +70,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
     @Autowired//退出处理
     private MyAuthenticationLogoutHandler myAuthenticationLogoutHandler;
-    @Autowired//自定义用户登录信息业务实现类
-    private MyUserDetailsService myUserDetailsService;
+    //    @Autowired//自定义用户登录信息业务实现类
+//    private MyUserDetailsService myUserDetailsService;
     @Autowired//自定义redis
     private MyPersistentTokenRepository myPersistentTokenRepository;
-    @Autowired//数据库
-    private PersistentTokenRepository persistentTokenRepository;
+    //    @Autowired//数据库
+//    private PersistentTokenRepository persistentTokenRepository;
     @Autowired//记住我业务初始化设置
     private RememberMeServices rememberMeService;
     @Autowired
     private ParameterValueFilter parameterValueFilter;
-//    @Autowired
+    //    @Autowired
 //    private TestFilter testFilter;
+    //url权限验证处理
+//    @Autowired
+//    private AccessDecisionManager myAccessDecisionManager;
+//    @Autowired
+//    private FilterInvocationSecurityMetadataSource mySecurityMetadataSource;
+    @Autowired
+    private IgnoredUrlsProperties ignoredUrlsProperties;
+
 
     //重实现springboot-web安全模块
     @Override
     public void configure(WebSecurity web) throws Exception {
         //Web层面的拦截，用来跳过的资源
         web.ignoring()
+//                .antMatchers("/ws/**")
+                .antMatchers(FilterStringUtil.FILTER_STRING_RESOURCES)
+                .antMatchers(FilterStringUtil.FILTER_STRING_CSS)
+                .antMatchers(FilterStringUtil.FILTER_STRING_IMG)
+                .antMatchers(FilterStringUtil.FILTER_STRING_JS)
+                .antMatchers(FilterStringUtil.FILTER_STRING_FAVICON_ICO)
+                .antMatchers(FilterStringUtil.FILTER_STRING_GOOGLEV)
                 .antMatchers(FilterStringUtil.FILTER_STRING_ALL_FAVICON_ICO);
 //                .antMatchers("/assets/**")
 //                .antMatchers("/captcha.jpg");
@@ -97,18 +118,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //以下的请求都不需要认证
-        http
-                .authorizeRequests()
-                .antMatchers(FilterStringUtil.FILTER_STRING_RESOURCES).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_CSS).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_IMG).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_JS).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_GOOGLEV).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_FAVICON_ICO).permitAll()
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
+                .authorizeRequests();
+        for (String url : ignoredUrlsProperties.getInitIgnoreUrl()) {
+            registry.antMatchers(url).permitAll();
+        }
+        registry
                 .antMatchers(FilterStringUtil.FILTER_STRING_LOGIN_PAGE).permitAll()
+//                .antMatchers("/myws").permitAll()
                 .antMatchers(FilterStringUtil.FILTER_STRING_DEFAULT_CAPTCHA)
                 .permitAll().anyRequest()
                 .authenticated();
+
+        //前后端分离放开此处
+        //使用这个是不会走多次拦截器。
+//        registry.withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+//            @Override
+//            public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+//                object.setAccessDecisionManager(myAccessDecisionManager);//决策管理器
+//                object.setSecurityMetadataSource(mySecurityMetadataSource);//安全元数据源
+//                return object;
+//            }
+//        });
         //请求之前拦截处理器
 //        http.addFilterBefore(testFilter, UsernamePasswordAuthenticationFilter.class);
         //请求之后拦截处理器
@@ -177,7 +208,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 //                .and().headers().frameOptions().disable().and().csrf().disable();
     }
 
-
+    /**
+     * ExpressionInterceptUrlRegistry 和 FilterSecurityInterceptor好像二选一。 等实际需要使用的时候测试一下。
+     */
+//    //URL权限验证处理
+//    @Bean
+//    public FilterSecurityInterceptor filterSecurityInterceptor() {
+//        FilterSecurityInterceptor filterSecurityInterceptor = new FilterSecurityInterceptor();
+//        filterSecurityInterceptor.setAccessDecisionManager(myAccessDecisionManager);
+//        // 不配置动态权限
+//        // filterSecurityInterceptor.setSecurityMetadataSource(filterInvocationSecurityMetadataSource());
+//        // 第一种设置动态权限
+//        filterSecurityInterceptor.setSecurityMetadataSource(mySecurityMetadataSource);
+//        filterSecurityInterceptor.setObserveOncePerRequest(false);
+//        return filterSecurityInterceptor;
+//    }
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
 
@@ -220,7 +265,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-
+//        registry.addViewController("/").setViewName("/login");
+//        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 
     @Override

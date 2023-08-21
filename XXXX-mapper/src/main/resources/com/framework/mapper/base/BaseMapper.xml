@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BaseMapper">
+    <sql id="publicField">
+        p.CREATE_ID, p.CREATE_TIME, p.OPERATER_ID, p.OPERATER_TIME, p.OPERATER_STATUS
+    </sql>
+
+    <sql id="publicFieldCreate">
+        p.CREATE_ID, p.CREATE_TIME
+    </sql>
+
+    <sql id="publicFieldCreateTime">
+        p.CREATE_TIME
+    </sql>
+
+    <sql id="publicFieldOperater">
+        p.OPERATER_ID, p.OPERATER_TIME, p.OPERATER_STATUS
+    </sql>
+
+    <sql id="publicWhere">
+        <if test="idList != null">
+            AND p.ID IN
+            <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="id != null">
+            AND p.ID = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="createUserName != null and createUserName != ''">
+            AND p.CREATE_ID = (SELECT u.ID FROM `SYSTEM_USER` u WHERE u.LOGIN_NAME =
+            #{createUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="operaterUserName != null and operaterUserName != ''">
+            AND p.OPERATER_ID = (SELECT u.ID FROM `SYSTEM_USER` u WHERE u.LOGIN_NAME =
+            #{operaterUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="operaterStatus != null">
+            AND p.OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="gtaeOperaterStatus != null">
+            AND p.OPERATER_STATUS &gt;= #{gtaeOperaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="ltaeOperaterStatus != null">
+            AND p.OPERATER_STATUS &lt;= #{ltaeOperaterStatus,jdbcType=INTEGER}
+        </if>
+    </sql>
+
+    <sql id="publicWhereId">
+        <if test="idList != null">
+            AND p.ID IN
+            <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="id != null">
+            AND p.ID = #{id,jdbcType=BIGINT}
+        </if>
+    </sql>
+
+    <sql id="publicWhereStatus">
+        <if test="operaterStatus != null">
+            AND p.OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="gtaeOperaterStatus != null">
+            AND p.OPERATER_STATUS &gt;= #{gtaeOperaterStatus,jdbcType=INTEGER}
+        </if>
+        <if test="ltaeOperaterStatus != null">
+            AND p.OPERATER_STATUS &lt;= #{ltaeOperaterStatus,jdbcType=INTEGER}
+        </if>
+    </sql>
+
+    <sql id="publicWhereCreateAndOperater">
+        <if test="createId != null">
+            AND p.CREATE_ID = #{createId,jdbcType=BIGINT}
+        </if>
+        <if test="operaterId != null">
+            AND p.OPERATER_ID = #{operaterId,jdbcType=BIGINT}
+        </if>
+    </sql>
+
+    <sql id="publicWhereUserId">
+        <if test="createUserName != null and createUserName != ''">
+            AND p.CREATE_ID = (SELECT u.ID FROM `SYSTEM_USER` u WHERE u.LOGIN_NAME =
+            #{createUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="operaterUserName != null and operaterUserName != ''">
+            AND p.OPERATER_ID = (SELECT u.ID FROM `SYSTEM_USER` u WHERE u.LOGIN_NAME =
+            #{operaterUserName,jdbcType=VARCHAR} AND u.OPERATER_STATUS > -1)
+        </if>
+    </sql>
+
+    <sql id="publicWhereFuzzyUserId">
+        <if test="fuzzyType == 'createUserName'">
+            AND p.CREATE_ID in (SELECT u.ID FROM `SYSTEM_USER`u WHERE u.LOGIN_NAME LIKE
+            CONCAT('%',#{fuzzyValue},'%') AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="fuzzyType == 'operaterUserName'">
+            AND p.OPERATER_ID in (SELECT u.ID FROM `SYSTEM_USER`u WHERE u.LOGIN_NAME LIKE
+            CONCAT('%',#{fuzzyValue},'%') AND u.OPERATER_STATUS > -1)
+        </if>
+    </sql>
+
+    <sql id="publicWhereCreateTime">
+        <if test="startTime != null">
+            AND p.CREATE_TIME &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND p.CREATE_TIME &lt;= #{endTime}
+        </if>
+    </sql>
+
+</mapper>

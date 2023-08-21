@@ -4,12 +4,12 @@
  * version:2.0
  * description:layuimini 主体框架扩展
  */
-layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function (exports) {
+layui.define(["jquery", "miniMenu", "element", "miniTab", "miniTheme"], function (exports) {
     var $ = layui.$,
         layer = layui.layer,
         miniMenu = layui.miniMenu,
         miniTheme = layui.miniTheme,
-        element = layui.element ,
+        element = layui.element,
         miniTab = layui.miniTab;
 
     if (!/http(s*):\/\//.test(location.href)) {
@@ -23,6 +23,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
          * 后台框架初始化
          * @param options.iniUrl   后台初始化接口地址
          * @param options.clearUrl   后台清理缓存接口
+         * @param options.retweetUrl   后台刷新缓存接口
          * @param options.urlHashLocation URL地址hash定位
          * @param options.bgColorDefault 默认皮肤
          * @param options.multiModule 是否开启多模块
@@ -34,6 +35,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
         render: function (options) {
             options.iniUrl = options.iniUrl || null;
             options.clearUrl = options.clearUrl || null;
+            options.retweetUrl = options.retweetUrl || null;
             options.urlHashLocation = options.urlHashLocation || false;
             options.bgColorDefault = options.bgColorDefault || 0;
             options.multiModule = options.multiModule || false;
@@ -44,11 +46,12 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
             $.getJSON(options.iniUrl, function (data) {
                 if (data == null) {
                     miniAdmin.error('暂无菜单信息');
-                } else if(data.code != "0"){
+                } else if (data.code != "0") {
                     miniAdmin.error(data.message);
-                }else {
+                } else {
                     miniAdmin.renderLogo(data.data.logoInfo);
                     miniAdmin.renderClear(options.clearUrl);
+                    miniAdmin.renderRetweet(options.retweetUrl);
                     miniAdmin.renderHome(data.data.homeInfo);
                     miniAdmin.renderAnim(options.pageAnim);
                     miniAdmin.listen();
@@ -85,7 +88,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
          * @param data
          */
         renderLogo: function (data) {
-            var html = '<a href="' + data.urlPath + '"><img src="' + data.image + '" alt="logo"><h1>' + data.menuName + '</h1></a>';
+            var html = '<a href="' + data.url + '"><img src="' + data.image + '" alt="logo"><h1>' + data.name + '</h1></a>';
             $('.layuimini-logo').html(html);
         },
 
@@ -94,10 +97,10 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
          * @param data
          */
         renderHome: function (data) {
-            sessionStorage.setItem('layuiminiHomeHref', data.urlPath);
-            $('#layuiminiHomeTabId').html('<span class="' + data.icon + '"></span><span class="disable-close">' + data.menuName + '</span><i class="layui-icon layui-unselect layui-tab-close">ဆ</i>');
-            $('#layuiminiHomeTabId').attr('lay-id', data.urlPath);
-            $('#layuiminiHomeTabIframe').html('<iframe width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0"  src="' + data.urlPath + '"></iframe>');
+            sessionStorage.setItem('layuiminiHomeHref', data.url);
+            $('#layuiminiHomeTabId').html('<span class="' + data.icon + '"></span><span class="disable-close">' + data.name + '</span><i class="layui-icon layui-unselect layui-tab-close">ဆ</i>');
+            $('#layuiminiHomeTabId').attr('lay-id', data.url);
+            $('#layuiminiHomeTabIframe').html('<iframe width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0"  src="' + data.url + '"></iframe>');
         },
 
         /**
@@ -105,7 +108,15 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
          * @param clearUrl
          */
         renderClear: function (clearUrl) {
-            $('.layuimini-clear').attr('data-href',clearUrl);
+            $('.layuimini-clear').attr('data-href', clearUrl);
+        },
+
+        /**
+         * 初始化刷新缓存地址
+         * @param clearUrl
+         */
+        renderRetweet: function (retweetUrl) {
+            $('.layuimini-retweet').attr('data-href', retweetUrl);
         },
 
         /**
@@ -132,9 +143,6 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
             }
         },
 
-        /**
-         * 进入全屏
-         */
         fullScreen: function () {
             var el = document.documentElement;
             var rfs = el.requestFullScreen || el.webkitRequestFullScreen;
@@ -175,7 +183,7 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                 el.msExitFullscreen();
             } else if (el.oRequestFullscreen) {
                 el.oCancelFullScreen();
-            }else if (el.mozCancelFullScreen) {
+            } else if (el.mozCancelFullScreen) {
                 el.mozCancelFullScreen();
             } else if (el.webkitCancelFullScreen) {
                 el.webkitCancelFullScreen();
@@ -277,6 +285,33 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
             });
 
             /**
+             * 刷新缓存
+             */
+            $('body').on('click', '[data-retweet]', function () {
+                var loading = layer.load(0, {shade: false, time: 2 * 1000});
+                sessionStorage.clear();
+
+                // 判断是否清理服务端
+                var retweetUrl = $(this).attr('data-href');
+                if (retweetUrl != undefined && retweetUrl != '' && retweetUrl != null) {
+                    $.getJSON(retweetUrl, function (data, status) {
+                        layer.close(loading);
+                        if (data.code == 0) {
+                            return miniAdmin.success(data.msg);
+                        } else {
+                            return miniAdmin.error(data.msg);
+                        }
+                    }).fail(function () {
+                        layer.close(loading);
+                        return miniAdmin.error('清理缓存接口有误');
+                    });
+                } else {
+                    layer.close(loading);
+                    return miniAdmin.success('清除缓存成功');
+                }
+            });
+
+            /**
              * 刷新
              */
             $('body').on('click', '[data-refresh]', function () {
@@ -295,14 +330,14 @@ layui.define(["jquery", "miniMenu", "element","miniTab", "miniTheme"], function 
                     tips = $(this).prop("innerHTML"),
                     isShow = $('.layuimini-tool i').attr('data-side-fold');
                 if (isShow == 0 && tips) {
-                    tips = "<ul class='layuimini-menu-left-zoom layui-nav layui-nav-tree layui-this'><li class='layui-nav-item layui-nav-itemed'>"+tips+"</li></ul>" ;
+                    tips = "<ul class='layuimini-menu-left-zoom layui-nav layui-nav-tree layui-this'><li class='layui-nav-item layui-nav-itemed'>" + tips + "</li></ul>";
                     window.openTips = layer.tips(tips, $(this), {
                         tips: [2, '#2f4056'],
                         time: 300000,
-                        skin:"popup-tips",
-                        success:function (el) {
-                            var left = $(el).position().left - 10 ;
-                            $(el).css({ left:left });
+                        skin: "popup-tips",
+                        success: function (el) {
+                            var left = $(el).position().left - 10;
+                            $(el).css({left: left});
                             element.render();
                         }
                     });

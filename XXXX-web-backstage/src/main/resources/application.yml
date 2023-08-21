@@ -2,10 +2,26 @@
 #mybatis配置信息
 mybatis:
   #配置XML扫描
-  mapper-locations: classpath:com/framework/dao/mapper/*/*.xml
+  mapper-locations: classpath:com/framework/mapper/*/*.xml
   #配置实体类扫描
-  type-aliases-package: com.framework.model.entity
+  type-aliases-package: com.framework.model.**
+server:
+  servlet:
+    encoding:
+      enabled: true #是否启用http编码支持。
+      charset: utf-8 #设置字符集编码
+      force: true #是否在HTTP请求和响应上强制编码到配置的字符集。
 spring:
+  jackson:
+    # null不返回
+    default-property-inclusion: non_null
+    # 格式为yyyy-MM-dd HH:mm:ss
+    date-format: yyyy-MM-dd HH:mm:ss
+    # 定时区，解决8小时的时间差问题
+    time-zone: GMT+8
+  main:
+    allow-circular-references: true
+    allow-bean-definition-overriding: true
   profiles:
 #    active: formal,redis-cluster #正式环境
 #    active: test,redis-alone-test #测试环境
@@ -42,11 +58,11 @@ spring:
 #      enabled: true
 ##      max-connections: 10 #连接池最大连接数
 ##      idle-timeout: 30000 #空闲的连接过期时间，默认为30秒
-  http:
-    encoding:
-      charset: UTF-8 #设置字符集编码
-      enabled: true #是否启用http编码支持。
-      force: true #是否在HTTP请求和响应上强制编码到配置的字符集。
+#  http:
+#    encoding:
+#      charset: UTF-8 #设置字符集编码
+#      enabled: true #是否启用http编码支持。
+#      force: true #是否在HTTP请求和响应上强制编码到配置的字符集。
   devtools:
     restart:
       #热部署生效
@@ -58,22 +74,6 @@ spring:
     timeout: 3600s
     maxInactiveIntervalInSeconds: 1800 #设置redisSession存活时间，时间(单位：秒)
 
-logging:
-  level:
-    jdbc:
-      audit: off
-      resultset: off
-      sqltiming: off
-    com:
-      framework:
-        dao:
-          mapper: debug #打印sql语句
-    org:
-      hibernate: ERROR
-      springframework:
-        web: error # 打印请求异常
-    root: INFO
-  path: /test/jdk/log/XXXX-web-backstage
 #
 #XXXX-web:
 #  service:

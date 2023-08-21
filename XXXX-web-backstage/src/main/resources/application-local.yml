@@ -1,10 +1,10 @@
 #@Author 邋遢龘鵺 本地
 spring:
   project:
-    name: demo_framework_backstage_ceshi
+    name: demo_framework_backstage_local
   file:
     #上传路径存储目录
-    upload-dir: H:\test-demo-framework-backstage
+    upload-dir: H:\demo_framework_backstage_local
   security:
     #登录记住我选择，(单位：秒)=1天
     remember-me-time: 86400
@@ -12,36 +12,11 @@ spring:
     token-valid-days: 15
     #配置角色不验证权限全部放过集合
     auth-list: xxx,system_ultra_admin
-  redis:
-    ##redis-cache缓存时间，单位(分)
-    entityttl: 60
-    # 单机配置
-    # Redis数据库索引（默认为0）
-    database: 0
-    #redis服务器IP地址
-    host: 127.0.0.1
-    #redis服务器端口号
-    port: 6379
-    #密码设置
-    #    password: 123456
-    #连接超时时间（毫秒）
-    timeout: 20000s
-    #连接池配置
-    jedis:
-      pool:
-        #最大连接数（使用负值表示没有限制）
-        max-active: 8
-        #最大阻塞等待时间（使用负值表示没有限制）
-        max-wait: 3000s
-        #最大空闲连接
-        max-idle: 8
-        #最小空闲连接
-        min-idle: 0
   datasource:
     read-one:
       name: read
       driverClassName: com.mysql.cj.jdbc.Driver #?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8,数据连接8.X版本jar
-      jdbcUrl: jdbc:mysql://localhost:3306/testdemo?allowMultiQueries=true&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+      jdbcUrl: jdbc:mysql://localhost:3306/demoframework?allowMultiQueries=true&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
       #      driverClassName: com.mysql.jdbc.Driver #?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8,数据连接5.X版本jar
       #      jdbcUrl: jdbc:mysql://127.0.0.1:3306/demoframework?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
       username: root
@@ -49,7 +24,7 @@ spring:
     write-one:
       name: write #?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
       driverClassName: com.mysql.cj.jdbc.Driver #?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8,数据连接8.X版本jar
-      jdbcUrl: jdbc:mysql://localhost:3306/testdemo?allowMultiQueries=true&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
+      jdbcUrl: jdbc:mysql://localhost:3306/demoframework?allowMultiQueries=true&serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false
       #      driverClassName: com.mysql.jdbc.Driver #?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&useSSL=false,数据连接5.X版本jar
       #      jdbcUrl: jdbc:mysql://127.0.0.1:3306/demoframework?useSSL=true&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
       username: root
@@ -76,4 +51,49 @@ server:
   port: 8082
   tomcat:
     uri-encoding: UTF-8
+rocketmq:
+  name-server: 114.117.175.169:9876
+  producer:
+    group: local-demo-group
+    access-key: rocketmq2
+    secret-key: 12345678
+  consumer:
+    topic: local-demo-xxxx
+    selectorExpression: "*"
+    group: local-demo-group
 
+logging:
+  file:
+    path: G:\install\idea-save\gitee\log
+    #    path: /test/jdk/log/XXXX-web-backstage
+    name: G:\install\idea-save\gitee\log\demo_framework_backstage_local.log
+  level:
+    jdbc:
+      audit: off
+      resultset: off
+      sqltiming: off
+    com:
+      framework:
+        mapper: debug #打印sql语句
+    org:
+      springframework:
+        web: error # 打印请求异常
+    root: INFO
+custom:
+  ignored:
+    init-ignore-url: #初始化不拦截URL
+      - /
+      - /login
+      - /login/page
+      - /favicon.ico
+      - /default/captcha
+    ignore-url: #不拦截URL
+      - /test
+  ignored-data-role-auth:
+    #配置角色不验证数据权限全部放过集合
+    auth-list:
+      - market_manage
+  ignored-role-auth:
+    #配置角色不验证权限全部放过集合
+    auth-list:
+      - system_ultra_admin

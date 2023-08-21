@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.lottery.common.model
- * @Description 树形公共类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.lottery.common.model
+ * @description 树形公共类
+ * @datetime 2019/10/11
  */
 public class Tree implements Serializable {
-    private static final long serialVersionUID = 5776481902500666616L;
+    private static final long serialVersionUID = -1L;
     //编号
     private String id;
     //节点字段名,一般对应表字段名

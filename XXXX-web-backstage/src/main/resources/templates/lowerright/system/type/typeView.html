@@ -32,8 +32,10 @@
                 <label class="layui-form-label">是否启用
                 </label>
                 <div class="layui-input-block">
-                    <span class="view-span" style="color: limegreen;" th:if="${p.isEnable == 1}">是</span>
-                    <span class="view-span" style="color: red;" th:if="${p.isEnable == 2}">否</span>
+                     <span class="view-span" th:each="item : ${@systemTypeServiceImpl.findByCodeList('isEnable')}"
+                           th:text="${item.typeName}"
+                           th:if="${p.isEnable == item.typeValue}"
+                           th:style="${item.typeValue == 1 ? 'color: limegreen;' : 'color: red;' }"></span>
                 </div>
             </div>
             <div class="layui-form-item" pane="">
@@ -70,8 +72,9 @@
             <div class="layui-form-item" pane="">
                 <label class="layui-form-label">操作状态</label>
                 <div class="layui-input-block">
-                    <span class="view-span" th:if="${p.operaterStatus == 1}">新增</span>
-                    <span class="view-span" th:if="${p.operaterStatus == 2}">修改</span>
+                    <span class="view-span" th:each="item : ${@systemTypeServiceImpl.findByCodeList('operaterStatus')}"
+                          th:text="${item.typeName}"
+                          th:if="${p.operaterStatus + '' == item.typeCode}" ></span>
                 </div>
             </div>
         </form>

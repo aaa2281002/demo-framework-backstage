@@ -256,6 +256,26 @@ layui.define(["jquery", "layer"], function (exports) {
                     leftMenuColor: 'rgb(191, 187, 187)', //左侧菜单字体颜色,
                     leftMenuColorThis: '#ffffff', //左侧菜单选中字体颜色,
                     tabActiveColor: '#963885', //tab选项卡选中颜色,
+                },
+                {
+                    headerRightBg: '#3B4A6E', //头部右侧背景色
+                    headerRightBgThis: '#3471FF', //头部右侧选中背景色,
+                    headerRightColor: '#ffffff', //头部右侧字体颜色,
+                    headerRightChildColor: '#595959', //头部右侧下拉字体颜色,
+                    headerRightColorThis: '#fff', //头部右侧鼠标选中,
+                    headerRightNavMore: 'rgba(160, 160, 160, 0.7)', //头部右侧更多下拉颜色,
+                    headerRightNavMoreBg: '#1E9FFF', //头部右侧更多下拉列表选中背景色,
+                    headerRightNavMoreColor: '#ffffff', //头部右侧更多下拉列表字体色,
+                    headerRightToolColor: '#fff', //头部缩放按钮样式,
+                    headerLogoBg: '#3B4A6E', //logo背景颜色,
+                    headerLogoColor: '#FFF', //logo字体颜色,
+                    leftMenuNavMore: 'rgb(191, 187, 187)', //左侧菜单更多下拉样式,
+                    leftMenuBg: '#ffffff', //左侧菜单背景,
+                    leftMenuBgThis: '#4A8FF0', //左侧菜单选中背景,
+                    leftMenuChildBg: '#ffffff', //左侧菜单子菜单背景,
+                    leftMenuColor: '#595959', //左侧菜单字体颜色,
+                    leftMenuColorThis: '#ffffff', //左侧菜单选中字体颜色,
+                    tabActiveColor: '#4A8FF0', //tab选项卡选中颜色,
                 }
             ];
             if (bgcolorId === undefined) {
@@ -307,7 +327,7 @@ layui.define(["jquery", "layer"], function (exports) {
                 '/**头部右侧下拉字体颜色 headerRightChildColor */\n' +
                 '.layui-layout-admin .layui-header .layui-nav .layui-nav-item .layui-nav-child a {\n' +
                 '    color:  ' + bgcolorData.headerRightChildColor + '!important;\n' +
-                '}\n'+
+                '}\n' +
                 '\n' +
                 '/*头部右侧鼠标选中 headerRightColorThis */\n' +
                 '.layui-header .layuimini-menu-header-pc.layui-nav .layui-nav-item a:hover, .layui-header .layuimini-header-menu.layuimini-pc-show.layui-nav .layui-this a {\n' +

@@ -36,12 +36,12 @@
                 <label class="layui-form-label"><span class="required-red">*</span>是否启用
                 </label>
                 <div class="layui-input-block">
-                    <input type="radio" name="isEnable" lay-verify="required|isEnable"
-                           lay-verType="tips"
-                           value="1" title="是" checked="">
-                    <input type="radio" name="isEnable" lay-verify="required|isEnable"
-                           lay-verType="tips"
-                           value="2" title="否">
+                    <input th:each="item : ${@systemTypeServiceImpl.findByCodeList('isEnable')}"
+                           th:title="${item.typeName}"
+                           th:value="${item.typeValue}"
+                           th:checked="${1 == item.typeValue}"
+                           type="radio" name="isEnable" lay-verify="required|isEnable"
+                           lay-verType="tips">
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
@@ -68,9 +68,9 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_TYPE_LIST_MANAGEMENT:add')"]
-    layui.use(['form', 'layedit', 'laydate'], function () {
-        var form = layui.form
-            , layer = layui.layer;
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer;
         //自定义验证规则
         form.verify({
             typeName: function (value) {
@@ -109,6 +109,7 @@
                             shade: [0.3, '#f5f5f5'],
                             time: 1500
                         }, function () {
+                            $("#typeList", window.parent.document).attr('value', 1);
                             var index = parent.layer.getFrameIndex(window.name);
                             parent.layer.close(index);
                         });

@@ -19,7 +19,7 @@
                         <label class="layui-form-label">上级菜单</label>
                         <div class="layui-input-block">
                             <input type="text" name="parentName" lay-verify=""
-                                   autocomplete="off" placeholder="" th:value="${p != null ? p.menuName : ''}"
+                                   autocomplete="off" placeholder="" th:value="${p != null ? p.name : ''}"
                                    class="layui-input disabled" disabled readonly>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                         <label class="layui-form-label"><span class="required-red">*</span>菜单名称
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="menuName" lay-verify="required|menuName"
+                            <input type="text" name="name" lay-verify="required|name"
                                    lay-verType="tips"
                                    placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
                         </div>
@@ -36,7 +36,7 @@
                         <label class="layui-form-label"><span class="required-red">*</span>菜单代码
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="menuCode" lay-verify="required|menuCode"
+                            <input type="text" name="code" lay-verify="required|code"
                                    lay-verType="tips"
                                    placeholder="请输入菜单代码" autocomplete="off" class="layui-input">
                         </div>
@@ -45,7 +45,7 @@
                         <label class="layui-form-label">请求地址
                         </label>
                         <div class="layui-input-block">
-                            <input type="text" name="urlPath" lay-verify="urlPath"
+                            <input type="text" name="url" lay-verify="url"
                                    lay-verType="tips"
                                    placeholder="请输入请求地址" autocomplete="off" class="layui-input">
                         </div>
@@ -67,28 +67,54 @@
                                    placeholder="请输入排序" autocomplete="off" class="layui-input">
                         </div>
                     </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="required-red">*</span>打开方式
+                        </label>
+                        <div class="layui-input-block">
+                            <select name="target" lay-filter="targetFilter" lay-search="" lay-verify="required"
+                                    lay-verType="tips">
+                                <option value="">请选择打开方式</option>
+                                <option th:each="item : ${@systemTypeServiceImpl.findByCodeList('systemMenuTarget')}"
+                                        th:value="${item.typeCode}"
+                                        th:text="${item.typeName}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" pane="">
+                        <label class="layui-form-label"><span class="required-red">*</span>菜单类别
+                        </label>
+                        <div class="layui-input-block">
+                            <input th:each="item : ${@systemTypeServiceImpl.findByCodeList('systemMenuCategory')}"
+                                   th:title="${item.typeName}"
+                                   th:value="${item.typeValue}"
+                                   th:checked="${9999 == item.typeValue}"
+                                   type="radio" name="category" lay-verify="required|category"
+                                   lay-verType="tips">
+                        </div>
+                    </div>
                     <div class="layui-form-item" pane="">
                         <label class="layui-form-label"><span class="required-red">*</span>菜单类型
                         </label>
                         <div class="layui-input-block">
-                            <input type="radio" name="adminType" lay-verify="required|adminType"
-                                   lay-verType="tips"
-                                   value="1" title="管理员菜单" checked="">
-                            <input type="radio" name="adminType" lay-verify="required|adminType"
-                                   lay-verType="tips"
-                                   value="2" title="普通菜单">
+                            <input th:each="item : ${@systemTypeServiceImpl.findByCodeList('systemMenuType')}"
+                                   th:title="${item.typeName}"
+                                   th:value="${item.typeValue}"
+                                   th:checked="${9999 == item.typeValue}"
+                                   type="radio" name="type" lay-verify="required|type"
+                                   lay-verType="tips">
                         </div>
                     </div>
                     <div class="layui-form-item" pane="">
                         <label class="layui-form-label"><span class="required-red">*</span>是否启用
                         </label>
                         <div class="layui-input-block">
-                            <input type="radio" name="isEnable" lay-verify="required|isEnable"
-                                   lay-verType="tips"
-                                   value="1" title="是" checked="">
-                            <input type="radio" name="isEnable" lay-verify="required|isEnable"
-                                   lay-verType="tips"
-                                   value="2" title="否">
+                            <input th:each="item : ${@systemTypeServiceImpl.findByCodeList('isEnable')}"
+                                   th:title="${item.typeName}"
+                                   th:value="${item.typeValue}"
+                                   th:checked="${1 == item.typeValue}"
+                                   type="radio" name="isEnable" lay-verify="required|isEnable"
+                                   lay-verType="tips">
                         </div>
                     </div>
                     <div class="layui-form-item"
@@ -106,24 +132,23 @@
         <script th:inline="javascript">
             /*<![CDATA[*/
             [# sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_MENU_LIST_MANAGEMENT:add')"]
-            layui.use(['form', 'layedit', 'laydate'], function () {
-                var form = layui.form
-                    , layer = layui.layer;
-                // , layedit = layui.layedit
+            layui.use(['form'], function () {
+                var form = layui.form,
+                    layer = layui.layer;
                 // , laydate = layui.laydate;
                 //自定义验证规则
                 form.verify({
-                    menuName: function (value) {
+                    name: function (value) {
                         if (value.length > 64) {
                             return '菜单名称最多64个字符';
                         }
                     },
-                    menuCode: function (value) {
+                    code: function (value) {
                         if (value.length > 64) {
                             return '菜单代码最多64个字符';
                         }
                     },
-                    urlPath: function (value) {
+                    url: function (value) {
                         if (value.length > 128) {
                             return '请求地址最多128个字符';
                         }
@@ -144,7 +169,9 @@
                             return '排序最多7个位数字';
                         }
                     },
-                    adminType: function (value) {
+                    category: function (value) {
+                    },
+                    type: function (value) {
                     },
                     isEnable: function (value) {
                     }
@@ -164,6 +191,7 @@
                                     shade: [0.3, '#f5f5f5'],
                                     time: 1500
                                 }, function () {
+                                    $("#menuList", window.parent.document).attr('value', 1);
                                     var index = parent.layer.getFrameIndex(window.name);
                                     parent.layer.close(index);
                                 });

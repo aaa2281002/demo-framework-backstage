@@ -9,11 +9,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.config.initSecurityConfig
- * @Description 自定义全局方法安全配置
- * @DateTime 2019/12/22 15:10
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.config.initSecurityConfig
+ * @description 自定义全局方法安全配置
+ * @datetime 2019/12/22 15:10
  */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -23,10 +23,10 @@ public class MyGlobalMethodSecurityConfiguration extends GlobalMethodSecurityCon
 
     /**
      * @return org.springframework.security.access.expression.method.MethodSecurityExpressionHandler
-     * @Titel 配置权限验证实现类
-     * @Description 配置权限验证实现类
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 15:22
+     * @titel 配置权限验证实现类
+     * @description 配置权限验证实现类
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/22 15:22
      */
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler() {

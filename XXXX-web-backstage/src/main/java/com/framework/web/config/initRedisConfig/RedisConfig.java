@@ -15,11 +15,11 @@
 //import org.springframework.data.redis.serializer.StringRedisSerializer;
 //
 ///**
-// * @Author 邋遢龘鵺
-// * @ClassName com.framework.web.config.initRedisConfig
-// * @Description redis单机或集群初始化类
-// * @DateTime 2019/10/11
-// * @Version 1.0
+// * @author 邋遢龘鵺
+// * @className com.framework.web.config.initRedisConfig
+// * @description redis单机或集群初始化类
+// * @datetime 2019/10/11
+// * @version 1.0
 // */
 //@Configuration
 //public class RedisConfig {

@@ -3,21 +3,21 @@ package com.framework.common.util.http;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.http
- * @Description 获取请求url工具类
- * @Date 2020/4/2 17:16
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.http
+ * @description 获取请求url工具类
+ * @date 2020/4/2 17:16
  */
 public class GetHttpUrlUtil {
 
     /**
      * @param request 1  请求对象
      * @return java.lang.String
-     * @Titel 根据HttpServletRequest获取请求URL
-     * @Description 根据HttpServletRequest获取请求URL
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/4/2 17:17
+     * @titel 根据HttpServletRequest获取请求URL
+     * @description 根据HttpServletRequest获取请求URL
+     * @author 邋遢龘鵺
+     * @datetime 2020/4/2 17:17
      */
     public static String getHttpUrl(HttpServletRequest request) {
 

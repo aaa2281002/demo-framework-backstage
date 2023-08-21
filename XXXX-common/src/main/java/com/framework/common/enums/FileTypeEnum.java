@@ -3,11 +3,11 @@ package com.framework.common.enums;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.enums
- * @Description 文件信息类型枚举类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.enums
+ * @description 文件信息类型枚举类
+ * @datetime 2019/10/11
  */
 public enum FileTypeEnum {
     TXT_CODE(1, "TXT"),

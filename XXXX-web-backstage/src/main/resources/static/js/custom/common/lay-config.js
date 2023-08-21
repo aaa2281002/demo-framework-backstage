@@ -14,7 +14,8 @@ layui.config({
     base: rootPath + "lay-module/",
     version: true
 }).extend({
-    common: "common/common", // layuimini扩展
+    encryption: "encryption/encryption", // layuimini扩展加密
+    common: "common/common", // layuimini扩展公共方法
     miniAdmin: "layuimini/miniAdmin", // layuimini后台扩展
     miniMenu: "layuimini/miniMenu", // layuimini菜单扩展
     miniTab: "layuimini/miniTab", // layuimini tab扩展

@@ -12,11 +12,11 @@
 //import java.io.IOException;
 //
 ///**
-// * @Author 邋遢龘鵺
-// * @ClassName com.framework.web.config.initSecurityConfig
-// * @Description
-// * @DateTime 2019/12/21 16:02
-// * @Version 1.0
+// * @author 邋遢龘鵺
+// * @className com.framework.web.config.initSecurityConfig
+// * @description
+// * @datetime 2019/12/21 16:02
+// * @version 1.0
 // */
 //@Configuration
 //public class TestFilter extends OncePerRequestFilter implements InitializingBean {

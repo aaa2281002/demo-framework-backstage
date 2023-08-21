@@ -1,30 +1,38 @@
 package com.framework.web.controller.system;
 
+import com.framework.common.annotation.QueryTarget;
+import com.framework.common.model.validation.ValidationGroup;
 import com.framework.common.response.ResponseResult;
+import com.framework.common.util.other.NumeralUtil;
 import com.framework.common.util.system.SystemUtil;
-import com.framework.model.entity.system.SystemUser;
-import com.framework.service.service.system.SystemUserService;
+import com.framework.model.system.SystemUser;
+import com.framework.service.system.SystemUserService;
 import com.framework.web.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Arrays;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.controller.system
- * @Description 用户请求控制类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.controller.system
+ * @description 用户请求控制类
+ * @datetime 2019/10/11
  */
+@Validated
 @Controller
 @RequestMapping(value = "/system/user")
 public class SystemUserController extends BaseController {
@@ -34,10 +42,10 @@ public class SystemUserController extends BaseController {
 
     /**
      * @return org.springframework.web.servlet.ModelAndView
-     * @Titel 分页页面跳转
-     * @Description 分页页面跳转
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/14 18:20
+     * @titel 分页页面跳转
+     * @description 分页页面跳转
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/14 18:20
      */
     @RequestMapping("/page/list")
     @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_LIST_MANAGEMENT')")
@@ -47,10 +55,10 @@ public class SystemUserController extends BaseController {
 
     /**
      * @return org.springframework.web.servlet.ModelAndView
-     * @Titel 新增页面跳转
-     * @Description 新增页面跳转
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/14 18:21
+     * @titel 新增页面跳转
+     * @description 新增页面跳转
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/14 18:21
      */
     @RequestMapping("/get/add")
     @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:add')")
@@ -62,10 +70,10 @@ public class SystemUserController extends BaseController {
 
     /**
      * @return org.springframework.web.servlet.ModelAndView
-     * @Titel 上传页面跳转
-     * @Description 上传页面跳转
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/14 18:21
+     * @titel 上传页面跳转
+     * @description 上传页面跳转
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/14 18:21
      */
     @RequestMapping("/get/upload")
     @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:upload')")
@@ -77,14 +85,14 @@ public class SystemUserController extends BaseController {
     /**
      * @param id 1 编号
      * @return org.springframework.web.servlet.ModelAndView
-     * @Titel 编辑页面跳转
-     * @Description 编辑页面跳转
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/14 18:21
+     * @titel 编辑页面跳转
+     * @description 编辑页面跳转
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/14 18:21
      */
     @RequestMapping("/get/edit")
     @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:edit')")
-    public ModelAndView getEdit(Long id) {
+    public ModelAndView getEdit(@NotNull(message = "请选择用户") @Min(value = NumeralUtil.POSITIVE_ONE, message = "用户不存在") Long id) {
         ModelAndView mv = new ModelAndView(path + "userEdit");
         mv.addObject("p", systemUserServiceImpl.getByIdParam(id));
         return mv;
@@ -93,14 +101,30 @@ public class SystemUserController extends BaseController {
     /**
      * @param id 1 编号
      * @return org.springframework.web.servlet.ModelAndView
-     * @Titel 查看页面跳转
-     * @Description 查看页面跳转
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/14 18:21
+     * @titel 编辑页面跳转
+     * @description 编辑页面跳转
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/14 18:21
+     */
+    @RequestMapping("/get/password")
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:password')")
+    public ModelAndView getPassword(@NotNull(message = "请选择用户") @Min(value = NumeralUtil.POSITIVE_ONE, message = "用户不存在") Long id) {
+        ModelAndView mv = new ModelAndView(path + "userEditPassword");
+        mv.addObject("p", systemUserServiceImpl.getByIdParam(id));
+        return mv;
+    }
+
+    /**
+     * @param id 1 编号
+     * @return org.springframework.web.servlet.ModelAndView
+     * @titel 查看页面跳转
+     * @description 查看页面跳转
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/14 18:21
      */
     @RequestMapping("/get/view")
     @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:view')")
-    public ModelAndView getView(Long id) {
+    public ModelAndView getView(@NotNull(message = "请选择用户") @Min(value = NumeralUtil.POSITIVE_ONE, message = "用户不存在") Long id) {
         ModelAndView mv = new ModelAndView(path + "userView");
         mv.addObject("p", systemUserServiceImpl.getByIdParam(id));
         return mv;
@@ -109,112 +133,104 @@ public class SystemUserController extends BaseController {
     /**
      * @param param 1 用户实体类对象
      * @return com.framework.common.response.ResponseResult
-     * @Titel 用户分页查询
-     * @Description 用户分页查询
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 17:58
+     * @titel 用户分页查询
+     * @description 用户分页查询
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/22 17:58
      */
     // method = RequestMethod.POST,
-    @RequestMapping(value = "/findPageList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/find/page/list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_MENU_NAME + "','SYSTEM_USER_LIST_MANAGEMENT')")
-    public ResponseResult findPageList(SystemUser param) {
-        try {
-            return systemUserServiceImpl.findParamPageList(param);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return getError();
-        }
+    @QueryTarget
+    public ResponseResult findPageList(@Validated(value = {ValidationGroup.formPageQuery.class}) SystemUser param) {
+        return systemUserServiceImpl.findParamPageList(param);
     }
 
     /**
      * @param param 1 用户实体类对象
      * @return com.framework.common.response.ResponseResult
-     * @Titel 新增
-     * @Description 新增
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 17:58
+     * @titel 新增
+     * @description 新增
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/22 17:58
      */
     @RequestMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:add')")
-    public ResponseResult save(SystemUser param) {
-        try {
-            return systemUserServiceImpl.save(param);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return getError();
-        }
+    public ResponseResult save(@Validated(value = {ValidationGroup.formAdd.class}) SystemUser param) {
+        return systemUserServiceImpl.save(param);
     }
 
     /**
      * @param param 1 用户实体类对象
      * @return com.framework.common.response.ResponseResult
-     * @Titel 修改
-     * @Description 修改
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 17:59
+     * @titel 修改
+     * @description 修改
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/22 17:59
      */
     @RequestMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:edit')")
-    public ResponseResult edit(SystemUser param) {
-        try {
-            return systemUserServiceImpl.edit(param);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return getError();
-        }
+    public ResponseResult edit(@Validated(value = {ValidationGroup.formEdit.class}) SystemUser param) {
+        return systemUserServiceImpl.edit(param);
+    }
+
+    /**
+     * @param param 1 用户实体类对象
+     * @return com.framework.common.response.ResponseResult
+     * @titel 修改
+     * @description 修改
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/22 17:59
+     */
+    @RequestMapping(value = "/password", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ResponseBody
+    @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:password')")
+    public ResponseResult password(@Validated(value = {ValidationGroup.formPassword.class}) SystemUser param) {
+        return systemUserServiceImpl.password(param);
     }
 
     /**
      * @param idList 1 用户编号集合
      * @return com.framework.common.response.ResponseResult
-     * @Titel 批量删除
-     * @Description 批量删除
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 18:00
+     * @titel 批量删除
+     * @description 批量删除
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/22 18:00
      */
-    @RequestMapping(value = "/batchDel", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
+    @RequestMapping(value = "/batch/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:batchDel') ")
-    public ResponseResult batchDel(@RequestParam(value = "idList[]") List<Long> idList) {
-        try {
-            return systemUserServiceImpl.batchDeleteList(idList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return getError();
-        }
+    public ResponseResult batchDel(@NotEmpty(message = "请选择用户") @Size(min = NumeralUtil.POSITIVE_ONE,
+            message = "用户不存在") @RequestParam(value = "idList[]") List<Long> idList) {
+        return systemUserServiceImpl.batchDeleteList(idList);
     }
 
     /**
      * @param id 1 用户编号
      * @return com.framework.common.response.ResponseResult
-     * @Titel 删除
-     * @Description 删除
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/22 18:00
+     * @titel 删除
+     * @description 删除
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/22 18:00
      */
     @RequestMapping(value = "/del", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasPermission('" + SystemUtil.SYSTEM_BUTTON_NAME + "','SYSTEM_USER_LIST_MANAGEMENT:del')")
-    public ResponseResult del(Long id) {
-        try {
-            return systemUserServiceImpl.batchDeleteList(Arrays.asList(id));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return getError();
-        }
+    public ResponseResult del(@NotNull(message = "请选择用户") @Min(value = NumeralUtil.POSITIVE_ONE, message = "用户不存在") Long id) {
+        return systemUserServiceImpl.delId(id);
     }
 
 //    /**
 //     * @param id        1 用户编号
 //     * @param loginName 2 账户号
 //     * @return com.framework.common.response.ResponseResult
-//     * @Titel 验证是否重复账户号
-//     * @Description 验证是否重复账户号
-//     * @Author 邋遢龘鵺
-//     * @DateTime 2019/12/22 18:00
+//     * @titel 验证是否重复账户号
+//     * @description 验证是否重复账户号
+//     * @author 邋遢龘鵺
+//     * @datetime 2019/12/22 18:00
 //     */
 //    @RequestMapping("/isExist")
 //    @ResponseBody

@@ -70,22 +70,27 @@ body {
 }
 
 
-
 /**
 自定义单选多选样式
 **/
-.select-checkbox-radio{
-    background-color:#FFFF93;
-}
-.disabled{
-    background-color:#e9ecef;
+.select-checkbox-radio {
+    background-color: #FFFF93;
 }
 
-.required-red{
+.disabled {
+    background-color: #e9ecef;
+}
+
+.required-red {
     color: #af0000;
     vertical-align: middle;
 }
-.view-span{
+
+.view-span {
     line-height: 36px;
+    word-wrap: break-word;
 }
-.custom-tree-item-clicked{color:#FC9003}
+
+.custom-tree-item-clicked {
+    color: #FC9003
+}

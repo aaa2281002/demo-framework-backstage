@@ -25,7 +25,7 @@
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-icon layui-icon-password" for="password"></label>
-                    <input type="password" id="password" name="password" lay-verify="required|password"  lay-reqText="密码不能为空"
+                    <input type="password" id="password" name="password" lay-verify="required|password" lay-reqText="密码不能为空"
                            lay-verType="tips"
                            placeholder="请输入密码"
                            autocomplete="off" class="layui-input" value="">
@@ -37,7 +37,7 @@
                            placeholder="请输入图形验证码"
                            autocomplete="off" class="layui-input verification captcha" value="">
                     <div class="captcha-img">
-                        <img id="defaultCaptcha" src="/defaultCaptcha">
+                        <img id="defaultCaptcha" src="/default/captcha">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -55,10 +55,14 @@
 <div th:replace="~{segmentation/_tail::_tail_common}"></div>
 <script th:src="@{/js/plugins/jq-module/jquery.particleground.min.js?v=1.0.0}"
         charset="utf-8" type="text/javascript"></script>
+
+<script th:src="@{/js/plugins/jsencrypt/jsencrypt.js?v=1.0.0}" charset="utf-8" type="text/javascript"></script>
+
 <script th:inline="javascript">
-    layui.use(['form'], function () {
+    layui.use(['form', 'encryption'], function () {
         var form = layui.form,
-            layer = layui.layer;
+            layer = layui.layer,
+            encryption = layui.encryption;
 
         // 登录过期的时候，跳出ifram框架
         if (top.location != self.location) top.location = self.location;
@@ -73,7 +77,7 @@
         //验证码图片点击刷新事件
         $(document).off('click', '#defaultCaptcha');
         $(document).on('click', '#defaultCaptcha', function () {
-            $(this).attr("src", "/defaultCaptcha?t=" + Math.random());
+            $(this).attr("src", "/default/captcha?t=" + Math.random());
         })
         // 进行登录操作
         form.on('submit(login)', function (data) {
@@ -93,13 +97,15 @@
             // layer.msg('登录成功', function () {
             //     window.location = '/index.html';
             // });
+            encryption.setKeySize(2048);
+            var password = encryption.encryptPublicKey(data.password);
             $.ajax({
                 url: "/login",
                 type: "post",
                 dataType: "json",
                 data: {
                     username: data.username,
-                    password: data.password,
+                    password: password,
                     captchaCode: data.captchaCode,
                     // googleCode: googleCode,
                     "remember-me": data.rememberMe
@@ -147,7 +153,7 @@
                     // resetCode();
                     //console.log(data);
                     if (data.code == Result.SUCCESS) {
-                        location.href = "/index";
+                        location.href = "/init/index";
                         return;
                     }
                     $("#defaultCaptcha").click();

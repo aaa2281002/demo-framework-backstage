@@ -1,11 +1,11 @@
 package com.framework.common.util.redis;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.redis
- * @Description 权限工具类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.redis
+ * @description 权限工具类
+ * @datetime 2019/10/11
  */
 public class RedisPrefixUtil {
     public static final String REDIS_KEY_SPRING_NAME = "spring"; //spring组装前缀
@@ -22,8 +22,10 @@ public class RedisPrefixUtil {
 
     public static final String PREFIX_STR_LOGIN_SYSTEM_USER = "LOGIN_SYSTEM_USER";//redis用户登陆成功缓存前缀
     public static final String PREFIX_STR_LOGIN_SYSTEM_USER_TOKEN = "LOGIN_SYSTEM_USER_TOKEN";//redis用户登陆Token成功缓存前缀
-    public static final String PREFIX_STR_LOGIN_SYSTEM_USER_WHITE_LIST_IP = "SYSTEM_USER_WHITE_LIST_IP";//redis系统后台操作IP白名单缓存前缀
-    public static final String PREFIX_STR_LOGIN_SYSTEM_USER_BLACK_LIST_IP = "SYSTEM_USER_BLACK_LIST_IP";//redis系统后台操作IP黑名单缓存前缀
+    public static final String PREFIX_STR_LOGIN_SYSTEM_BACKSTAGE_WHITE_LIST_IP = "SYSTEM_BACKSTAGE_WHITE_LIST_IP";//redis系统后台白名单IP缓存前缀
+    public static final String PREFIX_STR_LOGIN_SYSTEM_FRONT_WHITE_LIST_IP = "SYSTEM_FRONT_WHITE_LIST_IP";//redis系统前端白名单IP缓存前缀
+    public static final String PREFIX_STR_LOGIN_SYSTEM_BACKSTAGE_BLACK_LIST_IP = "SYSTEM_BACKSTAGE_BLACK_LIST_IP";//redis系统后台黑名单IP缓存前缀
+    public static final String PREFIX_STR_LOGIN_SYSTEM_FRONT_BLACK_LIST_IP = "SYSTEM_FRONT_BLACK_LIST_IP";//redis系统前端黑名单IP缓存前缀
 
     public static final String PREFIX_STR_DICT_KEY = "DICT_KEY";//redis字典代码缓存前缀
 }

@@ -1,21 +1,35 @@
 package com.framework.common.annotation;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.annotation
- * @Description excel注解类
- * @Date 2020/1/8 10:44
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.annotation
+ * @description excel注解类
+ * @date 2020/1/8 10:44
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({java.lang.annotation.ElementType.FIELD})
+@Target({ElementType.FIELD})
 @Inherited
 public @interface ExcelVOAttribute {
+    /**
+     * ElementType.TYPE：能修饰类、接口或枚举类型
+     * ElementType.FIELD：能修饰成员变量
+     * ElementType.METHOD：能修饰方法
+     * ElementType.PARAMETER：能修饰参数
+     * ElementType.CONSTRUCTOR：能修饰构造器
+     * ElementType.LOCAL_VARIABLE：能修饰局部变量
+     * ElementType.ANNOTATION_TYPE：能修饰注解
+     * ElementType.PACKAGE：能修饰包
+     * ElementType.TYPE_PARAMETER：标明注解能够用于类型参数声明
+     * ElementType.TYPE_USE：类型使用声明
+     */
+
     /**
      * 导出到Excel中的名字.
      */
@@ -50,4 +64,9 @@ public @interface ExcelVOAttribute {
      * 日期格式，用于时间字段类型转换格式
      */
     public abstract String pattern() default "";
+
+    /**
+     * 设置字体名称
+     */
+    public abstract String fontName() default "宋体";
 }

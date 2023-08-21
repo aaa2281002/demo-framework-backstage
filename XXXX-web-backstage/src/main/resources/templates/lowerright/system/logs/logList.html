@@ -9,7 +9,7 @@
     <style type="text/css"></style>
 </head>
 <body>
-<div class="layuimini-container">
+<div class="layuimini-container" id="logsList" value="0">
     <div class="layui-row">
         <div class="layuimini-main">
             <fieldset class="layui-elem-field layuimini-search">
@@ -71,7 +71,7 @@
             <script type="text/html" id="logCurrentTableBar">
                 <a sec:authorize="hasPermission(#authorization.authentication,'button','SYSTEM_LOG_LIST_MANAGEMENT:view')"
                    class="layui-btn layui-btn-xs log-view" value="{{d.id}}" lay-event="view" title="查看">
-                    <i class="fa fa-eye" aria-hidden="true"></i>
+                    查看
                 </a>
             </script>
         </div>
@@ -88,8 +88,7 @@
             table = layui.table,
             laydate = layui.laydate,
             common = layui.common,
-            startTime = {},
-            endTime = {},
+            startTime = {}, endTime = {},
             numView = 0, numEdit = 0, numDel = 0,
             tableId = "logTableId";
 
@@ -97,12 +96,12 @@
         numView = 1;
         function initView() {
             // 查看信息
-            $(document).off("click", ".log-view");
-            $(document).on("click", ".log-view", function () {
-                var title = "查看信息";
+            $(".layui-table").off("click", ".log-view");
+            $(".layui-table").on("click", ".log-view", function () {
+                var title = $(this).attr("title");
                 var url = "/system/log/get/view?id=" + $(this).attr("value");
                 var formId = "logFormViewId";
-                common.layer_show(title, url, null, null, formId, null, null, null, function (index, layero) {
+                common.layer_show(title, url, null, null, formId, null, null, null, function () {
                     // var queryData = common.getFormData($("#log-search-form"));
                     // common.tableRefresh(tableId, queryData);
                 });
@@ -121,8 +120,8 @@
         var logTableId = table.render({
             elem: '#' + tableId,
             id: tableId,
-            url: '/system/log/findPageList',
-            height: 475,
+            url: '/system/log/find/page/list',
+            height: 'full-225',
             // contentType: 'application/json',
             // method: 'post',
             // even: true,
@@ -131,23 +130,17 @@
                 [
                     {type: "checkbox", width: 50, field: 'id', fixed: "left"},
                     {type: "numbers", width: 50, fixed: "left", title: '序号'},
-                    {field: 'loginName', width: 120, title: '账户名', sort: true},
+                    {field: 'loginName', width: 200, title: '账户名', sort: true},
                     {field: 'ip', width: 150, title: 'IP', sort: true},
-                    {field: 'operaterTitle', width: 120, title: '操作标题', sort: true},
-                    {field: 'operaterContent', width: 120, title: '操作内容', sort: true},
-                    {field: 'operaterTime', width: 150, title: '操作时间', sort: true},
+                    {field: 'operaterTitle', width: 200, title: '操作标题', sort: true},
+                    {field: 'operaterContent', width: 200, title: '操作内容', sort: true},
+                    {field: 'operaterTime', width: 160, title: '操作时间', sort: true},
                     // {field: 'operaterUserName', width: 120, title: '操作人'},
-                    {
-                        title: '操作',
-                        minWidth: 20,
-                        templet: '#logCurrentTableBar',
-                        fixed: "right",
-                        align: "center"
-                    }
+                    {title: '操作', minWidth: 200, templet: '#logCurrentTableBar', fixed: "right", align: "center"}
                 ]
             ],
             // initSort: {
-            //      sort: "sortcreateTime", //排序字段   在接口作为参数字段  field order
+            //      sort: "createTime", //排序字段   在接口作为参数字段  field order
             //      order: "desc"
             // },
             sort: true,

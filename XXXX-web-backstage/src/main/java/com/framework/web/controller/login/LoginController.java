@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.controller.login
- * @Description 登录请求控制类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.controller.login
+ * @description 登录请求控制类
+ * @datetime 2019/10/11
  */
 @Controller
 @RequestMapping(value = "/")
@@ -30,38 +30,38 @@ public class LoginController {
 
     /**
      * @return org.springframework.web.servlet.ModelAndView
-     * @Titel 登录页跳转
-     * @Description 登录页跳转
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/28 18:41
+     * @title 登录页跳转
+     * @description 登录页跳转
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/28 18:41
      */
-    @RequestMapping(value = {"/loginPage", "/login"})
+    @RequestMapping(value = {"/login/page", "/login"})
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView("login");
         return mv;
     }
 
-    /**
-     * @return java.lang.String
-     * @Titel 退出跳转
-     * @Description 退出跳转
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/28 18:41
-     */
-    @GetMapping(value = "/logOut")
-    public String loginOut() {
-        return "loginOut";
-    }
+//    /**
+//     * @return java.lang.String
+//     * @title 退出跳转
+//     * @description 退出跳转
+//     * @author 邋遢龘鵺
+//     * @datetime 2019/12/28 18:41
+//     */
+//    @GetMapping(value = "/log/out")
+//    public String loginOut() {
+//        return "loginOut";
+//    }
 
     /**
      * @param httpServletRequest  1 请求对象
      * @param httpServletResponse 2 响应对象
-     * @Titel 获得验证码图片
-     * @Description 获得验证码图片
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/28 18:41
+     * @title 获得验证码图片
+     * @description 获得验证码图片
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/28 18:41
      */
-    @GetMapping("/defaultCaptcha")
+    @GetMapping("/default/captcha")
     public void defaultCaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws Exception {
         // 设置http响应头控制浏览器禁止缓存当前文档内容

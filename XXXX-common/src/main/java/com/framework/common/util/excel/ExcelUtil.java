@@ -3,9 +3,7 @@ package com.framework.common.util.excel;
 import com.framework.common.annotation.ExcelVOAttribute;
 import com.framework.common.model.excel.ErrorVo;
 import com.framework.common.model.excel.StepPic;
-import com.framework.common.util.date.DateStyleUtil;
 import com.framework.common.util.other.NumeralUtil;
-import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.hssf.usermodel.*;
@@ -19,16 +17,20 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.framework.common.util.date.DateUtil;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.excel
- * @Description excel生成解析工具类
- * @Date 2020/1/8 10:46
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.excel
+ * @description excel生成解析工具类
+ * @date 2020/1/8 10:46
  */
 public class ExcelUtil<T> {
     Class<T> clazz;
@@ -40,10 +42,10 @@ public class ExcelUtil<T> {
     /**
      * @param col 1 参数字符串
      * @return int
-     * @Titel 将EXCEL中A, B, C, D, E列映射成0, 1, 2, 3
-     * @Description 将EXCEL中A, B, C, D, E列映射成0, 1, 2, 3
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/8 11:14
+     * @titel 将EXCEL中A, B, C, D, E列映射成0, 1, 2, 3
+     * @description 将EXCEL中A, B, C, D, E列映射成0, 1, 2, 3
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/8 11:14
      */
     public static int getExcelCol(String col) {
         col = col.toUpperCase();
@@ -65,10 +67,10 @@ public class ExcelUtil<T> {
      * @param firstCol      6 开始列
      * @param endCol        7 结束列
      * @return org.apache.poi.hssf.usermodel.HSSFSheet 设置好的sheet
-     * @Titel 设置单元格上提示
-     * @Description 设置单元格上提示
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/8 11:14
+     * @titel 设置单元格上提示
+     * @description 设置单元格上提示
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/8 11:14
      */
     public static HSSFSheet setHSSFPrompt(HSSFSheet sheet, String promptTitle, String promptContent, int firstRow, int endRow, int firstCol, int endCol) {
         // 构造constraint对象
@@ -90,10 +92,10 @@ public class ExcelUtil<T> {
      * @param firstCol 5 开始列
      * @param endCol   6 结束列
      * @return org.apache.poi.hssf.usermodel.HSSFSheet 设置好的sheet.
-     * @Titel 设置某些列的值只能输入预制的数据, 显示下拉框.
-     * @Description 设置某些列的值只能输入预制的数据, 显示下拉框.
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/8 11:13
+     * @titel 设置某些列的值只能输入预制的数据, 显示下拉框.
+     * @description 设置某些列的值只能输入预制的数据, 显示下拉框.
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/8 11:13
      */
     public static HSSFSheet setHSSFValidation(HSSFSheet sheet, String[] textList, int firstRow, int endRow, int firstCol, int endCol) {
         // 加载下拉列表内容
@@ -111,10 +113,10 @@ public class ExcelUtil<T> {
      * @param sheet    1 要设置的sheet
      * @param errorVos 2 要设置的错误消息
      * @return org.apache.poi.hssf.usermodel.HSSFSheet 设置好的sheet.
-     * @Titel 设置单元格上错误提示
-     * @Description 设置单元格上错误提示
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/8 11:11
+     * @titel 设置单元格上错误提示
+     * @description 设置单元格上错误提示
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/8 11:11
      */
     public static HSSFSheet setHSSFRichTextString(HSSFSheet sheet, List<ErrorVo> errorVos) {
         disposeErrorVoList(errorVos);
@@ -147,10 +149,10 @@ public class ExcelUtil<T> {
     /**
      * @param errorVos 1 错误信息集合对象
      * @return java.util.List<com.framework.common.model.excel.ErrorVo>
-     * @Titel 处理List里面相同的行，列错误列表
-     * @Description 处理List里面相同的行，列错误列表
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/8 11:11
+     * @titel 处理List里面相同的行，列错误列表
+     * @description 处理List里面相同的行，列错误列表
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/8 11:11
      */
     public static List<ErrorVo> disposeErrorVoList(List<ErrorVo> errorVos) {
         for (int i = 0; i < errorVos.size() - 1; i++) {
@@ -169,10 +171,10 @@ public class ExcelUtil<T> {
      * @param input  1 输入流对象
      * @param suffix 2 文件后缀名
      * @return java.util.List<T>
-     * @Titel 解析excel方法
-     * @Description 解析excel方法
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/8 11:12
+     * @titel 解析excel方法
+     * @description 解析excel方法
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/8 11:12
      */
     public List<T> importExcel(InputStream input, String suffix) {
         return importExcel(null, input, suffix);
@@ -183,10 +185,10 @@ public class ExcelUtil<T> {
      * @param input     2  输入流对象
      * @param suffix    3 文件后缀名
      * @return java.util.List<T>
-     * @Titel 解析excel方法
-     * @Description 解析excel方法
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/8 11:12
+     * @titel 解析excel方法
+     * @description 解析excel方法
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/8 11:12
      */
     public List<T> importExcel(String sheetName, InputStream input, String suffix) {
         List<T> list = new ArrayList<T>();
@@ -237,7 +239,7 @@ public class ExcelUtil<T> {
                             Cell cell = row.getCell(j);
                             if (cell != null) {
                                 String c = getValue(cell);
-                                if (c.equals("")) {
+                                if ("".equals(c)) {
                                     continue;
                                 }
                                 entity = (entity == null ? clazz.newInstance() : entity);// 如果不存在实例则新建.
@@ -248,7 +250,7 @@ public class ExcelUtil<T> {
                                         || (Integer.class == fieldType)) {
                                     field.set(entity, Integer.parseInt(c));
                                 } else if (String.class == fieldType) {
-                                    field.set(entity, String.valueOf(c));
+                                    field.set(entity, c);
                                 } else if ((Long.TYPE == fieldType)
                                         || (Long.class == fieldType)) {
                                     field.set(entity, Long.valueOf(c));
@@ -283,10 +285,10 @@ public class ExcelUtil<T> {
     /**
      * @param cell 1 excel单列对象
      * @return java.lang.String
-     * @Titel 解析excel工作文档中每行每列所属内容类型，并且获取对应值
-     * @Description 解析excel工作文档中每行每列所属内容类型，并且获取对应值
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/8 11:10
+     * @titel 解析excel工作文档中每行每列所属内容类型，并且获取对应值
+     * @description 解析excel工作文档中每行每列所属内容类型，并且获取对应值
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/8 11:10
      */
     private String getValue(Cell cell) {
 
@@ -331,14 +333,14 @@ public class ExcelUtil<T> {
      * @param sheet       1 当前excel页签对象
      * @param firstColumn 2 第几栏
      * @return java.util.Map
-     * @Titel 得到某个sheet(2003版本) 的图片
-     * @Description 得到某个sheet(2003版本) 的图片
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/8 11:09
+     * @titel 得到某个sheet(2003版本) 的图片
+     * @description 得到某个sheet(2003版本) 的图片
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/8 11:09
      */
     public static Map<Integer, List<StepPic>> findAllPictureDate(HSSFSheet sheet, int firstColumn) {
 
-        Map<Integer, List<StepPic>> dataMap = Maps.newHashMap();
+        Map<Integer, List<StepPic>> dataMap = new HashMap<Integer, List<StepPic>>();
 
         // 处理sheet中的图形
         HSSFPatriarch hssfPatriarch = sheet.getDrawingPatriarch();
@@ -417,10 +419,10 @@ public class ExcelUtil<T> {
      * @param sheet       1 当前excel页签对象
      * @param firstColumn 2 第几栏
      * @return java.util.Map
-     * @Titel 得到某个sheet(2007以上版本) 的图片
-     * @Description 得到某个sheet(2007以上版本) 的图片
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/8 11:07
+     * @titel 得到某个sheet(2007以上版本) 的图片
+     * @description 得到某个sheet(2007以上版本) 的图片
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/8 11:07
      */
     public static Map<Integer, List<StepPic>> findAllPictureDateOfXssf(XSSFSheet sheet, int firstColumn) {
         Map<Integer, List<StepPic>> dataMap = null;
@@ -491,10 +493,10 @@ public class ExcelUtil<T> {
      * @param response  1 输出对象
      * @param list      2 数据集合
      * @param sheetName 3 文件名称
-     * @Titel 对list数据源将其里面的数据导入到excel表单
-     * @Description 对list数据源将其里面的数据导入到excel表单
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/23 14:44
+     * @titel 对list数据源将其里面的数据导入到excel表单
+     * @description 对list数据源将其里面的数据导入到excel表单
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/23 14:44
      */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName) {
         exportExcel(response, list, sheetName, null);
@@ -505,10 +507,10 @@ public class ExcelUtil<T> {
      * @param list      2 数据集合
      * @param sheetName 3 文件名称
      * @param errorVos  4 excel设置的错误消息集合
-     * @Titel 对list数据源将其里面的数据导入到excel表单
-     * @Description 对list数据源将其里面的数据导入到excel表单
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/23 14:44
+     * @titel 对list数据源将其里面的数据导入到excel表单
+     * @description 对list数据源将其里面的数据导入到excel表单
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/23 14:44
      */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName, List<ErrorVo> errorVos) {
         int sheetSize = 65536;

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.mapper.system.SystemFrontBlackListIpMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.system.SystemFrontBlackListIp">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="CREATE_ID" jdbcType="BIGINT" property="createId"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId"/>
+        <result column="OPERATER_TIME" property="operaterTime"/>
+        <result column="OPERATER_STATUS" jdbcType="INTEGER" property="operaterStatus"/>
+        <result column="IS_ENABLE" jdbcType="INTEGER" property="isEnable"/>
+        <result column="IP" jdbcType="VARCHAR" property="ip"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        p.ID, p.IS_ENABLE, p.IP, p.DESCRIPTION
+    </sql>
+
+    <update id="delete" parameterType="com.framework.model.system.SystemFrontBlackListIp">
+        UPDATE system_front_black_list_ip
+        SET OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            OPERATER_ID     = #{operaterId,jdbcType=BIGINT},
+            OPERATER_TIME   = #{operaterTime}
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="deleteList" parameterType="com.framework.model.system.SystemFrontBlackListIp">
+        UPDATE system_front_black_list_ip SET
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime}
+        WHERE ID IN
+        <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <insert id="insertSelective" parameterType="com.framework.model.system.SystemFrontBlackListIp"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_front_black_list_ip
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">-->
+            <!--ID,-->
+            <!--</if>-->
+            <if test="createId != null">
+                CREATE_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="operaterId != null">
+                OPERATER_ID,
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME,
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS,
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE,
+            </if>
+            <if test="ip != null and ip != ''">
+                IP,
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <!--<if test="id != null">-->
+            <!--#{id,jdbcType=BIGINT},-->
+            <!--</if>-->
+            <if test="createId != null">
+                #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="operaterId != null">
+                #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="ip != null and ip != ''">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.system.SystemFrontBlackListIp">
+        update system_front_black_list_ip
+        <set>
+            <if test="operaterId != null">
+                OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME = #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="ip != null and ip != ''">
+                IP = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_front_black_list_ip p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} AND p.OPERATER_STATUS > -1
+    </select>
+
+    <select id="isExist" parameterType="com.framework.model.system.SystemFrontBlackListIp"
+            resultType="java.lang.Integer">
+        select COUNT(p.Id)
+        from system_front_black_list_ip p
+        where p.OPERATER_STATUS > -1
+        <if test="ip != null and ip != ''">
+            and p.IP = #{ip}
+        </if>
+        <if test="id != null">
+            and p.ID != #{id}
+        </if>
+    </select>
+
+    <select id="findPageList" parameterType="com.framework.model.system.SystemFrontBlackListIp"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_front_black_list_ip p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+            <if test="order != null and order != ''">${order}</if>
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findPageListCount" parameterType="com.framework.model.system.SystemFrontBlackListIp"
+            resultType="INTEGER">
+        select COUNT(p.ID)
+        from system_front_black_list_ip p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.system.SystemFrontBlackListIp" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        from system_front_black_list_ip p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <include refid="BaseMapper.publicWhereFuzzyUserId"/>
+        <if test="fuzzyType == 'isEnable'">
+            and p.IS_ENABLE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'ip'">
+            and p.IP LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'description'">
+            and p.DESCRIPTION LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+    </sql>
+
+    <sql id="searchConditionSql">
+        <if test="search != null and search != ''">
+            AND (
+            p.IS_ENABLE LIKE CONCAT('%', #{search}, '%')
+            or p.IP LIKE CONCAT('%', #{search}, '%')
+            or p.DESCRIPTION LIKE CONCAT('%', #{search}, '%')
+            )
+        </if>
+    </sql>
+
+    <sql id="conditionSql">
+        <include refid="BaseMapper.publicWhereId"/>
+        <if test="isEnable != null">
+            and p.IS_ENABLE = #{isEnable,jdbcType=INTEGER}
+        </if>
+        <if test="ip != null and ip != ''">
+            and p.IP = #{ip,jdbcType=VARCHAR}
+        </if>
+        <if test="description != null and description != ''">
+            and p.DESCRIPTION = #{description,jdbcType=VARCHAR}
+        </if>
+        <include refid="BaseMapper.publicWhereStatus"/>
+        <include refid="BaseMapper.publicWhereUserId"/>
+        <include refid="BaseMapper.publicWhereCreateTime"/>
+    </sql>
+
+    <sql id="vagueConditionSql">
+        <include refid="BaseMapper.publicWhereId"/>
+        <if test="isEnable != null">
+            and p.IS_ENABLE LIKE CONCAT('%', #{isEnable,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="ip != null and ip != ''">
+            and p.IP LIKE CONCAT('%', #{ip,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="description != null and description != ''">
+            and p.DESCRIPTION LIKE CONCAT('%', #{description,jdbcType=VARCHAR}, '%')
+        </if>
+        <include refid="BaseMapper.publicWhereStatus"/>
+        <include refid="BaseMapper.publicWhereUserId"/>
+        <include refid="BaseMapper.publicWhereCreateTime"/>
+    </sql>
+
+</mapper>

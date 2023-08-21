@@ -1,11 +1,11 @@
 package com.framework.common.util.other;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.other
- * @Description 符号工具类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.other
+ * @description 符号工具类
+ * @datetime 2019/10/11
  */
 public class SymbolUtil {
 

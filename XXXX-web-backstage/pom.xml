@@ -30,9 +30,9 @@
     <dependencies>
         <!-- 开始-内部引用 -->
         <!--<dependency>-->
-            <!--<groupId>com.framework</groupId>-->
-            <!--<artifactId>XXXX-common</artifactId>-->
-            <!--<version>1.0.0</version>-->
+        <!--<groupId>com.framework</groupId>-->
+        <!--<artifactId>XXXX-common</artifactId>-->
+        <!--<version>1.0.0</version>-->
         <!--</dependency>-->
 
         <!--<dependency>-->
@@ -47,7 +47,6 @@
             <version>1.0.0</version>
         </dependency>
         <!-- 结束-内部引用 -->
-
 
 
     </dependencies>

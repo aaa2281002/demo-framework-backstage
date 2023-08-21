@@ -19,26 +19,26 @@
         /*]]>*/
         var indexClose = "";
         $.ajaxSetup({
-            global : true,
-            dataType : "json",
-            beforeSend : function(e) {
+            global: true,
+            dataType: "json",
+            beforeSend: function (e) {
                 indexClose = layer.load(3);
                 //console.log(indexClose);
             },
-            complete : function(e) {
+            complete: function (e) {
                 layer.close(indexClose);
             },
-            timeout : 60000,
-            success : function(data) {
+            timeout: 60000,
+            success: function (data) {
                 //console.log("success",xhr);
                 //console.log("success")
             },
-            error : function(xhr, stat, error) {
+            error: function (xhr, stat, error) {
                 //console.log(data);
                 layer.alert(xhr.responseText);
             }
         });
-        $(function(){
+        $(function () {
             // $("body").on("change","select[name='pageSize']",function(t){
             //     $("form input[name='size']").val($("select[name='pageSize']").val());
             //     //console.log($("select[name='pageSize']").val());

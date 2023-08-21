@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.controller.other.error
- * @Description 错误页面请求控制类
- * @DateTime 2019/12/23 11:46
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.controller.other.error
+ * @description 错误页面请求控制类
+ * @datetime 2019/12/23 11:46
  */
 @Controller
 @RequestMapping("/error")
@@ -18,10 +18,10 @@ public class ErrorPageController {
 
     /**
      * @return org.springframework.web.servlet.ModelAndView
-     * @Titel 跳转无权限页面
-     * @Description 跳转无权限页面
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/23 14:01
+     * @titel 跳转无权限页面
+     * @description 跳转无权限页面
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/23 14:01
      */
     @RequestMapping("/401")
     public ModelAndView error401() {
@@ -31,10 +31,10 @@ public class ErrorPageController {
 
     /**
      * @return org.springframework.web.servlet.ModelAndView
-     * @Titel 跳转禁止访问页面
-     * @Description 跳转禁止访问页面
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/23 14:01
+     * @titel 跳转禁止访问页面
+     * @description 跳转禁止访问页面
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/23 14:01
      */
     @RequestMapping("/403")
     public ModelAndView error403() {
@@ -44,10 +44,10 @@ public class ErrorPageController {
 
     /**
      * @return org.springframework.web.servlet.ModelAndView
-     * @Titel 跳转资源找不到页面
-     * @Description 跳转资源找不到页面
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/23 14:01
+     * @titel 跳转资源找不到页面
+     * @description 跳转资源找不到页面
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/23 14:01
      */
     @RequestMapping("/404")
     public ModelAndView error404() {
@@ -57,10 +57,10 @@ public class ErrorPageController {
 
     /**
      * @return org.springframework.web.servlet.ModelAndView
-     * @Titel 跳转系统内部错误页面
-     * @Description 跳转系统内部错误页面
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/23 14:01
+     * @titel 跳转系统内部错误页面
+     * @description 跳转系统内部错误页面
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/23 14:01
      */
     @RequestMapping("/500")
     public ModelAndView error500() {
