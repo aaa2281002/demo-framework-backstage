@@ -1,11 +1,11 @@
 package com.framework.common.util.system;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.system
- * @Description 系统工具类
- * @DateTime 2019/12/22 16:14
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.system
+ * @description 系统工具类
+ * @datetime 2019/12/22 16:14
  */
 public class SystemUtil {
     //角色

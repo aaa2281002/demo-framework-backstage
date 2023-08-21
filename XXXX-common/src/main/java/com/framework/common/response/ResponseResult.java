@@ -1,50 +1,64 @@
 package com.framework.common.response;
 
 import com.alibaba.fastjson.JSONObject;
-import com.framework.common.util.ResponseResultStatus;
+import com.framework.common.enums.result.ResultEnum;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.response
- * @Description 返回参数对应实体类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.response
+ * @description 返回参数对应类
+ * @datetime 2019/10/11
  */
+@ApiModel(value = "响应信息", description = "返回响应数据")
 public class ResponseResult implements Serializable {
-    private static final long serialVersionUID = -6995375575100199614L;
+    private static final long serialVersionUID = -1L;
     //是否成功， 成功为true,失败为false
+    @ApiModelProperty(value = "是否成功", name = "isStatus", dataType = "boolean", required = true, example = "true")
     private boolean isStatus;
     //对应状态码
+    @ApiModelProperty(value = "返回状态码", name = "code", dataType = "String", required = true, example = "0")
     private String code;
     //返回描述
+    @ApiModelProperty(value = "返回描述信息", name = "msg", dataType = "String", required = true, example = "成功")
     private String msg;
     //返回数据
+    @ApiModelProperty(value = "返回数据", name = "data", dataType = "Object", required = true)
     private Object data;
     //查询总数
+    @ApiModelProperty(value = "返回总数", name = "count", dataType = "Integer", example = "0-100")
     private Integer count;
+    //处理时间戳
+    @ApiModelProperty(value = "返回时间戳", name = "timeStamp", dataType = "Long", required = true, example = "1692078626000")
+    private Long timeStamp;
 
     public ResponseResult() {
-
+        this.timeStamp = System.currentTimeMillis();
     }
 
     public ResponseResult(String code) {
         this.code = code;
+        this.timeStamp = System.currentTimeMillis();
     }
 
 
     public ResponseResult(String code, String msg) {
         this.code = code;
         this.msg = msg;
+        this.timeStamp = System.currentTimeMillis();
 //        this.data = data;
     }
 
     public ResponseResult(String code, String msg, String token) {
         this.code = code;
         this.msg = msg;
+        this.timeStamp = System.currentTimeMillis();
 //        this.data = data;
     }
 
@@ -93,6 +107,15 @@ public class ResponseResult implements Serializable {
         return this;
     }
 
+    public Long gettimeStamp() {
+        return timeStamp;
+    }
+
+    public ResponseResult settimeStamp(Long timeStamp) {
+        this.timeStamp = timeStamp;
+        return this;
+    }
+
     /**
      * @return com.framework.common.response.ResponseResult
      * @Titel 成功返回
@@ -100,9 +123,24 @@ public class ResponseResult implements Serializable {
      * @Author 邋遢龘鵺
      * @DateTime 2020/4/2 18:43
      */
-    public ResponseResult ResponseResultSuccess() {
-        this.code = ResponseResultStatus.SUCCESS;
-        this.msg = ResponseResultStatus.SUCCESS_MESSAGE;
+    public ResponseResult success() {
+        this.code = ResultEnum.CODE0.getCode();
+        this.msg = ResultEnum.CODE0.getMsg();
+        this.isStatus = Boolean.TRUE;
+        return this;
+    }
+
+    /**
+     * @param resultEnum 1 参数枚举
+     * @return com.framework.common.response.ResponseResult
+     * @Title 成功返回
+     * @Description 成功返回
+     * @Author 龘鵺
+     * @DateTime 2023/5/23 14:02
+     */
+    public ResponseResult success(ResultEnum resultEnum) {
+        this.code = resultEnum.getCode();
+        this.msg = resultEnum.getMsg();
         this.isStatus = Boolean.TRUE;
         return this;
     }
@@ -114,9 +152,9 @@ public class ResponseResult implements Serializable {
      * @Author 邋遢龘鵺
      * @DateTime 2020/4/2 18:43
      */
-    public ResponseResult ResponseResultFail() {
-        this.code = ResponseResultStatus.FAIL;
-        this.msg = ResponseResultStatus.FAIL_MESSAGE;
+    public ResponseResult fail() {
+        this.code = ResultEnum.CODE_1.getCode();
+        this.msg = ResultEnum.CODE_1.getMsg();
         return this;
     }
 
@@ -129,48 +167,23 @@ public class ResponseResult implements Serializable {
      * @Author 邋遢龘鵺
      * @DateTime 2020/4/2 18:43
      */
-    public ResponseResult ResponseResultFail(String code, String msg) {
+    public ResponseResult fail(String code, String msg) {
         this.code = code;
         this.msg = msg;
         return this;
     }
 
     /**
+     * @param resultEnum 1 参数枚举
      * @return com.framework.common.response.ResponseResult
-     * @Titel 添加操作失败返回
-     * @Description 添加操作失败返回
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/4/2 18:43
+     * @Title 操作失败返回
+     * @Description 操作失败返回
+     * @Author 龘鵺
+     * @DateTime 2023/5/23 14:02
      */
-    public ResponseResult ResponseResultAddFail() {
-        this.code = ResponseResultStatus.FAIL;
-        this.msg = ResponseResultStatus.ADD_FAIL_MESSAGE;
-        return this;
-    }
-
-    /**
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 更新=修改失败返回
-     * @Description 更新=修改失败返回
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/4/2 18:43
-     */
-    public ResponseResult ResponseResultUpdateFail() {
-        this.code = ResponseResultStatus.FAIL;
-        this.msg = ResponseResultStatus.UPDATE_FAIL_MESSAGE;
-        return this;
-    }
-
-    /**
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 删除失败返回
-     * @Description 删除失败返回
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/4/2 18:43
-     */
-    public ResponseResult ResponseResultDeleteFail() {
-        this.code = ResponseResultStatus.FAIL;
-        this.msg = ResponseResultStatus.DELETE_FAIL_MESSAGE;
+    public ResponseResult fail(ResultEnum resultEnum) {
+        this.code = resultEnum.getCode();
+        this.msg = resultEnum.getMsg();
         return this;
     }
 
@@ -181,9 +194,9 @@ public class ResponseResult implements Serializable {
      * @Author 邋遢龘鵺
      * @DateTime 2020/4/2 18:43
      */
-    public ResponseResult ResponseResultFailRepeat() {
-        this.code = ResponseResultStatus.FAIL;
-        this.msg = ResponseResultStatus.FAIL_REPEAT_MESSAGE;
+    public ResponseResult failRepeat() {
+        this.code = ResultEnum.CODE3000.getCode();
+        this.msg = ResultEnum.CODE3000.getMsg();
         return this;
     }
 
@@ -194,9 +207,9 @@ public class ResponseResult implements Serializable {
      * @Author 邋遢龘鵺
      * @DateTime 2020/4/2 18:43
      */
-    public ResponseResult ResponseResultError() {
-        this.code = ResponseResultStatus.ERROR;
-        this.msg = ResponseResultStatus.ERROR_MESSAGE;
+    public ResponseResult error() {
+        this.code = ResultEnum.CODE_2.getCode();
+        this.msg = ResultEnum.CODE_2.getMsg();
         return this;
     }
 
@@ -207,9 +220,9 @@ public class ResponseResult implements Serializable {
      * @Author 邋遢龘鵺
      * @DateTime 2020/4/2 18:43
      */
-    public ResponseResult ResponseResultNoLogin() {
-        this.code = ResponseResultStatus.NO_LOGIN;
-        this.msg = ResponseResultStatus.NO_LOGIN_MESSAGE;
+    public ResponseResult noLogin() {
+        this.code = ResultEnum.CODE_3.getCode();
+        this.msg = ResultEnum.CODE_3.getMsg();
         return this;
     }
 
@@ -220,23 +233,10 @@ public class ResponseResult implements Serializable {
      * @Author 邋遢龘鵺
      * @DateTime 2020/4/2 18:43
      */
-    public ResponseResult ResponseResultLogin() {
-        this.code = ResponseResultStatus.SUCCESS;
-        this.msg = ResponseResultStatus.LOGIN_MESSAGE;
+    public ResponseResult login() {
+        this.code = ResultEnum.CODE0.getCode();
+        this.msg = ResultEnum.CODE0.getMsg();
         this.isStatus = Boolean.TRUE;
-        return this;
-    }
-
-    /**
-     * @return com.framework.common.response.ResponseResult
-     * @Titel 无权限操作返回
-     * @Description 无权限操作返回
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/4/2 18:43
-     */
-    public ResponseResult ResponseResultNoPermission() {
-        this.code = ResponseResultStatus.NO_PERMISSION;
-        this.msg = ResponseResultStatus.LOGIN_NO_PERMISSION;
         return this;
     }
 
@@ -254,6 +254,7 @@ public class ResponseResult implements Serializable {
         map.put("msg", msg);
         map.put("data", data);
         map.put("count", count);
+        map.put("timeStamp", timeStamp);
         return JSONObject.toJSONString(map);
     }
 

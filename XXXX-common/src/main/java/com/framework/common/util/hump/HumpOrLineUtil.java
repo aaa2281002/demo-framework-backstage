@@ -6,11 +6,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.hump
- * @Description 驼峰和下划线互转工具类
- * @DateTime 2019/12/10 17:37
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.hump
+ * @description 驼峰和下划线互转工具类
+ * @datetime 2019/12/10 17:37
  */
 public class HumpOrLineUtil {
     private static Pattern humpPattern = Pattern.compile("[A-Z]");
@@ -19,10 +19,28 @@ public class HumpOrLineUtil {
     /**
      * @param str 1 字符串
      * @return java.lang.String
-     * @Titel 驼峰转下划线
-     * @Description 驼峰转下划线
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/10 17:39
+     * @titel 驼峰转下左斜线
+     * @description 驼峰转下左斜线
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/10 17:39
+     */
+    public static String humpToSlash(String str) {
+        Matcher matcher = humpPattern.matcher(str);
+        StringBuffer sb = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(sb, SymbolUtil.NO_INPUT_METHOD_FORWARD_SLASH + matcher.group(0).toLowerCase());
+        }
+        matcher.appendTail(sb);
+        return sb.toString();
+    }
+
+    /**
+     * @param str 1 字符串
+     * @return java.lang.String
+     * @titel 驼峰转下划线
+     * @description 驼峰转下划线
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/10 17:39
      */
     public static String humpToLine(String str) {
         Matcher matcher = humpPattern.matcher(str);
@@ -37,10 +55,10 @@ public class HumpOrLineUtil {
     /**
      * @param str 1 字符串
      * @return java.lang.String
-     * @Titel 下划线转驼峰
-     * @Description 下划线转驼峰
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/10 17:39
+     * @titel 下划线转驼峰
+     * @description 下划线转驼峰
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/10 17:39
      */
     public static String lineToHump(String str) {
         str = str.toLowerCase();

@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="Tables" targetRuntime="MyBatis3">
+        <!--        设置生成文件的编码-->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 给Java模型生成序列化 -->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin">
+            <!--            <property name="addGWTInterface" value="true"/>-->
+            <!--            <property name="suppressJavaInterface" value="true"/>-->
+        </plugin>
+        <!-- 给Java模型生成toString -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!-- 给Java模型生成equals和hashcode方法 -->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
+        <!-- 自定义扩展 -->
+        <plugin type="com.framework.mapper.generator.godeGenerator.custom.CustomPlugin"/>
+        <plugin type="com.framework.mapper.generator.godeGenerator.custom.ServiceAndControllerGeneratorPlugin">
+            <!-- service项目目录，一般为 src/main/java -->
+            <property name="serviceTargetProject" value="XXXX-service/src/main/java"/>
+            <!-- service包名，如：com.thinkj2ee.cms.service.service -->
+            <property name="servicePackage" value="com.framework.service.module.demo"/>
+            <!-- service实现类包名，如：com.thinkj2ee.cms.service.service.impl -->
+            <property name="serviceImplPackage" value="com.framework.service.module.demo.impl"/>
+            <!-- controller 项目目录，一般为 src/main/java -->
+            <property name="controllerTargetProject" value="XXXX-web-backstage/src/main/java"/>
+            <!-- Controlle类包名，如：com.thinkj2ee.cms.service.controller -->
+            <property name="controllerPackage" value="com.framework.web.controller.module.demo"/>
+            <!-- html目录 -->
+            <property name="htmlPackage"
+                      value="XXXX-web-backstage/src/main/resources/templates/lowerright/module/demo/"/>
+            <!-- service接口名前缀 -->
+            <property name="servicePreffix" value=""/>
+            <!-- service接口名后缀 -->
+            <property name="serviceSuffix" value="Service"/>
+            <!-- service接口的父接口 -->
+            <property name="superServiceInterface" value=""/>
+            <!-- service实现类的父类 -->
+            <property name="superServiceImpl" value="com.framework.service.base.BaseService"/>
+            <!-- controller类的父类 -->
+            <property name="superController" value="com.framework.web.base.BaseController"/>
+            <!-- 开发者名称 -->
+            <property name="author" value="龘鵺"/>
+            <!-- 版本号 -->
+            <property name="version" value="1.0"/>
+            <!-- 生成HTML页面， true=生成，  false=不生成 -->
+            <property name="generateHtml" value="false"/>
+            <!-- 生成swagger注释， true=生成，  false=不生成 -->
+            <property name="swagger" value="true"/>
+        </plugin>
+        <!-- 注释 -->
+        <commentGenerator type="com.framework.mapper.generator.godeGenerator.custom.MybatisCommentGenerator">
+            <!--        <commentGenerator >-->
+            <!-- 开发者名称 -->
+            <property name="author" value="龘鵺"/>
+            <!-- 版本号 -->
+            <property name="version" value="1.0"/>
+            <!-- 时间格式 -->
+            <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+            <!-- 是否生成注释代时间戳 -->
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <!--            <property name="suppressAllComments" value="true"/>-->
+            <!-- 是否不生成注释 -->
+            <property name="addRemarkComments" value="true"/>
+            <!-- 生成swagger注释， true=生成，  false=不生成 -->
+            <property name="swagger" value="true"/>
+        </commentGenerator>
+
+        <!--数据库链接地址账号密码-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/demoframework?serverTimezone=UTC&amp;useSSL=false&amp;characterEncoding=utf-8"
+                        userId="root"
+                        password="123456">
+            <!-- 设置 useInformationSchema 属性为 true，才能获取到表注释 -->
+            <property name="useInformationSchema" value="true"/>
+            <!--防止生成其他库同名表-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+        <!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制-->
+        <!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和
+         NUMERIC 类型解析为java.math.BigDecimal -->
+        <javaTypeResolver>
+            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- 生成实体类地址 -->
+        <javaModelGenerator targetPackage="com.framework.model.module.demo" targetProject="XXXX-model/src/main/java">
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true"/>
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </javaModelGenerator>
+
+        <!-- 生成mapper xml文件 -->
+        <sqlMapGenerator targetPackage="com.framework.mapper.module.demo" targetProject="XXXX-mapper/src/main/resources">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!--    <sqlMapGenerator targetPackage="com.framework.mapper.read" targetProject="XXXX-mapper/src/main/resources">
+                &lt;!&ndash; enableSubPackages:是否让schema作为包的后缀 &ndash;&gt;
+                <property name="enableSubPackages" value="false"/>
+            </sqlMapGenerator>-->
+        <!--<sqlMapGenerator targetPackage="com.framework.mapper.write" targetProject="XXXX-mapper/src/main/resources">-->
+        <!--&lt;!&ndash; enableSubPackages:是否让schema作为包的后缀 &ndash;&gt;-->
+        <!--<property name="enableSubPackages" value="false"/>-->
+        <!--</sqlMapGenerator>-->
+        <!-- 生成mapper xml对应Client-->
+        <javaClientGenerator targetPackage="com.framework.mapper.module.demo" targetProject="XXXX-mapper/src/main/java"
+                             type="XMLMAPPER">
+            <!-- enableSubPackages:是否让schema作为包的后缀 -->
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!--<javaClientGenerator targetPackage="com.framework.mapper.read" targetProject="XXXX-mapper/src/main/java"-->
+        <!--type="XMLMAPPER">-->
+        <!--&lt;!&ndash; enableSubPackages:是否让schema作为包的后缀 &ndash;&gt;-->
+        <!--<property name="enableSubPackages" value="false"/>-->
+        <!--</javaClientGenerator>-->
+        <!--<javaClientGenerator targetPackage="com.framework.mapper.write" targetProject="XXXX-mapper/src/main/java"-->
+        <!--type="XMLMAPPER">-->
+        <!--&lt;!&ndash; enableSubPackages:是否让schema作为包的后缀 &ndash;&gt;-->
+        <!--<property name="enableSubPackages" value="false"/>-->
+        <!--</javaClientGenerator>-->
+
+
+        <!-- 配置表信息 -->
+        <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample
+            是否生成 example类 -->
+
+        <!--生成全部表tableName设为%-->
+        <!--        可选：-->
+        <!--        1，schema：数据库的schema；-->
+        <!--        2，catalog：数据库的catalog；-->
+        <!--        3，alias：为数据表设置的别名，如果设置了alias，那么生成的所有的SELECT SQL语句中，列名会变成：alias_actualColumnName-->
+        <!--        4，domainObjectName：生成的domain类的名字，如果不设置，直接使用表名作为domain类的名字；可以设置为somepck.domainName，那么会自动把domainName类再放到somepck包里面；-->
+        <!--        5，enableInsert（默认true）：指定是否生成insert语句；-->
+        <!--        6，enableSelectByPrimaryKey（默认true）：指定是否生成按照主键查询对象的语句（就是getById或get）；-->
+        <!--        7，enableSelectByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询语句；-->
+        <!--        8，enableUpdateByPrimaryKey（默认true）：指定是否生成按照主键修改对象的语句（即update)；-->
+        <!--        9，enableDeleteByPrimaryKey（默认true）：指定是否生成按照主键删除对象的语句（即delete）；-->
+        <!--        10，enableDeleteByExample（默认true）：MyBatis3Simple为false，指定是否生成动态删除语句；-->
+        <!--        11，enableCountByExample（默认true）：MyBatis3Simple为false，指定是否生成动态查询总条数语句（用于分页的总条数查询）；-->
+        <!--        12，enableUpdateByExample（默认true）：MyBatis3Simple为false，指定是否生成动态修改语句（只修改对象中不为空的属性）；-->
+        <!--        13，modelType：参考context元素的defaultModelType，相当于覆盖；-->
+        <!--        14，delimitIdentifiers：参考tableName的解释，注意，默认的delimitIdentifiers是双引号，如果类似MYSQL这样的数据库，使用的是`（反引号，那么还需要设置context的beginningDelimiter和endingDelimiter属性）-->
+        <!--        15，delimitAllColumns：设置是否所有生成的SQL中的列名都使用标识符引起来。默认为false，delimitIdentifiers参考context的属性-->
+
+        <!--        <table schema="demoframework" tableName="system_button"-->
+        <!--               domainObjectName="SystemButton"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="system_log"-->
+        <!--               domainObjectName="SystemLog"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="system_menu"-->
+        <!--               domainObjectName="SystemMenu"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="system_role"-->
+        <!--               domainObjectName="SystemRole"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="system_user"-->
+        <!--               domainObjectName="SystemUser"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="tb_system_user_role"-->
+        <!--               domainObjectName="SystemUserRole"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="tb_system_role_menu"-->
+        <!--               domainObjectName="SystemRoleMenu"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="tb_system_menu_button"-->
+        <!--               domainObjectName="SystemMenuButton"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="system_log"-->
+        <!--               domainObjectName="SystemLog"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="system_dict"-->
+        <!--               domainObjectName="SystemDict"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="system_type"-->
+        <!--               domainObjectName="SystemType"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="system_backstage_black_list_ip"-->
+        <!--               domainObjectName="SystemBackstageBlackListIp"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="system_backstage_white_list_ip"-->
+        <!--               domainObjectName="SystemBackstageWhiteListIp"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <!--        <table schema="demoframework" tableName="system_front_black_list_ip"-->
+        <!--               domainObjectName="SystemFrontBlackListIp"-->
+        <!--               enableCountByExample="false"-->
+        <!--               enableDeleteByExample="false"-->
+        <!--               enableSelectByExample="false"-->
+        <!--               enableUpdateByExample="false"-->
+        <!--               enableInsert="false"-->
+        <!--               enableUpdateByPrimaryKey="false"-->
+        <!--               enableDeleteByPrimaryKey="false">-->
+        <!--            <property name="rootClass" value="com.framework.model.base.BaseModel"/>-->
+        <!--            &lt;!&ndash; 去掉指定首字母 &ndash;&gt;-->
+        <!--            <domainObjectRenamingRule searchString="^T" replaceString=""/>-->
+        <!--        </table>-->
+        <table schema="demoframework" tableName="system_front_white_list_ip"
+               domainObjectName="SystemFrontWhiteListIp"
+               enableCountByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               enableUpdateByExample="false"
+               enableInsert="false"
+               enableUpdateByPrimaryKey="false"
+               enableDeleteByPrimaryKey="false">
+            <property name="rootClass" value="com.framework.model.base.BaseModel"/>
+            <!-- 去掉指定首字母 -->
+            <domainObjectRenamingRule searchString="^T" replaceString=""/>
+        </table>
+    </context>
+</generatorConfiguration>

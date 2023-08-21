@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.mapper.system.SystemMenuMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.system.SystemMenu">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="CREATE_ID" jdbcType="BIGINT" property="createId"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId"/>
+        <result column="OPERATER_TIME" property="operaterTime"/>
+        <result column="OPERATER_STATUS" jdbcType="INTEGER" property="operaterStatus"/>
+        <result column="IS_ENABLE" jdbcType="INTEGER" property="isEnable"/>
+        <result column="PARENT_ID" jdbcType="BIGINT" property="parentId"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="CODE" jdbcType="VARCHAR" property="code"/>
+        <result column="LEVEL" jdbcType="INTEGER" property="level"/>
+        <result column="URL" jdbcType="VARCHAR" property="url"/>
+        <result column="ICON" jdbcType="VARCHAR" property="icon"/>
+        <result column="INDEX_SORT" jdbcType="INTEGER" property="indexSort"/>
+        <result column="CATEGORY" jdbcType="INTEGER" property="category"/>
+        <result column="TYPE" jdbcType="INTEGER" property="type"/>
+        <result column="TARGET" jdbcType="VARCHAR" property="target"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        p.ID, p.IS_ENABLE, p.PARENT_ID, p.NAME, p.CODE, p.LEVEL, p.URL, p.ICON, p.INDEX_SORT, p.CATEGORY, p.TYPE, p.TARGET
+    </sql>
+
+    <update id="delete" parameterType="com.framework.model.system.SystemMenu">
+        UPDATE system_menu
+        SET OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            OPERATER_ID     = #{operaterId,jdbcType=BIGINT},
+            OPERATER_TIME   = #{operaterTime}
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="deleteList" parameterType="com.framework.model.system.SystemMenu">
+        UPDATE system_menu SET
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime}
+        WHERE ID IN
+        <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <insert id="insertSelective" parameterType="com.framework.model.system.SystemMenu" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                CREATE_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="operaterId != null">
+                OPERATER_ID,
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME,
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS,
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE,
+            </if>
+            <if test="parentId != null">
+                PARENT_ID,
+            </if>
+            <if test="name != null and name != ''">
+                `NAME`,
+            </if>
+            <if test="code != null and code != ''">
+                `CODE`,
+            </if>
+            <if test="level != null">
+                `LEVEL`,
+            </if>
+            <if test="url != null and url != ''">
+                URL,
+            </if>
+            <if test="icon != null and icon != ''">
+                ICON,
+            </if>
+            <if test="indexSort != null">
+                INDEX_SORT,
+            </if>
+            <if test="category != null">
+                CATEGORY,
+            </if>
+            <if test="type != null">
+                TYPE,
+            </if>
+            <if test="target != null and target != ''">
+                TARGET,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="operaterId != null">
+                #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null and name != ''">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null and code != ''">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=INTEGER},
+            </if>
+            <if test="url != null and url != ''">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null and icon != ''">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="indexSort != null">
+                #{indexSort,jdbcType=INTEGER},
+            </if>
+            <if test="category != null">
+                #{category,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="target != null and target != ''">
+                #{target,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into system_menubutton (CREATE_ID, CREATE_TIME,
+        OPERATER_ID, OPERATER_TIME, OPERATER_STATUS, IS_ENABLE,
+        PARENT_ID, NAME,
+        CODE, LEVEL, URL,
+        ICON, INDEX_SORT, CATEGORY, TYPE, TARGET
+        )
+        <foreach collection="list" item="item" index="index" separator="union all">
+            SELECT
+            #{item.createId,jdbcType=BIGINT}, #{item.createTime}, #{item.operaterId,jdbcType=BIGINT},
+            #{item.operaterTime}, #{item.operaterStatus,jdbcType=INTEGER}, #{item.isEnable,jdbcType=INTEGER},
+            #{item.parentId,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR},
+            #{item.code,jdbcType=VARCHAR}, #{item.level,jdbcType=INTEGER},#{item.url,jdbcType=VARCHAR},
+            #{item.icon,jdbcType=VARCHAR}, #{item.indexSort,jdbcType=INTEGER}, #{item.category,jdbcType=INTEGER},
+            #{item.type,jdbcType=INTEGER}, #{item.target,jdbcType=VARCHAR}
+            FROM dual
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.system.SystemMenu">
+        update system_menu
+        <set>
+            <if test="operaterId != null">
+                OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME = #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="parentId != null">
+                PARENT_ID = #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null and code != ''">
+                CODE = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="level != null">
+                LEVEL = #{level,jdbcType=INTEGER},
+            </if>
+            <if test="url != null and url != ''">
+                URL = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null and icon != ''">
+                ICON = #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="indexSort != null">
+                INDEX_SORT = #{indexSort,jdbcType=INTEGER},
+            </if>
+            <if test="category != null">
+                CATEGORY = #{category,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                TYPE = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="target != null and target != ''">
+                TARGET = #{target,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update system_menu
+            <set>
+                <if test="item.operaterId != null">
+                    OPERATER_ID = #{item.operaterId,jdbcType=BIGINT},
+                </if>
+                <if test="item.operaterTime != null">
+                    OPERATER_TIME = #{item.operaterTime},
+                </if>
+                <if test="item.operaterStatus != null">
+                    OPERATER_STATUS = #{item.operaterStatus,jdbcType=INTEGER},
+                </if>
+                <if test="item.isEnable != null">
+                    IS_ENABLE = #{item.isEnable,jdbcType=INTEGER},
+                </if>
+                <if test="item.parentId != null">
+                    PARENT_ID = #{item.parentId,jdbcType=BIGINT},
+                </if>
+                <if test="item.name != null and item.name != ''">
+                    NAME = #{item.name,jdbcType=VARCHAR},
+                </if>
+                <if test="item.code != null and item.code != ''">
+                    CODE = #{item.code,jdbcType=VARCHAR},
+                </if>
+                <if test="item.level != null">
+                    LEVEL = #{item.level,jdbcType=INTEGER},
+                </if>
+                <if test="item.url != null and item.url != ''">
+                    URL = #{item.url,jdbcType=VARCHAR},
+                </if>
+                <if test="item.icon != null and item.icon != ''">
+                    ICON = #{item.icon,jdbcType=VARCHAR},
+                </if>
+                <if test="item.indexSort != null">
+                    INDEX_SORT = #{item.indexSort,jdbcType=INTEGER},
+                </if>
+                <if test="item.category != null">
+                    CATEGORY = #{item.category,jdbcType=INTEGER},
+                </if>
+                <if test="item.type != null">
+                    TYPE = #{item.type,jdbcType=INTEGER},
+                </if>
+                <if test="item.target != null and item.target != ''">
+                    TARGET = #{item.target,jdbcType=VARCHAR}
+                </if>
+            </set>
+            where ID = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , sm.NAME parentname
+        , cuser.LOGIN_NAME createUsername, ouser.LOGIN_NAME operaterUsername
+        from system_menu p
+        LEFT JOIN system_menu sm on sm.OPERATER_STATUS > -1 and p.PARENT_ID = sm.ID
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} AND p.OPERATER_STATUS > -1
+    </select>
+
+    <select id="isExist" parameterType="com.framework.model.system.SystemMenu" resultType="java.lang.Integer">
+        select COUNT(p.Id)
+        from system_menu p
+        where p.OPERATER_STATUS > -2
+        <!--<if test="name != null and name != ''">-->
+        <!--and p.NAME = #{name}-->
+        <!--</if>-->
+        <if test="parentId != null">
+            AND p.PARENT_ID = #{parentId,jdbcType=BIGINT}
+        </if>
+        <if test="code != null and code != ''">
+            and p.CODE = #{code}
+        </if>
+        <if test="id != null">
+            and p.ID != #{id}
+        </if>
+    </select>
+
+    <select id="isExistUrl" parameterType="com.framework.model.system.SystemMenu" resultType="java.lang.Integer">
+        select COUNT(p.Id)
+        from system_menu p
+        where p.OPERATER_STATUS > -2
+        AND p.URL = #{url,jdbcType=VARCHAR}
+        <if test="id != null">
+            and p.ID != #{id}
+        </if>
+    </select>
+
+    <select id="findPageList" parameterType="com.framework.model.system.SystemMenu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , sm.NAME parentname
+        , cuser.LOGIN_NAME createUsername, ouser.LOGIN_NAME operaterUsername
+        from system_menu p
+        LEFT JOIN system_menu sm on sm.OPERATER_STATUS > -1 and p.PARENT_ID = sm.ID
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+            <if test="order != null and order != ''">${order}</if>
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findPageListCount" parameterType="com.framework.model.system.SystemMenu" resultType="INTEGER">
+        select COUNT(p.ID)
+        from system_menu p
+        LEFT JOIN system_menu sm on sm.OPERATER_STATUS > -1 and p.PARENT_ID = sm.ID
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.system.SystemMenu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        <if test="parentIds != null">,sm.NAME parentname</if>
+        from system_menu p
+        <if test="parentIds != null">
+            left join system_menu sm on sm.OPERATER_STATUS > -1 and p.PARENT_ID = sm.ID
+        </if>
+        <where>
+            p.OPERATER_STATUS > -1
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+
+    <select id="findByInitList" parameterType="com.framework.model.system.SystemMenu" resultMap="BaseResultMap">
+        select
+        p.ID, p.IS_ENABLE, p.PARENT_ID, p.NAME, p.CODE, p.URL, p.ICON, p.INDEX_SORT, p.TARGET
+        from system_menu p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+
+    <select id="findByTreeList" parameterType="com.framework.model.system.SystemMenu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        <if test="parentIds != null">, sm.NAME parentname</if>
+        from system_menu p
+        <if test="parentIds != null">
+            left join system_menu sm on sm.OPERATER_STATUS > -1 and p.PARENT_ID = sm.ID
+        </if>
+        <where>
+            p.OPERATER_STATUS > -1
+            <include refid="conditionSql"/>
+        </where>
+        order by p.INDEX_SORT, p.PARENT_ID, p.CREATE_TIME asc
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <if test="fuzzyType == 'isEnable'">
+            and p.IS_ENABLE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'parentId'">
+            and p.PARENT_ID LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'name'">
+            and p.NAME LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'code'">
+            and p.CODE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'level'">
+            and p.LEVEL LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'url'">
+            and p.URL LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'icon'">
+            and p.ICON LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'indexSort'">
+            and p.INDEX_SORT LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'category'">
+            and p.CATEGORY LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'type'">
+            and p.TYPE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'target'">
+            and p.TARGET LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+    </sql>
+
+    <sql id="searchConditionSql">
+        <if test="search != null and search != ''">
+            AND (
+            p.IS_ENABLE LIKE CONCAT('%', #{search}, '%')
+            or p.PARENT_ID LIKE CONCAT('%', #{search}, '%')
+            or p.NAME LIKE CONCAT('%', #{search}, '%')
+            or p.CODE LIKE CONCAT('%', #{search}, '%')
+            or p.LEVEL LIKE CONCAT('%', #{search}, '%')
+            or p.URL LIKE CONCAT('%', #{search}, '%')
+            or p.ICON LIKE CONCAT('%', #{search}, '%')
+            or p.INDEX_SORT LIKE CONCAT('%', #{search}, '%')
+            or p.CATEGORY LIKE CONCAT('%', #{search}, '%')
+            or p.TYPE LIKE CONCAT('%', #{search}, '%')
+            or p.TARGET LIKE CONCAT('%', #{search}, '%')
+            )
+        </if>
+    </sql>
+
+    <sql id="conditionSql">
+        <include refid="BaseMapper.publicWhereId" />
+        <if test="keyword != null and keyword != ''">
+            AND p.NAME LIKE CONCAT('%',#{keyword},'%')
+        </if>
+
+        <if test="isEnable != null">
+            and p.IS_ENABLE = #{isEnable,jdbcType=INTEGER}
+        </if>
+        <if test="parentId != null">
+            and p.PARENT_ID = #{parentId,jdbcType=BIGINT}
+        </if>
+        <if test="gtaeNum != null">
+            AND p.LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="ltaeNum != null">
+            AND p.LEVEL &lt;= #{ltaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="name != null and name != ''">
+            and p.NAME = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="code != null and code != ''">
+            and p.CODE = #{code,jdbcType=VARCHAR}
+        </if>
+        <if test="level != null">
+            and p.LEVEL = #{level,jdbcType=INTEGER}
+        </if>
+        <if test="url != null and url != ''">
+            and p.URL = #{url,jdbcType=VARCHAR}
+        </if>
+        <if test="icon != null and icon != ''">
+            and p.ICON = #{icon,jdbcType=VARCHAR}
+        </if>
+        <if test="indexSort != null">
+            and p.INDEX_SORT = #{indexSort,jdbcType=INTEGER}
+        </if>
+        <if test="category != null">
+            and p.CATEGORY = #{category,jdbcType=INTEGER}
+        </if>
+        <if test="type != null">
+            and p.TYPE = #{type,jdbcType=INTEGER}
+        </if>
+        <if test="target != null and target != ''">
+            and p.TARGET = #{target,jdbcType=VARCHAR}
+        </if>
+
+        <if test="parentIds != null">
+            AND p.PARENT_ID IN
+            <foreach collection="parentIds" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <include refid="BaseMapper.publicWhereStatus" />
+        <include refid="BaseMapper.publicWhereUserId" />
+        <include refid="BaseMapper.publicWhereCreateTime" />
+    </sql>
+
+    <sql id="vagueConditionSql">
+        <include refid="BaseMapper.publicWhereId" />
+        <if test="isEnable != null">
+            and p.IS_ENABLE LIKE CONCAT('%', #{isEnable,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="parentId != null">
+            and p.PARENT_ID LIKE CONCAT('%', #{parentId,jdbcType=BIGINT}, '%')
+        </if>
+        <if test="name != null and name != ''">
+            and p.NAME LIKE CONCAT('%', #{name,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="code != null and code != ''">
+            and p.CODE LIKE CONCAT('%', #{code,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="level != null">
+            and p.LEVEL LIKE CONCAT('%', #{level,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="url != null and url != ''">
+            and p.URL LIKE CONCAT('%', #{url,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="icon != null and icon != ''">
+            and p.ICON LIKE CONCAT('%', #{icon,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="indexSort != null">
+            and p.INDEX_SORT LIKE CONCAT('%', #{indexSort,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="category != null">
+            and p.CATEGORY LIKE CONCAT('%', #{category,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="type != null">
+            and p.TYPE LIKE CONCAT('%', #{type,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="target != null and target != ''">
+            and p.TARGET LIKE CONCAT('%', #{target,jdbcType=VARCHAR}, '%')
+        </if>
+        <include refid="BaseMapper.publicWhereStatus" />
+        <include refid="BaseMapper.publicWhereUserId" />
+        <include refid="BaseMapper.publicWhereCreateTime" />
+    </sql>
+
+</mapper>

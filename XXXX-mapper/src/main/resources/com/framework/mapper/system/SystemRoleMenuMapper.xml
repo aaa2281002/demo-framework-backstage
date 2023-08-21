@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.mapper.system.SystemRoleMenuMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.system.SystemRoleMenu">
+        <result column="ROLE_ID" jdbcType="BIGINT" property="roleId"/>
+        <result column="MENU_ID" jdbcType="BIGINT" property="menuId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        p.ROLE_ID, p.MENU_ID
+    </sql>
+
+    <delete id="deleteList" parameterType="com.framework.model.system.SystemRoleMenu">
+        DELETE FROM tb_system_role_menu
+        WHERE ROLE_ID = #{roleId} and MENU_ID IN
+        <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteRoleId" parameterType="java.lang.Long">
+        DELETE
+        FROM tb_system_role_menu
+        WHERE ROLE_ID = #{roleId}
+    </delete>
+
+    <insert id="insert" parameterType="com.framework.model.system.SystemRoleMenu">
+        insert into tb_system_role_menu (ROLE_ID, MENU_ID)
+        values (#{roleId,jdbcType=BIGINT}, #{menuId,jdbcType=BIGINT})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.framework.model.system.SystemRoleMenu">
+        insert into tb_system_role_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                ROLE_ID,
+            </if>
+            <if test="menuId != null">
+                MENU_ID,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">
+                #{roleId,jdbcType=BIGINT},
+            </if>
+            <if test="menuId != null">
+                #{menuId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into tb_system_role_menu (ROLE_ID, MENU_ID)
+        <foreach collection="list" item="item" index="index" separator="union all">
+            SELECT
+            #{item.roleId,jdbcType=BIGINT}, #{item.menuId,jdbcType=BIGINT}
+            FROM dual
+        </foreach>
+    </insert>
+
+    <select id="findByMenuIdList" parameterType="com.framework.model.system.SystemRoleMenu" resultType="java.lang.Long">
+        select
+        p.MENU_ID
+        from tb_system_role_menu p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByIsExistList" parameterType="com.framework.model.system.SystemRoleMenu"
+            resultMap="BaseResultMap">
+        SELECT DISTINCT
+        <include refid="Base_Column_List"/>
+        , sr.ROLE_NAME roleName
+        from tb_system_role_menu p
+        INNER JOIN system_role sr ON p.ROLE_ID = sr.ID AND sr.OPERATER_STATUS > -1
+        <if test="roleId != null and idList != null">
+            where p.ROLE_ID IN
+            <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="menuId != null and idList != null">
+            where p.MENU_ID IN
+            <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="findByIsExistRoleIdList" parameterType="com.framework.model.system.SystemRoleMenu"
+            resultMap="BaseResultMap">
+        SELECT DISTINCT sr.ROLE_NAME roleName
+        from tb_system_role_menu p
+        INNER JOIN system_role sr ON p.ROLE_ID = sr.ID AND sr.OPERATER_STATUS > -1
+        <if test="roleId != null and idList != null">
+            where p.ROLE_ID IN
+            <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="menuId != null and idList != null">
+            where p.MENU_ID IN
+            <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="findByRoleIdListMenuCode" parameterType="java.lang.Long"
+            resultMap="BaseResultMap">
+        SELECT DISTINCT
+        <include refid="Base_Column_List"/>
+        , sm.CODE menuCode
+        from tb_system_role_menu p
+        INNER JOIN system_menu sm ON p.MENU_ID = sm.ID AND sm.OPERATER_STATUS > -1
+        where p.ROLE_ID = #{roleId}
+    </select>
+
+    <select id="findByMenuIdListRoleCode" parameterType="java.lang.Long"
+            resultMap="BaseResultMap">
+        SELECT DISTINCT
+        <include refid="Base_Column_List"/>
+        , sr.ROLE_CODE roleCode
+        from tb_system_role_menu p
+        INNER JOIN system_role sr ON p.ROLE_ID = sr.ID AND sr.OPERATER_STATUS > -1
+        where p.MENU_ID = #{menuId}
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.system.SystemRoleMenu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_system_role_menu p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByInitList" parameterType="com.framework.model.system.SystemRoleMenu" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        , sr.ROLE_CODE roleCode
+        , sm.CODE menuCode
+        from tb_system_role_menu p
+        INNER JOIN system_role sr ON p.ROLE_ID = sr.ID AND sr.OPERATER_STATUS > -1
+        INNER JOIN system_menu sm ON p.MENU_ID = sm.ID AND sm.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <if test="fuzzyType == 'roleId'">
+            and p.ROLE_ID LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'menuId'">
+            and p.MENU_ID LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+    </sql>
+
+    <sql id="searchConditionSql">
+        <if test="search != null and search != ''">
+            AND (
+            p.ROLE_ID LIKE CONCAT('%', #{search}, '%')
+            or p.MENU_ID LIKE CONCAT('%', #{search}, '%')
+            )
+        </if>
+    </sql>
+
+    <sql id="conditionSql">
+        <if test="roleId != null">
+            and p.ROLE_ID = #{roleId,jdbcType=BIGINT}
+        </if>
+        <if test="menuId != null">
+            and p.MENU_ID = #{menuId,jdbcType=BIGINT}
+        </if>
+    </sql>
+
+    <sql id="vagueConditionSql">
+        <if test="roleId != null">
+            and p.ROLE_ID LIKE CONCAT('%', #{roleId,jdbcType=BIGINT}, '%')
+        </if>
+        <if test="menuId != null">
+            and p.MENU_ID LIKE CONCAT('%', #{menuId,jdbcType=BIGINT}, '%')
+        </if>
+    </sql>
+
+</mapper>

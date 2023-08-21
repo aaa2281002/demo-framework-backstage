@@ -14,11 +14,11 @@
 //import java.util.List;
 //
 ///**
-// * @Author 邋遢龘鵺
-// * @ClassName com.framework.web.other.factory
-// * @Description 响应体包装工厂bean类
-// * @DateTime 2019/10/11
-// * @Version 1.0
+// * @author 邋遢龘鵺
+// * @className com.framework.web.other.factory
+// * @description 响应体包装工厂bean类
+// * @datetime 2019/10/11
+// * @version 1.0
 // */
 //@Configuration
 //public class ResponseBodyWrapFactoryBean implements InitializingBean {

@@ -43,6 +43,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.framework.web.start.WebBParentApplication</mainClass>
                     <classifier>exe</classifier>
                 </configuration>
                 <!-- maven打包支持,configuration中的配置表示输出两个jar，其中以exe结尾的jar用于执行，另一个可以被依赖 end -->

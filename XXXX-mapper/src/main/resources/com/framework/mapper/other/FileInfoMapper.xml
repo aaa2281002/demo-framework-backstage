@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.mapper.other.FileInfoMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.other.FileInfo">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="CREATE_ID" jdbcType="BIGINT" property="createId"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId"/>
+        <result column="OPERATER_TIME" property="operaterTime"/>
+        <result column="OPERATER_STATUS" jdbcType="INTEGER" property="operaterStatus"/>
+        <result column="BUSINESS_ID" jdbcType="BIGINT" property="businessId"/>
+        <result column="CODE" jdbcType="VARCHAR" property="code"/>
+        <result column="FILE_NAME" jdbcType="VARCHAR" property="fileName"/>
+        <result column="FILE_TYPE" jdbcType="INTEGER" property="fileType"/>
+        <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        p.ID, p.BUSINESS_ID, p.CODE, p.FILE_NAME, p.FILE_TYPE, p.FILE_PATH
+    </sql>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from t_file_info
+        where ID = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <update id="delete" parameterType="com.framework.model.other.FileInfo">
+        UPDATE t_file_info
+        SET OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            OPERATER_ID     = #{operaterId,jdbcType=BIGINT},
+            OPERATER_TIME   = #{operaterTime}
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="deleteList" parameterType="com.framework.model.other.FileInfo">
+        UPDATE t_file_info SET
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime}
+        WHERE ID IN
+        <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <insert id="insertSelective" parameterType="com.framework.model.other.FileInfo" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into t_file_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                CREATE_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="operaterId != null">
+                OPERATER_ID,
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME,
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS,
+            </if>
+            <if test="businessId != null">
+                BUSINESS_ID,
+            </if>
+            <if test="code != null">
+                CODE,
+            </if>
+            <if test="fileName != null">
+                FILE_NAME,
+            </if>
+            <if test="fileType != null">
+                FILE_TYPE,
+            </if>
+            <if test="filePath != null">
+                FILE_PATH,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="operaterId != null">
+                #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="businessId != null">
+                #{businessId,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="fileType != null">
+                #{fileType,jdbcType=INTEGER},
+            </if>
+            <if test="filePath != null">
+                #{filePath,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into t_file_info (
+        CREATE_ID, CREATE_TIME,
+        OPERATER_ID, OPERATER_TIME, OPERATER_STATUS,
+        BUSINESS_ID, CODE, FILE_NAME,
+        FILE_TYPE, FILE_PATH
+        )
+        <foreach collection="list" item="item" index="index" separator="union all">
+            SELECT
+            #{item.createId,jdbcType=BIGINT}, #{item.createTime},
+            #{item.operaterId,jdbcType=BIGINT}, #{item.operaterTime}, #{item.operaterStatus,jdbcType=INTEGER},
+            #{item.businessId,jdbcType=BIGINT}, #{item.code,jdbcType=VARCHAR}, #{item.fileName,jdbcType=VARCHAR},
+            #{item.fileType,jdbcType=INTEGER}, #{item.filePath,jdbcType=VARCHAR}
+            FROM dual
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.other.FileInfo">
+        update t_file_info
+        <set>
+            <if test="operaterId != null">
+                OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME = #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="businessId != null">
+                BUSINESS_ID = #{businessId,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                CODE = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                FILE_NAME = #{fileName,jdbcType=VARCHAR},
+            </if>
+            <if test="fileType != null">
+                FILE_TYPE = #{fileType,jdbcType=INTEGER},
+            </if>
+            <if test="filePath != null">
+                FILE_PATH = #{filePath,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update t_file_info
+            <set>
+                <if test="item.operaterId != null">
+                    OPERATER_ID = #{item.operaterId,jdbcType=BIGINT},
+                </if>
+                <if test="item.operaterTime != null">
+                    OPERATER_TIME = #{item.operaterTime},
+                </if>
+                <if test="item.operaterStatus != null">
+                    OPERATER_STATUS = #{item.operaterStatus,jdbcType=INTEGER},
+                </if>
+                <if test="item.businessId != null">
+                    BUSINESS_ID = #{item.businessId,jdbcType=BIGINT},
+                </if>
+                <if test="item.code != null">
+                    CODE = #{item.code,jdbcType=VARCHAR},
+                </if>
+                <if test="item.fileName != null">
+                    FILE_NAME = #{item.fileName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.fileType != null">
+                    FILE_TYPE = #{item.fileType,jdbcType=INTEGER},
+                </if>
+                <if test="item.filePath != null">
+                    FILE_PATH = #{item.filePath,jdbcType=VARCHAR}
+                </if>
+            </set>
+            where ID = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from t_file_info p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} and p.OPERATER_STATUS > -1
+    </select>
+
+    <select id="findPageList" parameterType="com.framework.model.other.FileInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        from t_file_info p
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+            <if test="order != null and order != ''">${order}</if>
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findPageListCount" parameterType="com.framework.model.other.FileInfo" resultType="INTEGER">
+        select COUNT(p.ID)
+        from t_file_info p
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.other.FileInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        from t_file_info p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <if test="fuzzyType == 'createUserName'">
+            AND p.CREATE_ID in (SELECT u.ID FROM `SYSTEM_USER`u WHERE u.LOGIN_NAME LIKE
+            CONCAT('%',#{fuzzyValue},'%') AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="fuzzyType == 'operaterUserName'">
+            AND p.OPERATER_ID in (SELECT u.ID FROM `SYSTEM_USER`u WHERE u.LOGIN_NAME LIKE
+            CONCAT('%',#{fuzzyValue},'%') AND u.OPERATER_STATUS > -1)
+        </if>
+        <if test="fuzzyType == 'operaterStatus'">
+            AND p.OPERATER_STATUS LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'businessId'">
+            AND p.BUSINESS_ID LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'code'">
+            AND p.CODE LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'fileName'">
+            AND p.FILE_NAME LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'fileType'">
+            AND p.FILE_TYPE LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+        <if test="fuzzyType == 'filePath'">
+            AND p.FILE_PATH LIKE CONCAT('%',#{fuzzyValue},'%')
+        </if>
+    </sql>
+
+    <sql id="conditionSql">
+
+        <include refid="BaseMapper.publicWhereId"/>
+
+        <if test="search != null and search != ''">
+            AND (
+            p.FILE_NAME LIKE CONCAT('%',#{search},'%')
+            OR
+            p.CODE LIKE CONCAT('%',#{search},'%')
+            OR
+            p.FILE_PATH LIKE CONCAT('%',#{search},'%')
+            )
+        </if>
+
+        <include refid="BaseMapper.publicWhereCreateTime"/>
+
+        <if test="businessId != null">
+            AND p.BUSINESS_ID = #{businessId,jdbcType=BIGINT}
+        </if>
+        <if test="code != null and code != ''">
+            AND p.CODE = #{code,jdbcType=VARCHAR}
+        </if>
+        <if test="fileName != null and fileName != ''">
+            AND p.FILE_NAME = #{fileName,jdbcType=VARCHAR}
+        </if>
+        <if test="fileType != null">
+            AND p.FILE_TYPE = #{fileType,jdbcType=INTEGER}
+        </if>
+        <if test="filePath != null and filePath != ''">
+            AND p.FILE_PATH = #{filePath,jdbcType=VARCHAR}
+        </if>
+        <include refid="BaseMapper.publicWhereStatus" />
+        <include refid="BaseMapper.publicWhereUserId" />
+        <include refid="BaseMapper.publicWhereCreateTime" />
+    </sql>
+
+</mapper>

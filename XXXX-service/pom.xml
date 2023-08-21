@@ -28,20 +28,20 @@
     <dependencies>
         <!--&lt;!&ndash; 开始-内部引用 &ndash;&gt;-->
         <!--<dependency>-->
-            <!--<groupId>com.framework</groupId>-->
-            <!--<artifactId>XXXX-common</artifactId>-->
-            <!--<version>1.0.0</version>-->
+        <!--<groupId>com.framework</groupId>-->
+        <!--<artifactId>XXXX-common</artifactId>-->
+        <!--<version>1.0.0</version>-->
         <!--</dependency>-->
 
         <!--<dependency>-->
-            <!--<groupId>com.framework</groupId>-->
-            <!--<artifactId>XXXX-model</artifactId>-->
-            <!--<version>1.0.0</version>-->
+        <!--<groupId>com.framework</groupId>-->
+        <!--<artifactId>XXXX-model</artifactId>-->
+        <!--<version>1.0.0</version>-->
         <!--</dependency>-->
 
         <dependency>
             <groupId>com.framework</groupId>
-            <artifactId>XXXX-dao</artifactId>
+            <artifactId>XXXX-mapper</artifactId>
             <version>1.0.0</version>
         </dependency>
 
@@ -58,6 +58,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.framework.web.start.WebBParentApplication</mainClass>
                     <classifier>exe</classifier>
                 </configuration>
                 <!-- maven打包支持,configuration中的配置表示输出两个jar，其中以exe结尾的jar用于执行，另一个可以被依赖 end -->

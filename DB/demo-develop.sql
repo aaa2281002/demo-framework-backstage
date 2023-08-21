@@ -1,14 +1,18 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/4/15 15:58:57                           */
+/* Created on:     2023/6/28 9:43:06                            */
 /*==============================================================*/
 
 
-drop table if exists SYSTEM_BLACK_LIST_IP;
+drop table if exists SYSTEM_BACKSTAGE_BLACK_LIST_IP;
 
-drop table if exists SYSTEM_BUTTON;
+drop table if exists SYSTEM_BACKSTAGE_WHITE_LIST_IP;
 
 drop table if exists SYSTEM_DICT;
+
+drop table if exists SYSTEM_FRONT_BLACK_LIST_IP;
+
+drop table if exists SYSTEM_FRONT_WHITE_LIST_IP;
 
 drop table if exists SYSTEM_LOG;
 
@@ -20,267 +24,271 @@ drop table if exists SYSTEM_TYPE;
 
 drop table if exists SYSTEM_USER;
 
-drop table if exists SYSTEM_WHITE_LIST_IP;
-
 drop table if exists TB_SYSTEM_ROLE_MENU;
-
-drop table if exists TB_SYSTEM_ROLE_MENU_BUTTON;
 
 drop table if exists TB_SYSTEM_USER_ROLE;
 
 drop table if exists T_FILE_INFO;
 
 /*==============================================================*/
-/* Table: SYSTEM_BLACK_LIST_IP                                  */
+/* Table: SYSTEM_BACKSTAGE_BLACK_LIST_IP                        */
 /*==============================================================*/
-create table SYSTEM_BLACK_LIST_IP
+create table SYSTEM_BACKSTAGE_BLACK_LIST_IP
 (
-   ID                   BIGINT not null auto_increment comment '±àºÅ',
-   CREATE_ID            BIGINT default 0 comment '´´½¨ÈË±àºÅ',
-   CREATE_TIME          DATETIME comment '´´½¨ÈÕÆÚÊ±¼ä',
-   OPERATER_ID          BIGINT default 0 comment '²Ù×÷ÈË±àºÅ',
-   OPERATER_TIME        DATETIME comment '²Ù×÷ÈÕÆÚÊ±¼ä',
-   OPERATER_STATUS      INT default 0 comment '²Ù×÷×´Ì¬£º -1=É¾³ı£¬ 1=ĞÂÔö, 2=ĞŞ¸Ä',
-   IS_ENABLE            INT default 0 comment 'ÊÇ·ñÆôÓÃ£º1=ÆôÓÃ,2=½ûÓÃ',
-   IP                   VARCHAR(128) default '' comment 'IP',
-   DESCRIPTION          VARCHAR(2000) default '' comment '½ÇÉ«ÃèÊö',
-   primary key (ID)
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    CREATE_ID            BIGINT default 0 comment 'åˆ›å»ºäººç¼–å·',
+    CREATE_TIME          DATETIME comment 'åˆ›å»ºæ—¥æœŸæ—¶é—´',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    OPERATER_STATUS      INT default 0 comment 'æ“ä½œçŠ¶æ€',
+    IS_ENABLE            INT default 0 comment 'æ˜¯å¦å¯ç”¨',
+    IP                   VARCHAR(128) default '' comment 'IP',
+    DESCRIPTION          VARCHAR(2000) default '' comment 'æè¿°',
+    primary key (ID)
 );
 
-alter table SYSTEM_BLACK_LIST_IP comment 'ÏµÍ³ºÚÃûµ¥-Ç°¶ËµÇÂ¼';
+alter table SYSTEM_BACKSTAGE_BLACK_LIST_IP comment 'ç³»ç»Ÿåå°é»‘åå•IP';
 
 /*==============================================================*/
-/* Table: SYSTEM_BUTTON                                         */
+/* Table: SYSTEM_BACKSTAGE_WHITE_LIST_IP                        */
 /*==============================================================*/
-create table SYSTEM_BUTTON
+create table SYSTEM_BACKSTAGE_WHITE_LIST_IP
 (
-   ID                   BIGINT not null auto_increment comment '±àºÅ',
-   CREATE_ID            BIGINT default 0 comment '´´½¨ÈË±àºÅ',
-   CREATE_TIME          DATETIME comment '´´½¨ÈÕÆÚÊ±¼ä',
-   OPERATER_ID          BIGINT default 0 comment '²Ù×÷ÈË±àºÅ',
-   OPERATER_TIME        DATETIME comment '²Ù×÷ÈÕÆÚÊ±¼ä',
-   OPERATER_STATUS      INT default 0 comment '²Ù×÷×´Ì¬£º-1=É¾³ı£¬1=ĞÂÔö, 2=ĞŞ¸Ä',
-   IS_ENABLE            INT default 0 comment 'ÊÇ·ñÆôÓÃ£º1=ÆôÓÃ,2=½ûÓÃ',
-   BUTTON_NAME          VARCHAR(256) default '' comment '°´Å¥Ãû³Æ',
-   BUTTON_CODE          VARCHAR(255) default '' comment '°´Å¥Î¨Ò»´úÂë',
-   DESCRIPTION          VARCHAR(2000) default '' comment '½ÇÉ«ÃèÊö',
-   primary key (ID),
-   unique key AK_UQ_MENU_CODE (BUTTON_CODE)
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    CREATE_ID            BIGINT default 0 comment 'åˆ›å»ºäººç¼–å·',
+    CREATE_TIME          DATETIME comment 'åˆ›å»ºæ—¥æœŸæ—¶é—´',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    OPERATER_STATUS      INT default 0 comment 'æ“ä½œçŠ¶æ€',
+    IS_ENABLE            INT default 0 comment 'æ˜¯å¦å¯ç”¨',
+    IP                   VARCHAR(128) default '' comment 'IP',
+    DESCRIPTION          VARCHAR(2000) default '' comment 'æè¿°',
+    primary key (ID)
 );
 
-alter table SYSTEM_BUTTON comment '°´Å¥È¨ÏŞ¹ÜÀí±í';
+alter table SYSTEM_BACKSTAGE_WHITE_LIST_IP comment 'ç³»ç»Ÿåå°ç™½åå•IP';
 
 /*==============================================================*/
 /* Table: SYSTEM_DICT                                           */
 /*==============================================================*/
 create table SYSTEM_DICT
 (
-   ID                   BIGINT not null auto_increment comment '±àºÅ',
-   CREATE_ID            BIGINT default 0 comment '´´½¨ÈË±àºÅ',
-   CREATE_TIME          DATETIME comment '´´½¨ÈÕÆÚÊ±¼ä',
-   OPERATER_ID          BIGINT default 0 comment '²Ù×÷ÈË±àºÅ',
-   OPERATER_TIME        DATETIME comment '²Ù×÷ÈÕÆÚÊ±¼ä',
-   OPERATER_STATUS      INT default 0 comment '²Ù×÷×´Ì¬£º -1=É¾³ı£¬ 1=ĞÂÔö, 2=ĞŞ¸Ä',
-   DICT_KEY             VARCHAR(128) default '' comment '×Öµä¼ü',
-   IS_ENABLE            INT default 0 comment 'ÊÇ·ñÆôÓÃ£º1=ÆôÓÃ,2=½ûÓÃ',
-   DESCRIPTION          VARCHAR(2000) default '' comment 'ÃèÊö',
-   primary key (ID),
-   unique key AK_UQ_DICT_KEY (DICT_KEY)
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    CREATE_ID            BIGINT default 0 comment 'åˆ›å»ºäººç¼–å·',
+    CREATE_TIME          DATETIME comment 'åˆ›å»ºæ—¥æœŸæ—¶é—´',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    OPERATER_STATUS      INT default 0 comment 'æ“ä½œçŠ¶æ€',
+    IS_ENABLE            INT default 0 comment 'æ˜¯å¦å¯ç”¨',
+    DICT_KEY             VARCHAR(128) default '' comment 'å­—å…¸é”®',
+    DESCRIPTION          VARCHAR(2000) default '' comment 'æè¿°',
+    primary key (ID),
+    unique key AK_UQ_DICT_KEY (DICT_KEY)
 );
 
-alter table SYSTEM_DICT comment 'ÏµÍ³×Öµä±í';
+alter table SYSTEM_DICT comment 'ç³»ç»Ÿå­—å…¸è¡¨';
+
+/*==============================================================*/
+/* Table: SYSTEM_FRONT_BLACK_LIST_IP                            */
+/*==============================================================*/
+create table SYSTEM_FRONT_BLACK_LIST_IP
+(
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    CREATE_ID            BIGINT default 0 comment 'åˆ›å»ºäººç¼–å·',
+    CREATE_TIME          DATETIME comment 'åˆ›å»ºæ—¥æœŸæ—¶é—´',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    OPERATER_STATUS      INT default 0 comment 'æ“ä½œçŠ¶æ€',
+    IS_ENABLE            INT default 0 comment 'æ˜¯å¦å¯ç”¨',
+    IP                   VARCHAR(128) default '' comment 'IP',
+    DESCRIPTION          VARCHAR(2000) default '' comment 'æè¿°',
+    primary key (ID)
+);
+
+alter table SYSTEM_FRONT_BLACK_LIST_IP comment 'ç³»ç»Ÿå‰ç«¯é»‘åå•IP';
+
+/*==============================================================*/
+/* Table: SYSTEM_FRONT_WHITE_LIST_IP                            */
+/*==============================================================*/
+create table SYSTEM_FRONT_WHITE_LIST_IP
+(
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    CREATE_ID            BIGINT default 0 comment 'åˆ›å»ºäººç¼–å·',
+    CREATE_TIME          DATETIME comment 'åˆ›å»ºæ—¥æœŸæ—¶é—´',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    OPERATER_STATUS      INT default 0 comment 'æ“ä½œçŠ¶æ€',
+    IS_ENABLE            INT default 0 comment 'æ˜¯å¦å¯ç”¨',
+    IP                   VARCHAR(128) default '' comment 'IP',
+    DESCRIPTION          VARCHAR(2000) default '' comment 'æè¿°',
+    primary key (ID)
+);
+
+alter table SYSTEM_FRONT_WHITE_LIST_IP comment 'ç³»ç»Ÿå‰ç«¯ç™½åå•IP';
 
 /*==============================================================*/
 /* Table: SYSTEM_LOG                                            */
 /*==============================================================*/
 create table SYSTEM_LOG
 (
-   ID                   BIGINT not null auto_increment comment '±àºÅ',
-   OPERATER_ID          BIGINT default 0 comment '²Ù×÷ÈË±àºÅ',
-   OPERATER_TIME        DATETIME comment '²Ù×÷ÈÕÆÚÊ±¼ä',
-   LOGIN_NAME           VARCHAR(256) default '' comment '²Ù×÷ÕË»§Ãû',
-   IP                   VARCHAR(256) default '' comment 'IPµØÖ·',
-   OPERATER_TITLE       VARCHAR(256) default '' comment '²Ù×÷±êÌâ',
-   OPERATER_CONTENT     VARCHAR(2000) default '' comment '²Ù×÷ÄÚÈİ',
-   COMPANY_CODE         VARCHAR(512) default '' comment '¹«Ë¾Î¨Ò»´úÂë,UUID32Î»',
-   COMPANY_ID           BIGINT default 0 comment '¹«Ë¾±àºÅ',
-   primary key (ID)
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    LOGIN_NAME           VARCHAR(256) default '' comment 'æ“ä½œè´¦æˆ·å',
+    IP                   VARCHAR(256) default '' comment 'IPåœ°å€',
+    OPERATER_TITLE       VARCHAR(256) default '' comment 'æ“ä½œæ ‡é¢˜',
+    OPERATER_CONTENT     VARCHAR(2000) default '' comment 'æ“ä½œå†…å®¹',
+    COMPANY_CODE         VARCHAR(512) default '' comment 'å…¬å¸å”¯ä¸€ä»£ç ',
+    COMPANY_ID           BIGINT default 0 comment 'å…¬å¸ç¼–å·',
+    primary key (ID)
 );
 
-alter table SYSTEM_LOG comment 'ÏµÍ³¹ÜÀí²Ù×÷ÈÕÖ¾±í';
+alter table SYSTEM_LOG comment 'ç³»ç»Ÿç®¡ç†æ“ä½œæ—¥å¿—è¡¨';
 
 /*==============================================================*/
 /* Table: SYSTEM_MENU                                           */
 /*==============================================================*/
 create table SYSTEM_MENU
 (
-   ID                   BIGINT not null auto_increment comment '±àºÅ',
-   CREATE_ID            BIGINT default 0 comment '´´½¨ÈË±àºÅ',
-   CREATE_TIME          DATETIME comment '´´½¨ÈÕÆÚÊ±¼ä',
-   OPERATER_ID          BIGINT default 0 comment '²Ù×÷ÈË±àºÅ',
-   OPERATER_TIME        DATETIME comment '²Ù×÷ÈÕÆÚÊ±¼ä',
-   OPERATER_STATUS      INT default 0 comment '²Ù×÷×´Ì¬£º-1=É¾³ı£¬1=ĞÂÔö, 2=ĞŞ¸Ä',
-   IS_ENABLE            INT default 0 comment 'ÊÇ·ñÆôÓÃ£º1=ÆôÓÃ,2=½ûÓÃ',
-   PARENT_ID            BIGINT default 0 comment '±¾±íÉÏ¼¶±àºÅ',
-   MENU_NAME            VARCHAR(512) default '' comment '²Ëµ¥Ãû³Æ',
-   MENU_CODE            VARCHAR(255) default '' comment '²Ëµ¥Î¨Ò»´úÂë',
-   MENU_LEVEL           INT default 0 comment '²Ëµ¥²ã¼¶,¶¥¼¶²Ëµ¥Îª0ÒòÎªÖ»ÓĞÒ»¸ö£¬Ä£¿é²Ëµ¥Îª1ÓĞ¶à¸ö(Èç£ºÏµÍ³¹ÜÀí£¬XXX¹ÜÀí)
-            Ã¿¼¶²Ëµ¥¸ù¾İÉÏ¼¶²Ëµ¥À´×ÔÔö1ÉèÖÃ²Ëµ¥¼¶±ğ',
-   URL_PATH             VARCHAR(128) default '' comment 'ÇëÇóURL',
-   ICON                 VARCHAR(128) default '' comment 'Í¼±ê',
-   INDEX_SORT           INT comment 'ÅÅĞò',
-   ADMIN_TYPE           INT default 0 comment '²Ëµ¥ÀàĞÍ£¬1¹ÜÀíÔ±²Ëµ¥ 2ÆÕÍ¨²Ëµ¥',
-   TARGET               VARCHAR(64) default '' comment '²Ëµ¥´ò¿ª·½Ê½£¬_selfÄ¬ÈÏ´ò¿ª·½Ê½£¬_blankä¯ÀÀÆ÷ĞÂ´°¿Ú´ò¿ª·½Ê½',
-   primary key (ID),
-   unique key AK_UQ_MENU_CODE (MENU_CODE)
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    CREATE_ID            BIGINT default 0 comment 'åˆ›å»ºäººç¼–å·',
+    CREATE_TIME          DATETIME comment 'åˆ›å»ºæ—¥æœŸæ—¶é—´',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    OPERATER_STATUS      INT default 0 comment 'æ“ä½œçŠ¶æ€',
+    IS_ENABLE            INT default 0 comment 'æ˜¯å¦å¯ç”¨',
+    PARENT_ID            BIGINT default 0 comment 'æœ¬è¡¨ä¸Šçº§ç¼–å·',
+    NAME                 VARCHAR(512) default '' comment 'èœå•åç§°',
+    CODE                 VARCHAR(255) default '' comment 'èœå•å”¯ä¸€ä»£ç ',
+    LEVEL                INT default 0 comment 'èœå•å±‚çº§',
+    URL                  VARCHAR(512) default '' comment 'è¯·æ±‚URL',
+    ICON                 VARCHAR(128) default '' comment 'å›¾æ ‡',
+    INDEX_SORT           INT default 0 comment 'æ’åº',
+    CATEGORY             INT default 0 comment 'ç±»åˆ«',
+    TYPE                 INT default 0 comment 'ç±»å‹',
+    TARGET               VARCHAR(64) default '' comment 'èœå•æ‰“å¼€æ–¹å¼',
+    primary key (ID),
+    unique key AK_UQ_PARENT_ID_CODE (PARENT_ID, CODE)
 );
 
-alter table SYSTEM_MENU comment '²Ëµ¥±í';
+alter table SYSTEM_MENU comment 'èœå•è¡¨';
 
 /*==============================================================*/
 /* Table: SYSTEM_ROLE                                           */
 /*==============================================================*/
 create table SYSTEM_ROLE
 (
-   ID                   BIGINT not null auto_increment comment '±àºÅ',
-   CREATE_ID            BIGINT default 0 comment '´´½¨ÈË±àºÅ',
-   CREATE_TIME          DATETIME comment '´´½¨ÈÕÆÚÊ±¼ä',
-   OPERATER_ID          BIGINT default 0 comment '²Ù×÷ÈË±àºÅ',
-   OPERATER_TIME        DATETIME comment '²Ù×÷ÈÕÆÚÊ±¼ä',
-   OPERATER_STATUS      INT default 0 comment '²Ù×÷×´Ì¬:-1=É¾³ı£¬1=ĞÂÔö, 2=ĞŞ¸Ä',
-   IS_ENABLE            INT default 0 comment 'ÊÇ·ñÆôÓÃ£º1=ÆôÓÃ,2=½ûÓÃ',
-   ROLE_NAME            VARCHAR(128) default '' comment '½ÇÉ«Ãû³Æ',
-   ROLE_CODE            VARCHAR(255) default '' comment '½ÇÉ«Î¨Ò»´úÂë',
-   ROLE_LEVEL           INT comment '½ÇÉ«²ã¼¶£¬ÓÃÓÚ¶à¸ö½ÇÉ«Çé¿öÏÂÓÅÏÈÏÔÊ¾ÊıÖµ×îĞ¡¼¶±ğ¸øÓÃ»§Õ¹Ê¾¡£',
-   DESCRIPTION          VARCHAR(2000) default '' comment '½ÇÉ«ÃèÊö',
-   primary key (ID),
-   unique key AK_UQ_ROLE_CODE (ROLE_CODE)
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    CREATE_ID            BIGINT default 0 comment 'åˆ›å»ºäººç¼–å·',
+    CREATE_TIME          DATETIME comment 'åˆ›å»ºæ—¥æœŸæ—¶é—´',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    OPERATER_STATUS      INT default 0 comment 'æ“ä½œçŠ¶æ€',
+    IS_ENABLE            INT default 0 comment 'æ˜¯å¦å¯ç”¨',
+    ROLE_NAME            VARCHAR(128) default '' comment 'è§’è‰²åç§°',
+    ROLE_CODE            VARCHAR(255) default '' comment 'è§’è‰²å”¯ä¸€ä»£ç ',
+    ROLE_LEVEL           INT default 0 comment 'è§’è‰²å±‚çº§',
+    DESCRIPTION          VARCHAR(2000) default '' comment 'æè¿°',
+    primary key (ID),
+    unique key AK_UQ_ROLE_CODE (ROLE_CODE)
 );
 
-alter table SYSTEM_ROLE comment '½ÇÉ«±í';
+alter table SYSTEM_ROLE comment 'è§’è‰²è¡¨';
 
 /*==============================================================*/
 /* Table: SYSTEM_TYPE                                           */
 /*==============================================================*/
 create table SYSTEM_TYPE
 (
-   ID                   BIGINT not null auto_increment comment '±àºÅ',
-   CREATE_ID            BIGINT default 0 comment '´´½¨ÈË±àºÅ',
-   CREATE_TIME          DATETIME comment '´´½¨ÈÕÆÚÊ±¼ä',
-   OPERATER_ID          BIGINT default 0 comment '²Ù×÷ÈË±àºÅ',
-   OPERATER_TIME        DATETIME comment '²Ù×÷ÈÕÆÚÊ±¼ä',
-   OPERATER_STATUS      INT default 0 comment '²Ù×÷×´Ì¬£º -1=É¾³ı£¬ 1=ĞÂÔö, 2=ĞŞ¸Ä',
-   IS_ENABLE            INT default 0 comment 'ÊÇ·ñÆôÓÃ£º1=ÆôÓÃ,2=½ûÓÃ',
-   TYPE_NAME            VARCHAR(256) default '' comment 'Ãû³Æ',
-   TYPE_CODE            VARCHAR(128) default '' comment 'ÀàĞÍ´úÂë',
-   DESCRIPTION          VARCHAR(2000) default '' comment 'ÃèÊö',
-   primary key (ID),
-   unique key AK_UQ_TYPE_CODE (TYPE_CODE)
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    CREATE_ID            BIGINT default 0 comment 'åˆ›å»ºäººç¼–å·',
+    CREATE_TIME          DATETIME comment 'åˆ›å»ºæ—¥æœŸæ—¶é—´',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    OPERATER_STATUS      INT default 0 comment 'æ“ä½œçŠ¶æ€',
+    IS_ENABLE            INT default 0 comment 'æ˜¯å¦å¯ç”¨',
+    PARENT_ID            BIGINT default 0 comment 'ä¸Šçº§ç¼–å·',
+    TYPE_NAME            VARCHAR(256) default '' comment 'åç§°',
+    TYPE_CODE            VARCHAR(128) default '' comment 'ç±»å‹ä»£ç ',
+    TYPE_VALUE           INT default 0 comment 'ç±»å‹æ•°å€¼',
+    DESCRIPTION          VARCHAR(2000) default '' comment 'æè¿°',
+    primary key (ID)
 );
 
-alter table SYSTEM_TYPE comment 'ÏµÍ³ÀàĞÍ±í';
+alter table SYSTEM_TYPE comment 'ç³»ç»Ÿç±»å‹è¡¨';
 
 /*==============================================================*/
 /* Table: SYSTEM_USER                                           */
 /*==============================================================*/
 create table SYSTEM_USER
 (
-   ID                   BIGINT not null auto_increment comment '±àºÅ',
-   CREATE_ID            BIGINT default 0 comment '´´½¨ÈË±àºÅ',
-   CREATE_TIME          DATETIME comment '´´½¨ÈÕÆÚÊ±¼ä',
-   OPERATER_ID          BIGINT default 0 comment '²Ù×÷ÈË±àºÅ',
-   OPERATER_TIME        DATETIME comment '²Ù×÷ÈÕÆÚÊ±¼ä',
-   OPERATER_STATUS      INT default 0 comment '²Ù×÷×´Ì¬£º -1=É¾³ı£¬ 1=ĞÂÔö, 2=ĞŞ¸Ä',
-   IS_ENABLE            INT default 0 comment 'ÊÇ·ñÆôÓÃ:1=ÆôÓÃ,2=½ûÓÃ',
-   ACCOUNT_LOCKED       INT default 0 comment 'ÊÇ·ñËø×¡:1=·ñ, 2=ÊÇ',
-   ACCOUNT_EXPIRED      INT default 0 comment 'ÕÊºÅÊÇ·ñ¹ıÆÚ:1=·ñ, 2=ÊÇ',
-   CREDENTIALS_EXPIRED  INT default 0 comment 'Æ¾Ö¤ÊÇ·ñ¹ıÆÚ:1=·ñ, 2=ÊÇ',
-   LOGIN_NAME           VARCHAR(64) default '' comment 'ÕË»§Ãû',
-   PASSWORD             VARCHAR(64) default '' comment 'ÃÜÂë',
-   NAME                 VARCHAR(256) default '' comment 'ÃÜÂë',
-   COMPANY_CODE         VARCHAR(512) default '' comment '¹«Ë¾Î¨Ò»´úÂë,UUID32Î»',
-   COMPANY_ID           INT default 0 comment '¹«Ë¾±àºÅ',
-   TELPHONE             VARCHAR(32) default '' comment 'µç»°',
-   EMAIL                VARCHAR(128) default '' comment 'ÓÊÏä',
-   USER_LEVEL           INT default 0 comment 'ÓÃ»§¼¶±ğ£¬¶¥¼¶ÕË»§0¼¶£¬¸ù¾İµ±Ç°ÕË»§´´½¨½øĞĞ+1µİÔö',
-   DESCRIPTION          VARCHAR(2000) default '' comment 'ÏµÍ³¹ÜÀíÔ±(´úÀíÉÌ)ÃèÊö',
-   primary key (ID),
-   unique key AK_UQ_LOGIN_NAME (LOGIN_NAME)
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    CREATE_ID            BIGINT default 0 comment 'åˆ›å»ºäººç¼–å·',
+    CREATE_TIME          DATETIME comment 'åˆ›å»ºæ—¥æœŸæ—¶é—´',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    OPERATER_STATUS      INT default 0 comment 'æ“ä½œçŠ¶æ€',
+    IS_ENABLE            INT default 0 comment 'æ˜¯å¦å¯ç”¨',
+    ACCOUNT_LOCKED       INT default 0 comment 'æ˜¯å¦é”ä½',
+    ACCOUNT_EXPIRED      INT default 0 comment 'å¸å·æ˜¯å¦è¿‡æœŸ',
+    CREDENTIALS_EXPIRED  INT default 0 comment 'å‡­è¯æ˜¯å¦è¿‡æœŸ',
+    LOGIN_NAME           VARCHAR(64) default '' comment 'è´¦æˆ·å',
+    PASSWORD             VARCHAR(64) default '' comment 'å¯†ç ',
+    NAME                 VARCHAR(256) default '' comment 'å§“å',
+    COMPANY_CODE         VARCHAR(512) default '' comment 'å…¬å¸å”¯ä¸€ä»£ç ',
+    COMPANY_ID           INT default 0 comment 'å…¬å¸ç¼–å·',
+    TELPHONE             VARCHAR(32) default '' comment 'ç”µè¯',
+    EMAIL                VARCHAR(128) default '' comment 'é‚®ç®±',
+    USER_LEVEL           INT default 0 comment 'ç”¨æˆ·çº§åˆ«',
+    DESCRIPTION          VARCHAR(2000) default '' comment 'æè¿°',
+    primary key (ID),
+    unique key AK_UQ_LOGIN_NAME (LOGIN_NAME)
 );
 
-alter table SYSTEM_USER comment 'ÓÃ»§¹ÜÀí±í';
-
-/*==============================================================*/
-/* Table: SYSTEM_WHITE_LIST_IP                                  */
-/*==============================================================*/
-create table SYSTEM_WHITE_LIST_IP
-(
-   ID                   BIGINT not null auto_increment comment '±àºÅ',
-   CREATE_ID            BIGINT default 0 comment '´´½¨ÈË±àºÅ',
-   CREATE_TIME          DATETIME comment '´´½¨ÈÕÆÚÊ±¼ä',
-   OPERATER_ID          BIGINT default 0 comment '²Ù×÷ÈË±àºÅ',
-   OPERATER_TIME        DATETIME comment '²Ù×÷ÈÕÆÚÊ±¼ä',
-   OPERATER_STATUS      INT default 0 comment '²Ù×÷×´Ì¬£º -1=É¾³ı£¬ 1=ĞÂÔö, 2=ĞŞ¸Ä',
-   IS_ENABLE            INT default 0 comment 'ÊÇ·ñÆôÓÃ£º1=ÆôÓÃ,2=½ûÓÃ',
-   IP                   VARCHAR(128) default '' comment 'IP',
-   DESCRIPTION          VARCHAR(2000) default '' comment '½ÇÉ«ÃèÊö',
-   primary key (ID)
-);
-
-alter table SYSTEM_WHITE_LIST_IP comment 'ÏµÍ³°×Ãûµ¥-ºóÌ¨µÇÂ¼';
+alter table SYSTEM_USER comment 'ç”¨æˆ·ç®¡ç†è¡¨';
 
 /*==============================================================*/
 /* Table: TB_SYSTEM_ROLE_MENU                                   */
 /*==============================================================*/
 create table TB_SYSTEM_ROLE_MENU
 (
-   ROLE_ID              BIGINT comment 'SYSTEM_ROLE±íÖĞÖ÷¼üID',
-   MENU_ID              BIGINT comment 'SYSTEM_MENU±íÖĞÖ÷¼üID'
+    ROLE_ID              BIGINT comment 'SYSTEM_ROLEè¡¨ä¸­ä¸»é”®ID',
+    MENU_ID              BIGINT comment 'SYSTEM_MENUè¡¨ä¸­ä¸»é”®ID'
 );
 
-alter table TB_SYSTEM_ROLE_MENU comment '½ÇÉ«²Ëµ¥¹ØÁª±í';
-
-/*==============================================================*/
-/* Table: TB_SYSTEM_ROLE_MENU_BUTTON                            */
-/*==============================================================*/
-create table TB_SYSTEM_ROLE_MENU_BUTTON
-(
-   ROLE_ID              BIGINT comment 'SYSTEM_ROLE±íÖĞµÄÖ÷¼üID',
-   MENU_ID              BIGINT comment 'SYSTEM_MENU±íÖĞµÄÖ÷¼üID',
-   BUTTON_ID            BIGINT comment 'SYSTEM_BUTTON±íµÄÖ÷¼üID'
-);
-
-alter table TB_SYSTEM_ROLE_MENU_BUTTON comment '½ÇÉ«²Ëµ¥°´Å¥ÖĞ¼ä±í';
+alter table TB_SYSTEM_ROLE_MENU comment 'è§’è‰²èœå•å…³è”è¡¨';
 
 /*==============================================================*/
 /* Table: TB_SYSTEM_USER_ROLE                                   */
 /*==============================================================*/
 create table TB_SYSTEM_USER_ROLE
 (
-   USER_ID              BIGINT comment 'SYSTEM_USER±íÖĞÖ÷¼üID',
-   ROLE_ID              BIGINT comment 'SYSTEM_ROLE±íÖĞÖ÷¼üID'
+    USER_ID              BIGINT comment 'SYSTEM_USERè¡¨ä¸­ä¸»é”®ID',
+    ROLE_ID              BIGINT comment 'SYSTEM_ROLEè¡¨ä¸­ä¸»é”®ID'
 );
 
-alter table TB_SYSTEM_USER_ROLE comment 'ÓÃ»§½ÇÉ«¹ØÁª±í';
+alter table TB_SYSTEM_USER_ROLE comment 'ç”¨æˆ·è§’è‰²å…³è”è¡¨';
 
 /*==============================================================*/
 /* Table: T_FILE_INFO                                           */
 /*==============================================================*/
 create table T_FILE_INFO
 (
-   ID                   BIGINT not null auto_increment comment '±àºÅ',
-   CREATE_ID            BIGINT default 0 comment '´´½¨ÈË±àºÅ',
-   CREATE_TIME          DATETIME comment '´´½¨ÈÕÆÚÊ±¼ä',
-   OPERATER_ID          BIGINT default 0 comment '²Ù×÷ÈË±àºÅ',
-   OPERATER_TIME        DATETIME comment '²Ù×÷ÈÕÆÚÊ±¼ä',
-   OPERATER_STATUS      INT default 0 comment '²Ù×÷×´Ì¬£º -1=É¾³ı£¬ 1=ĞÂÔö, 2=ĞŞ¸Ä',
-   BUSINESS_ID          BIGINT default 0 comment 'ËùÊô±àºÅ,¶ÔÓ¦ÄÄ¸ö²Ëµ¥ÏÂÊı¾İ±àºÅ',
-   CODE                 VARCHAR(255) default '' comment 'Î¨Ò»´úÂë',
-   FILE_NAME            VARCHAR(128) default '' comment 'ÎÄ¼şÃû',
-   FILE_TYPE            INT default 0 comment 'ÎÄ¼şÀàĞÍ(1=txt,2=docµÈ¡£ĞèÒª¸ù¾İÊµ¼Ê»·¾³¶¨Òå)',
-   FILE_PATH            VARCHAR(256) default '' comment 'ÎÄ¼şÂ·¾¶,ÓÃÁËÖĞ¼ä¼şµÄ»°£¬Õâ¸ö´æ´¢µÄ¾ÍÊÇ¶ÔÓ¦µÄkey',
-   primary key (ID)
+    ID                   BIGINT not null auto_increment comment 'ç¼–å·',
+    CREATE_ID            BIGINT default 0 comment 'åˆ›å»ºäººç¼–å·',
+    CREATE_TIME          DATETIME comment 'åˆ›å»ºæ—¥æœŸæ—¶é—´',
+    OPERATER_ID          BIGINT default 0 comment 'æ“ä½œäººç¼–å·',
+    OPERATER_TIME        DATETIME comment 'æ“ä½œæ—¥æœŸæ—¶é—´',
+    OPERATER_STATUS      INT default 0 comment 'æ“ä½œçŠ¶æ€',
+    BUSINESS_ID          VARCHAR(32) default '' comment 'æ‰€å±ç¼–å·',
+    CODE                 VARCHAR(255) default '' comment 'å”¯ä¸€ä»£ç ',
+    CLASSIFICATION       INT default 0 comment 'åˆ†ç±»',
+    OLD_NAME             VARCHAR(128) default '' comment 'åŸå§‹æ–‡ä»¶å',
+    NEW_NAME             VARCHAR(128) default '' comment 'æ–°æ–‡ä»¶å',
+    FILE_TYPE            INT default 0 comment 'æ–‡ä»¶ç±»å‹',
+    FILE_PATH            VARCHAR(256) default '' comment 'æ–‡ä»¶è·¯å¾„',
+    primary key (ID)
 );
 
-alter table T_FILE_INFO comment 'ÎÄ¼şĞÅÏ¢±í';
+alter table T_FILE_INFO comment 'æ–‡ä»¶ä¿¡æ¯è¡¨';
 

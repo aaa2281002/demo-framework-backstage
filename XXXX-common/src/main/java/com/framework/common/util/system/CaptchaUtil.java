@@ -1,11 +1,11 @@
 package com.framework.common.util.system;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.system
- * @Description 验证码生成图片工具类
- * @DateTime 2019/12/21 11:14
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.system
+ * @description 验证码生成图片工具类
+ * @datetime 2019/12/21 11:14
  */
 public class CaptchaUtil {
     public static final Integer CAPTCHA_EXPIRED_TIME = 60;//验证码超时时间

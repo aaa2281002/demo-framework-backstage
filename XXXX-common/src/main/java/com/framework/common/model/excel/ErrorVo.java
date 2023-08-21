@@ -3,14 +3,14 @@ package com.framework.common.model.excel;
 import java.io.Serializable;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.model.excel
- * @Description excel设置的错误消息
- * @Date 2020/1/8 10:46
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.model.excel
+ * @description excel设置的错误消息
+ * @date 2020/1/8 10:46
  */
 public class ErrorVo implements Serializable {
-    private static final long serialVersionUID = 8531437917874882299L;
+    private static final long serialVersionUID = -1L;
     /**
      * 行号
      */

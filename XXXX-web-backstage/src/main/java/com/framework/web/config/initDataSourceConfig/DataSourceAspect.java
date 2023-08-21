@@ -8,11 +8,11 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.config.initDataSourceConfig
- * @Description service事物拦截类，用于动态切换数据源
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.config.initDataSourceConfig
+ * @description service事物拦截类，用于动态切换数据源
+ * @datetime 2019/10/11
  */
 @Aspect
 //@Order(-1)//必须加上这个不然会DynamicDataSource比DataSourceAspect先执行
@@ -25,21 +25,21 @@ public class DataSourceAspect {
     // 作为@Pointcut的参数，用以定义连接点
 
     /**
-     * @Titel 配置切面目录
-     * @Description 配置切面目录
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 配置切面目录
+     * @description 配置切面目录
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    @Pointcut("execution(* com.framework.*.service..*.*(..))")
+    @Pointcut("execution(* com.framework.service..*.*(..))")
     public void pointcut() {
     }
 
     /**
      * @param ds 1 数据源注解
-     * @Titel 执行方法前更换数据源
-     * @Description 执行方法前更换数据源
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 执行方法前更换数据源
+     * @description 执行方法前更换数据源
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     @Before("pointcut() && @annotation(ds)")
     public void beforeDataSource(TargetDataSource ds) {
@@ -49,10 +49,10 @@ public class DataSourceAspect {
 
     /**
      * @param ds 1 数据源注解
-     * @Titel 执行方法后清除数据源设置
-     * @Description 执行方法后清除数据源设置
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 执行方法后清除数据源设置
+     * @description 执行方法后清除数据源设置
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     @After("pointcut() && @annotation(ds)")
     public void afterDataSource(TargetDataSource ds) {
@@ -61,10 +61,10 @@ public class DataSourceAspect {
 ////----------------------注释放开就能用开始-------------------------------
 //    /**
 //     * @param joinPoint 1 切面点对象
-//     * @Titel 设置随机读取数据源
-//     * @Description 设置随机读取数据源
-//     * @Author 邋遢龘鵺
-//     * @DateTime 2019/10/11
+//     * @titel 设置随机读取数据源
+//     * @description 设置随机读取数据源
+//     * @author 邋遢龘鵺
+//     * @datetime 2019/10/11
 //     */
 //    @Before(value = "pointcut()")
 //    public void beforeRandomReadDataSource(JoinPoint joinPoint) {

@@ -46,7 +46,7 @@
 1.         XXXX-web-backstage                       后台管理启动模块
 2.         XXXX-service                             业务实现模块
 3.         XXXX-model                               实体类模块
-4.         XXXX-dao                                 数据库操作模块
+4.         XXXX-mapper                                 数据库操作模块
 5.         XXXX-common                              公共工具类模块
 6.         DB                                       数据库sql文件目录
 7.         apache-maven-3.5.4                       maven仓库配置文件(需要修改一下对应盘的存储路径)

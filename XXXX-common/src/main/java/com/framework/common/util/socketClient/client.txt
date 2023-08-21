@@ -1,0 +1,770 @@
+//// VBConversions Note: VB project level imports
+//using System.Diagnostics;
+//using System;
+//using System.Xml.Linq;
+//using System.Windows.Forms;
+//using System.Collections;
+//using System.Drawing;
+//using Microsoft.VisualBasic;
+//using System.Data;
+//using System.Collections.Generic;
+//using System.Linq;
+//// End of VB project level imports
+//
+//using System.Net;
+//using System.Net.Sockets;
+//using System.Threading;
+//using System.Text;
+//using Microsoft.VisualBasic.CompilerServices;
+//
+////Imports System.Collections
+////Imports System.IO
+//
+//namespace dmscontrol
+//{
+//    public class DMSCltSocket : IDisposable
+//    {
+//
+//
+//        //通讯数据格式
+//        //@00000# 数据  和@00000$ 数据
+//        //数据第一个字符是{  客户端与服务端交付数据
+//        //数据第一个字符是%{ 服务器发布广播数据
+//
+//        //调用方法
+//        //1、实例化 new (IP， 端口号,响应时间)
+//        //2、  AddHandler 实例.SVRWNBmsg, AddressOf 函数
+//        //3、  AddHandler 实例.NetException, AddressOf 函数 尝试initData
+//        //4、网络通讯初始化 initData
+//        //5、QueryData  //Get_Info_Frmweb2
+//        //6、senddata
+//        //7、sendcmd 未来传送特殊信息
+//        //8、
+//
+//
+//
+//        #region 私有变量
+//
+//
+//        private Socket Sock = null;
+//
+//        //当前设备tcp缓存区最大值
+//        private const int MaxBufferSize = 2048; // &H4000 '- 1   '4095-->4kb
+//
+//        //收发数据异步阻塞
+//        private AutoResetEvent DataDone = new AutoResetEvent(false); //也相当于控制oracle游标，防止超量
+//        private AutoResetEvent ReceiveDone = new AutoResetEvent(false);
+//
+//        private IPEndPoint EP = null;
+//
+//        private int prenum = 0;
+//
+//        //历史未完数据
+//        private List<byte[]> prev_bytes = new List<byte[]>();
+//
+//        //历史未完广播数据
+//        private List<byte[]> prev_WNBbytes = new List<byte[]>();
+//
+//        //当前数量
+//        private byte[] ReceiveBytes = new byte[MaxBufferSize - 1+ 1];
+//
+//        //接受数据线程
+//        private Thread Receivethr;
+//
+//        //接受数据
+//        private string QueryMSG;
+//
+//        //收发数据处理延时
+//        private int _QueryTimeout = 3;
+//
+//        //是否叫停
+//        private bool bNoPause = false;
+//
+//        #endregion
+//
+//        #region 外部触发事件
+//
+//        //服务器广播信息事件
+//        public delegate void SVRWNBmsgEventHandler(string msg); //Web Net Broadcasting 网络广播
+//        private SVRWNBmsgEventHandler SVRWNBmsgEvent;
+//
+//        public event SVRWNBmsgEventHandler SVRWNBmsg
+//        {
+//            add
+//            {
+//                SVRWNBmsgEvent = (SVRWNBmsgEventHandler) System.Delegate.Combine(SVRWNBmsgEvent, value);
+//            }
+//            remove
+//            {
+//                SVRWNBmsgEvent = (SVRWNBmsgEventHandler) System.Delegate.Remove(SVRWNBmsgEvent, value);
+//            }
+//        }
+//
+//
+//        //接受数据异常
+//        public delegate void NetExceptionEventHandler(string msg);
+//        private NetExceptionEventHandler NetExceptionEvent;
+//
+//        public event NetExceptionEventHandler NetException
+//        {
+//            add
+//            {
+//                NetExceptionEvent = (NetExceptionEventHandler) System.Delegate.Combine(NetExceptionEvent, value);
+//            }
+//            remove
+//            {
+//                NetExceptionEvent = (NetExceptionEventHandler) System.Delegate.Remove(NetExceptionEvent, value);
+//            }
+//        }
+//
+//
+//        #endregion
+//
+//        //通讯数据格式
+//        //@00000# 数据  和@00000$ 数据
+//        //数据第一个字符是{  客户端与服务端交付数据
+//        //数据第一个字符是%{ 服务器发布广播数据
+//
+//        //调用方法
+//        //1、实例化 new (IP， 端口号,响应时间)
+//        //2、  AddHandler 实例.SVRWNBmsg, AddressOf 函数
+//        //3、  AddHandler 实例.NetException, AddressOf 函数 尝试initData
+//        //4、网络通讯初始化 initData
+//        //5、QueryData  //Get_Info_Frmweb2
+//        //6、senddata
+//        //7、sendcmd 未来传送特殊信息
+//        //8、
+//
+//
+//        #region 实例初始
+//
+//        public DMSCltSocket(string ip, int iport, short iQueryTimeout)
+//        {
+//
+//            EP = new IPEndPoint(IPAddress.Parse(ip), iport);
+//            _QueryTimeout = iQueryTimeout;
+//
+//        }
+//
+//        #endregion
+//
+//        #region 网络通讯初始化
+//
+//        public void initData()
+//        {
+//
+//            Receivethr = new Thread(new System.Threading.ThreadStart(StartCommunication));
+//            Receivethr.Start();
+//
+//        }
+//
+//        public void StartCommunication() //ByVal state As StateObject)
+//        {
+//
+//            //If state.status = StateObject.process_status.END Then
+//            //    Exit Sub
+//            //End If
+//
+//            //参数初始化
+//            try
+//            {
+//                Array.Clear(ReceiveBytes, 0, System.Convert.ToInt32(MaxBufferSize));
+//                DataDone.Reset();
+//                ReceiveDone.Reset();
+//                prev_bytes.Clear();
+//                prev_WNBbytes.Clear();
+//                prenum = 0;
+//
+//                //参数实例化
+//
+//                if (Sock == null)
+//                {
+//                    Sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+//                }
+//                else
+//                {
+//                    Sock.Close();
+//                    Sock = null;
+//                    Thread.Sleep(30);
+//                    Sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+//
+//                }
+//
+//                //网路连接
+//                if (Sock != null) // OrElse Not state.client.Connected Then
+//                {
+//                    //初始连接
+//                    try
+//                    {
+//                        Sock.Connect(EP);
+//                    }
+//                    catch (SocketException exw)
+//                    {
+//
+//                        if (exw.ErrorCode == 10054)
+//                        {
+//                            //服务器停止服务!
+//                            //连接不上
+//
+//                        }
+//                        // DisConnect()
+//                        //RaiseEvent NetException("服务器停止服务!" & vbCrLf & exw.Message)
+//                        throw (new Exception((string) ("err09:服务器停止服务!" + "\r\n" + exw.Message)));
+//                        return;
+//                    }
+//                    catch (ObjectDisposedException generatedExceptionName)
+//                    {
+//                        //Socket已经关闭!
+//                        //DisConnect()
+//                        //RaiseEvent NetException("网络已经关闭" & vbCrLf & generatedExceptionName.Message)
+//                        throw (new Exception((string) ("err10:网络已经关闭" + "\r\n" + generatedExceptionName.Message)));
+//                        return;
+//                    }
+//                    catch (Exception ex)
+//                    {
+//                        //DisConnect()
+//                        //RaiseEvent NetException("网络连接不上" & vbCrLf & ex.Message)
+//                        throw (new Exception((string) ("err11:网络连接不上" + "\r\n" + ex.Message)));
+//                        return;
+//                    }
+//
+//                    bNoPause = true;
+//                    //启动异步处理
+//                    //state.status = StateObject.process_status.LISTENING
+//                    Sock.BeginReceive(ReceiveBytes, 0, System.Convert.ToInt32(MaxBufferSize), SocketFlags.None, new AsyncCallback(ReceiveMsgCallBack), Sock);
+//                }
+//                else
+//                {
+//                    // DisConnect()
+//
+//                    //RaiseEvent NetException("嵌套字未实例化失败")
+//                    throw (new Exception("err12:嵌套字未实例化失败"));
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                DisConnect();
+//                if (NetExceptionEvent != null) //
+//                    NetExceptionEvent(ex.Message);
+//                // Throw New Exception(ex.Message)
+//            }
+//        }
+//
+//        //断开连接
+//        public void DisConnect()
+//        {
+//            if (bNoPause == true)
+//            {
+//                bNoPause = false;
+//
+//                DataDone.Reset();
+//                ReceiveDone.Reset();
+//                prev_bytes.Clear();
+//                prev_WNBbytes.Clear();
+//
+//                try
+//                {
+//                    Receivethr.Abort();
+//                }
+//                catch (Exception)
+//                {
+//
+//                }
+//
+//                if (Sock != null)
+//                {
+//                    Sock.Close();
+//                }
+//
+//                Sock = null;
+//
+//                GC.Collect();
+//            }
+//        }
+//
+//        #endregion
+//
+//        #region 功能
+//
+//        public string QueryData(string sndmsg)
+//        {
+//            string returnValue;
+//            //发送数据
+//            try
+//            {
+//                senddata(sndmsg);
+//            }
+//            catch (Exception ex)
+//            {
+//                throw (new Exception(ex.Message));
+//            }
+//
+//
+//            //等待结果
+//            try
+//            {
+//
+//                if (ReceiveDone.WaitOne(System.Convert.ToInt32(1000 * _QueryTimeout), false))
+//                {
+//                    returnValue = QueryMSG;
+//                    QueryMSG = "";
+//                    DataDone.Set();
+//
+//                    return returnValue;
+//                }
+//                else
+//                {
+//                    //超时
+//
+//                    throw (new Exception("err14:连接超时,服务器无响应。"));
+//
+//                }
+//            }
+//            catch (Exception ex)
+//            {
+//                throw (new Exception(ex.Message));
+//            }
+//            return "";
+//        }
+//
+//        #endregion
+//
+//        #region 网路数据通讯
+//
+//        //发送数据
+//        public void senddata(string msg)
+//        {
+//
+//            //按UTF8转成字节，按iso-8859-1单字节编码传送iso-8859-1 （ iso-8859-1 编码范围是0x00-0xFF）
+//            //避免超长字符串传送拆分时破坏数据完整性，避免汉字出现乱码
+//
+//            //wince 不支持iso-8859-1
+//
+//            byte[] bytes;
+//
+//            bytes = Encoding.UTF8.GetBytes(msg);
+//            byte[] bytes2 = new byte[] {};
+//
+//            int singesize = System.Convert.ToInt32(MaxBufferSize - 7);
+//            int n;
+//            for (int i = 0; i <= Math.Ceiling((decimal) bytes.Length / singesize) - 1; i++)
+//            {
+//                if (i == Math.Ceiling((decimal) bytes.Length / singesize) - 1)
+//                {
+//                    n = bytes.Length - i * singesize;
+//                    bytes2 = new byte[n + 6 + 1]; //7 + n - 1
+//                    Buffer.BlockCopy(Encoding.ASCII.GetBytes("@" + n.ToString("00000") + "#"), 0, bytes2, 0, 7);
+//                }
+//                else
+//                {
+//                    n = singesize;
+//                    bytes2 = new byte[n + 6 + 1];
+//                    Buffer.BlockCopy(Encoding.ASCII.GetBytes("@" + n.ToString("00000") + "$"), 0, bytes2, 0, 7);
+//                }
+//                Buffer.BlockCopy(bytes, i * singesize, bytes2, 7, n);
+//                if (bNoPause && Sock.Connected)
+//                {
+//                    Sock.Send(bytes2, 0, bytes2.Length, SocketFlags.None);
+//                }
+//                else
+//                {
+//                    throw (new Exception("err13:连接已关闭"));
+//                }
+//            }
+//
+//        }
+//
+//        //发送命令
+//        public void sendcmd(string msg)
+//        {
+//
+//            byte[] bytes;
+//
+//            bytes = Encoding.UTF8.GetBytes(msg);
+//            byte[] bytes2 = new byte[] {};
+//
+//            int singesize = System.Convert.ToInt32(MaxBufferSize - 8);
+//            int n;
+//            for (int i = 0; i <= Math.Ceiling((decimal) bytes.Length / singesize) - 1; i++)
+//            {
+//                if (i == Math.Ceiling((decimal) bytes.Length / singesize) - 1)
+//                {
+//                    n = bytes.Length - i * singesize;
+//                    bytes2 = new byte[n + 7 + 1]; //7 + n - 1
+//                    Buffer.BlockCopy(Encoding.ASCII.GetBytes("@" + (n + 1).ToString("00000") + "#%"), 0, bytes2, 0, 8);
+//                }
+//                else
+//                {
+//                    n = singesize;
+//                    bytes2 = new byte[n + 7 + 1];
+//                    Buffer.BlockCopy(Encoding.ASCII.GetBytes("@" + (n + 1).ToString("00000") + "$%"), 0, bytes2, 0, 8);
+//                }
+//                Buffer.BlockCopy(bytes, i * singesize, bytes2, 8, n);
+//
+//                if (bNoPause && Sock.Connected)
+//                {
+//                    Sock.Send(bytes2, 0, bytes2.Length, SocketFlags.None);
+//                }
+//                else
+//                {
+//                    throw (new Exception("err14:连接已关闭"));
+//                }
+//            }
+//
+//        }
+//
+//        //异步收数据
+//        public void ReceiveMsgCallBack(IAsyncResult ar)
+//        {
+//            //Dim asyncSocket As StateObject = TryCast(ar.AsyncState, StateObject)
+//            try
+//            {
+//                Socket asyncSocket = ar.AsyncState as Socket;
+//                if (! asyncSocket.Connected)
+//                {
+//                    if (bNoPause)
+//                    {
+//                        DisConnect();
+//                        if (NetExceptionEvent != null)
+//                            NetExceptionEvent("err01:网路中断。");
+//                        // Throw New Exception("网路中断。")
+//                    }
+//                    return;
+//                }
+//
+//
+//                int num = asyncSocket.EndReceive(ar);
+//                if (num <= 0)
+//                {
+//                    if (bNoPause)
+//                    {
+//                        DisConnect();
+//                        if (NetExceptionEvent != null)
+//                            NetExceptionEvent("err02:收到0字节，网路中断。");
+//                        //Throw New Exception("收到0字节，网路中断。")
+//                    }
+//
+//                    return;
+//                }
+//
+//                //wince 不支持28591
+//                //c_sb.Append(Encoding.GetEncoding(28591).GetString(ReceiveBytes, 0, num))
+//
+//
+//                //计算首个有效数据信息size
+//                //格式：
+//                //@00000#(msg),
+//                num += prenum;
+//                if (num > 7 && bNoPause)
+//                {
+//                    //预防收到不完整数据,清除历史数据
+//                    //Do While data(0) <> Asc("@") OrElse Not (data(0) = Asc("#") OrElse data(0) = Asc("$"))
+//                    while (ReceiveBytes[0] != 0x40 || !(ReceiveBytes[6] == 0x23 || ReceiveBytes[6] == 0x24))
+//                    {
+//                        // 清除HostIFapp之前不完整数据
+//                        int ip = 0;
+//                        for (int i = 1; i <= num - 1 - 7; i++)
+//                        {
+//                            if (ReceiveBytes[i] == 0x40) //找到 @
+//                            {
+//                                ip = i;
+//                                break;
+//                            }
+//                            if (i == num - 1 - 7)
+//                            {
+//                                //倒数第8个也不是@，不满足7个前缀格式的重新接收
+//
+//                                Buffer.BlockCopy(ReceiveBytes, i + 1, ReceiveBytes, 0, 7);
+//                                Array.Clear(ReceiveBytes, 7, i + 1);
+//                                //重新接收
+//                                prenum = 7;
+//                                if (bNoPause)
+//                                {
+//                                    asyncSocket.BeginReceive(ReceiveBytes, 7, ReceiveBytes.Length - 7, SocketFlags.None, new AsyncCallback(this.ReceiveMsgCallBack), asyncSocket);
+//                                }
+//                                return;
+//                            }
+//                        }
+//                        Buffer.BlockCopy(ReceiveBytes, ip, ReceiveBytes, 0, num - ip);
+//                        Array.Clear(ReceiveBytes, num - ip, ip);
+//                        prev_bytes.Clear(); //既然有清除数据，历史信息也不要了
+//                        prev_WNBbytes.Clear();
+//
+//                        num = num - ip; //重置长度
+//
+//                    }
+//
+//                    //现在符合7个前缀格式
+//                    //取1~5的数字
+//
+//                    int nDatalen = Convert.ToInt32(Encoding.ASCII.GetString(ReceiveBytes, 1, 5));
+//
+//
+//                    while (num >= nDatalen + 7 && bNoPause)
+//                    {
+//                        if (ReceiveBytes[6] == 0x23) //#
+//                        {
+//                            if (nDatalen == 8 && Encoding.ASCII.GetString(ReceiveBytes, 7, nDatalen).ToLower() == "shutdown")
+//                            {
+//                                //断开
+//
+//                                //收到客户端shutdown，  @00008#shutdown
+//                                DisConnect();
+//                                if (NetExceptionEvent != null)
+//                                    NetExceptionEvent("info01:shutdown");
+//                                //Throw New Exception("服务器通知网络shutdown")
+//                                return;
+//                            }
+//                            else if (nDatalen == 9 && Encoding.ASCII.GetString(ReceiveBytes, 7, nDatalen).ToLower() == "keepalive")
+//                            {
+//                                //心跳
+//                                try
+//                                {
+//                                    //收到客户端 @00009#keepalive
+//                                    //sendcmd("keepalive")
+//                                    if (bNoPause && Sock.Connected)
+//                                    {
+//                                        Sock.Send(Encoding.ASCII.GetBytes("@00009#keepalive"));
+//                                    }
+//                                    else
+//                                    {
+//                                        //发送心跳异常
+//                                        DisConnect();
+//                                        return;
+//
+//                                    }
+//
+//
+//                                }
+//                                catch (Exception ex)
+//                                {
+//                                    DisConnect();
+//                                    if (NetExceptionEvent != null)
+//                                        NetExceptionEvent("err03:发送心跳异常" + "\r\n" + ex.Message);
+//                                    //Throw New Exception("发送心跳异常" & vbCrLf & ex.Message)
+//                                    return;
+//                                }
+//                            }
+//                            else
+//                            {
+//                                //收到完整数据
+//                                if (ReceiveBytes[7] == 0x25) //% 广播数据
+//                                {
+//                                    if (prev_WNBbytes.Count == 0)
+//                                    {
+//                                        if (SVRWNBmsgEvent != null)
+//                                            SVRWNBmsgEvent(Encoding.UTF8.GetString(ReceiveBytes, 8, nDatalen - 1));
+//                                    }
+//                                    else
+//                                    {
+//                                        byte[] d = new byte[] {};
+//                                        int prelen;
+//                                        for (int i = 0; i <= prev_WNBbytes.Count - 1; i++)
+//                                        {
+//                                            prelen = d.Length;
+//                                            Array.Resize(ref d, prelen + prev_WNBbytes[i].Length - 1 + 1);
+//                                            Buffer.BlockCopy(prev_WNBbytes[i], 0, d, prelen, System.Convert.ToInt32(prev_WNBbytes[i].Length));
+//                                        }
+//                                        prev_WNBbytes.Clear();
+//
+//                                        prelen = d.Length;
+//                                        Array.Resize(ref d, prelen + nDatalen - 1 + 1);
+//                                        Buffer.BlockCopy(ReceiveBytes, 7, d, prelen, nDatalen);
+//                                        if (SVRWNBmsgEvent != null)
+//                                            SVRWNBmsgEvent(Encoding.UTF8.GetString(d, 0, d.Length));
+//
+//                                    }
+//
+//                                }
+//                                else
+//                                {
+//
+//                                    //服务端返回数据
+//                                    if (prev_bytes.Count == 0)
+//                                    {
+//                                        QueryMSG = Encoding.UTF8.GetString(ReceiveBytes, 7, nDatalen);
+//                                    }
+//                                    else
+//                                    {
+//                                        byte[] d = new byte[] {};
+//                                        int prelen;
+//                                        for (int i = 0; i <= prev_bytes.Count - 1; i++)
+//                                        {
+//                                            prelen = d.Length;
+//                                            Array.Resize(ref d, prelen + prev_bytes[i].Length - 1 + 1);
+//                                            Buffer.BlockCopy(prev_bytes[i], 0, d, prelen, System.Convert.ToInt32(prev_bytes[i].Length));
+//                                        }
+//                                        prev_bytes.Clear();
+//
+//                                        prelen = d.Length;
+//                                        Array.Resize(ref d, prelen + nDatalen - 1 + 1);
+//                                        Buffer.BlockCopy(ReceiveBytes, 7, d, prelen, nDatalen);
+//                                        QueryMSG = Encoding.UTF8.GetString(d, 0, d.Length);
+//
+//
+//                                    }
+//
+//                                    ReceiveDone.Set();
+//                                    try
+//                                    {
+//                                        if (DataDone.WaitOne(System.Convert.ToInt32(500 * _QueryTimeout), false))
+//                                        {
+//
+//                                        }
+//                                        else
+//                                        {
+//
+//                                            //事情没处理完
+//                                            if (NetExceptionEvent != null)
+//                                                NetExceptionEvent("err04:等待信息处理超时");
+//
+//                                        }
+//                                    }
+//                                    catch (Exception ex)
+//                                    {
+//                                        MessageBox.Show(ex.Message);
+//
+//                                    }
+//
+//                                }
+//                            }
+//
+//                        }
+//                        else if (ReceiveBytes[6] == 0x24) //$
+//                        {
+//
+//                            if (ReceiveBytes[7] == 0x25)
+//                            {
+//                                byte[] bb = new byte[nDatalen - 2 + 1];
+//                                Buffer.BlockCopy(ReceiveBytes, 8, bb, 0, nDatalen - 1);
+//                                prev_WNBbytes.Add(bb);
+//                            }
+//                            else
+//                            {
+//                                byte[] bb = new byte[nDatalen - 1 + 1];
+//                                Buffer.BlockCopy(ReceiveBytes, 7, bb, 0, nDatalen);
+//                                prev_bytes.Add(bb);
+//                            }
+//
+//
+//                        }
+//
+//
+//                        if (num == nDatalen + 7)
+//                        {
+//                            Array.Clear(ReceiveBytes, 0, num);
+//                            num = 0;
+//                            //继续接收
+//                            prenum = 0;
+//                            if (bNoPause)
+//                            {
+//                                asyncSocket.BeginReceive(ReceiveBytes, 0, ReceiveBytes.Length, SocketFlags.None, new AsyncCallback(this.ReceiveMsgCallBack), asyncSocket);
+//                            }
+//
+//                            return;
+//                        }
+//                        else
+//                        {
+//
+//                            Buffer.BlockCopy(ReceiveBytes, nDatalen + 7, ReceiveBytes, 0, num - nDatalen - 7);
+//                            Array.Clear(ReceiveBytes, num - nDatalen - 7, ReceiveBytes.Length - num + nDatalen + 7);
+//                            num = num - nDatalen - 7;
+//                            nDatalen = Convert.ToInt32(Encoding.ASCII.GetString(ReceiveBytes, 1, 5));
+//                        }
+//
+//                    }
+//
+//                }
+//                prenum = num;
+//                if (bNoPause)
+//                {
+//                    asyncSocket.BeginReceive(ReceiveBytes, num, ReceiveBytes.Length - num, SocketFlags.None, new AsyncCallback(this.ReceiveMsgCallBack), asyncSocket);
+//                }
+//                return;
+//
+//            }
+//            catch (SocketException exw)
+//            {
+//
+//                //If exw.ErrorCode = 10054 Then
+//                //服务器停止服务!
+//                //连接不上
+//
+//                // End If
+//                DisConnect();
+//                if (NetExceptionEvent != null)
+//                    NetExceptionEvent("err05:服务器停止服务!" + "\r\n" + exw.Message);
+//                //Throw New Exception("服务器停止服务!" & vbCrLf & exw.Message)
+//
+//
+//            }
+//            catch (ObjectDisposedException generatedExceptionName)
+//            {
+//                //Socket已经关闭!
+//                DisConnect();
+//                if (NetExceptionEvent != null)
+//                    NetExceptionEvent("err06:网络已经关闭" + "\r\n" + generatedExceptionName.Message);
+//                //Throw New Exception("网络已经关闭" & vbCrLf & generatedExceptionName.Message)
+//
+//
+//            }
+//            catch (Exception ex)
+//            {
+//                DisConnect();
+//                if (NetExceptionEvent != null)
+//                    NetExceptionEvent("err07:接收数据异常" + "\r\n" + ex.Message);
+//
+//            }
+//
+//        }
+//
+//
+//        #endregion
+//
+//
+//        private bool disposedValue = false; // 检测冗余的调用
+//
+//        // IDisposable
+//        protected virtual void Dispose(bool disposing)
+//        {
+//            if (! this.disposedValue)
+//            {
+//                if (disposing)
+//                {
+//                    // TODO: 释放其他状态(托管对象)。
+//                    DisConnect();
+//
+//                }
+//
+//                // TODO: 释放您自己的状态(非托管对象)。
+//                // TODO: 将大型字段设置为 null。
+//            }
+//            this.disposedValue = true;
+//        }
+//
+//        // Visual Basic 添加此代码是为了正确实现可处置模式。
+//        public void Dispose()
+//        {
+//            // 不要更改此代码。请将清理代码放入上面的 Dispose(ByVal disposing As Boolean) 中。
+//            Dispose(true);
+//            GC.SuppressFinalize(this);
+//        }
+//
+//        // Class StateObject
+//        // Public client As Socket = Nothing
+//
+//        //Public Enum process_status
+//        //    IDEL = 0
+//        //    INITIALIZE = 1
+//        //    STARTEV = 2
+//        //    LISTENING = 3
+//        //    [STOP] = 4
+//        //    [END] = 5
+//        //End Enum
+//        //Public status As process_status = process_status.IDEL
+//        //End Class
+//    }
+//
+//
+//
+//}

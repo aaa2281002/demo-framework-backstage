@@ -1,11 +1,11 @@
 package com.framework.common.util.system;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.system
- * @Description 日志工具类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.system
+ * @description 日志工具类
+ * @datetime 2019/10/11
  */
 public class LogUtil {
     //用户登陆

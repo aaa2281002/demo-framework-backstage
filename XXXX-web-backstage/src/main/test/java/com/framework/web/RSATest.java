@@ -7,11 +7,11 @@ import java.util.HashSet;
 import java.util.Map;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web
- * @Description 测试工具类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web
+ * @description 测试工具类
+ * @datetime 2019/10/11
  */
 public class RSATest {
     public static void main(String[] args) {

@@ -1,46 +1,37 @@
 package com.framework.web.config.initSecurityConfig;
 
+import com.framework.common.model.auth.IgnoredDataRoleAuth;
+import com.framework.common.model.auth.IgnoredRoleAuth;
+import com.framework.common.model.properties.IgnoredUrlsProperties;
+import com.framework.common.model.properties.InitTokenProperties;
+import com.framework.common.model.security.JwtConstant;
 import com.framework.common.util.filter.FilterStringUtil;
-import com.framework.common.util.other.NumeralUtil;
-import com.framework.web.config.initLogin.MyAuthenticationFailureHandler;
-import com.framework.web.config.initLogin.MyAuthenticationLogoutHandler;
-import com.framework.web.config.initLogin.MyAuthenticationProvider;
-import com.framework.web.config.initLogin.MyAuthenticationSuccessHandler;
-import com.framework.web.config.initLogin.MyPersistentTokenRepository;
-import com.framework.web.config.initLogin.MyUserDetailsService;
-import com.framework.web.config.initLogin.RememberMeConfig;
+import com.framework.common.util.redis.RedisUtil;
+import com.framework.service.init.JwtService;
+import com.framework.service.system.SystemLogService;
+import com.framework.service.system.SystemUserService;
+import com.framework.web.config.initSecurityConfig.initLogin.MyAuthenticationFailHandler;
+import com.framework.web.config.initSecurityConfig.initLogin.JWTAuthenticationFilter;
+import com.framework.web.config.initSecurityConfig.initLogin.MyAuthenticationProvider;
+import com.framework.web.config.initSecurityConfig.initLogin.MyAuthenticationSuccessHandler;
+import com.framework.web.config.initSecurityConfig.initLogin.RestAccessDeniedHandler;
+import com.framework.web.config.initSecurityConfig.initUrlAuth.MyAccessDecisionManager;
+import com.framework.web.config.initSecurityConfig.initUrlAuth.MySecurityMetadataSource;
 import com.framework.web.other.filter.ParameterValueFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.format.FormatterRegistry;
-import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.validation.MessageCodesResolver;
-import org.springframework.validation.Validator;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
-import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.List;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 
 /**
  * @Author 邋遢龘鵺
@@ -51,220 +42,157 @@ import java.util.List;
  */
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
-    //    @Autowired
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+//    @Autowired
 //    private InterceptorConfig interceptorConfig;
-    @Value("${spring.security.remember-me-time}")//登录记住我选择，(单位：秒)
-    private Integer rememberMeTime;
+//    @Value("${spring.security.remember-me-time}")//登录记住我选择，(单位：秒)
+//    private Integer rememberMeTime;
+//    @Autowired//自定义身份验证实现类
+//    private MyAuthenticationProvider myAuthenticationProvider;
+//    @Autowired//登录成功处理
+//    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
+//    @Autowired//登录失败处理
+//    private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
+//    @Autowired//退出处理
+//    private MyAuthenticationLogoutHandler myAuthenticationLogoutHandler;
+//    @Autowired//自定义用户登录信息业务实现类
+//    private MyUserDetailsService myUserDetailsService;
+//    @Autowired//自定义redis
+//    private MyPersistentTokenRepository myPersistentTokenRepository;
+//    @Autowired//数据库
+//    private PersistentTokenRepository persistentTokenRepository;
+//    @Autowired//记住我业务初始化设置
+//    private RememberMeServices rememberMeService;
+//    @Autowired
+//    private ParameterValueFilter parameterValueFilter;
+    @Autowired
+    private JwtService jwtServiceImpl;
+    @Autowired
+    private JwtConstant jwtConstant;
     @Autowired//自定义身份验证实现类
     private MyAuthenticationProvider myAuthenticationProvider;
-    @Autowired//登录成功处理
-    private MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
-    @Autowired//登录失败处理
-    private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
-    @Autowired//退出处理
-    private MyAuthenticationLogoutHandler myAuthenticationLogoutHandler;
-    @Autowired//自定义用户登录信息业务实现类
-    private MyUserDetailsService myUserDetailsService;
-    @Autowired//自定义redis
-    private MyPersistentTokenRepository myPersistentTokenRepository;
-    @Autowired//数据库
-    private PersistentTokenRepository persistentTokenRepository;
-    @Autowired//记住我业务初始化设置
-    private RememberMeServices rememberMeService;
     @Autowired
-    private ParameterValueFilter parameterValueFilter;
+    private PathMatcher pathMatcher;
+    @Autowired
+    private RedisUtil redisUtil;
+    @Autowired
+    private SystemUserService systemUserServiceImpl;
+    @Autowired
+    private SystemLogService systemLogServiceImpl;
+    @Autowired
+    private InitTokenProperties initTokenProperties;
+    @Autowired
+    private IgnoredDataRoleAuth ignoredDataRoleAuth;
+    @Autowired
+    private IgnoredUrlsProperties ignoredUrlsProperties;
+    @Autowired
+    private IgnoredRoleAuth ignoredRoleAuth;
 //    @Autowired
-//    private TestFilter testFilter;
+//    private ImageValidateFilter imageValidateFilter;
+//    @Autowired
+//    private MyAuthenticationFailHandler authenticationFailHandler;
+//    @Autowired
+//    private AuthenticationSuccessHandler authenticationSuccessHandler;
+//    @Autowired
+//    private RestAccessDeniedHandler restAccessDeniedHandler;
+//    @Autowired
+//    private AccessDecisionManager myAccessDecisionManager;
+//    @Autowired
+//    private FilterInvocationSecurityMetadataSource mySecurityMetadataSource;
+
+    //初始化URL注入对象
+    @Bean
+    public PathMatcher pathMatcher() {
+        return new AntPathMatcher();
+    }
 
     //重实现springboot-web安全模块
     @Override
     public void configure(WebSecurity web) throws Exception {
         //Web层面的拦截，用来跳过的资源
-        web.ignoring()
-                .antMatchers(FilterStringUtil.FILTER_STRING_ALL_FAVICON_ICO);
-//                .antMatchers("/assets/**")
-//                .antMatchers("/captcha.jpg");
+        for (String item : ignoredUrlsProperties.getInitViewIgnoreUrl()) {
+            web.ignoring()
+                    .antMatchers(item);
+        }
     }
 
     //重实现身份验证管理器生成器
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        myAuthenticationProvider.setRedisUtil(redisUtil);
         auth.authenticationProvider(myAuthenticationProvider);
     }
 
     //重实现安全性设置
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //以下的请求都不需要认证
-        http
-                .authorizeRequests()
-                .antMatchers(FilterStringUtil.FILTER_STRING_RESOURCES).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_CSS).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_IMG).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_JS).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_GOOGLEV).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_FAVICON_ICO).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_LOGIN_PAGE).permitAll()
-                .antMatchers(FilterStringUtil.FILTER_STRING_DEFAULT_CAPTCHA)
-                .permitAll().anyRequest()
-                .authenticated();
-        //请求之前拦截处理器
-//        http.addFilterBefore(testFilter, UsernamePasswordAuthenticationFilter.class);
-        //请求之后拦截处理器
-//        http.addFilter()
-        http.addFilterAfter(parameterValueFilter, LogoutFilter.class);
-        //登录处理
+        //添加不需要验证权限的URL
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
+                .authorizeRequests();
+        for (String url : ignoredUrlsProperties.getIgnoreUrl()) {
+            registry.antMatchers(url).permitAll();
+        }
+        //使用这个是不会走多次拦截器。
+        registry.withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+            @Override
+            public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+                object.setAccessDecisionManager(new MyAccessDecisionManager(ignoredDataRoleAuth));//决策管理器
+                object.setSecurityMetadataSource(new MySecurityMetadataSource(pathMatcher, ignoredUrlsProperties, ignoredRoleAuth));//安全元数据源
+                return object;
+            }
+        });
         http.formLogin()
-                .loginPage(FilterStringUtil.FILTER_STRING_LOGIN)
-                .usernameParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY)
-                .passwordParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_PASSWORD_KEY)
-                //成功跳转
-                .successForwardUrl(FilterStringUtil.FILTER_STRING_INDEX)
-                //成功处理
-                .successHandler(myAuthenticationSuccessHandler)
-                //失败处理
-                .failureHandler(myAuthenticationFailureHandler)
-                .permitAll();
-        //退出处理
-        http.logout()
-                .logoutSuccessHandler(myAuthenticationLogoutHandler)
-//                .deleteCookies(RememberMeConfig.REMEMBER_ME)
-                .invalidateHttpSession(true);
-        //记住账号处理
-        //记住我相关配置-数据库四线
-//        http.rememberMe()
-////                .rememberMeCookieName(RememberMeConfig.REMEMBER_ME)
-//                .rememberMeServices(rememberMeService)
-//                .key(RememberMeConfig.INTERNAL_SECRET_KEY)
-//                //设置TokenRepository
-//                .tokenRepository(persistentTokenRepository)//设置操作表的Repository，数据库格式存储
-//                // 配置UserDetailsService
-////                .userDetailsService(myUserDetailsService)
-//                // 配置Cookie过期时间
-//                .tokenValiditySeconds(rememberMeTime);
-
-        //记住我相关配置-redis实现
-        //RememberMeAuthenticationFilter=AbstractRememberMeServices.autoLogin=UserDetailsChecker.check
-        http.rememberMe()
-//                .rememberMeCookieName(RememberMeConfig.REMEMBER_ME)
-                .rememberMeServices(rememberMeService)
-                .key(RememberMeConfig.INTERNAL_SECRET_KEY)
-                //设置TokenRepository
-                .tokenRepository(myPersistentTokenRepository)//redis格式存储
-                // 配置UserDetailsService
-//                .userDetailsService(myUserDetailsService)
-                // 配置Cookie过期时间,(单位：秒)
-                .tokenValiditySeconds(rememberMeTime);
-
-        //关闭csrf保护，
-        http.csrf().disable();
-        //关闭安全注入的头headers，解决同域名下iframe请求处理
-        http.headers().frameOptions().sameOrigin();
-        // session管理
-
-//        http.sessionManagement().invalidSessionUrl("/loginPage?invalid");
-//        http.sessionManagement().maximumSessions(NumeralUtil.POSITIVE_ONE).maxSessionsPreventsLogin(true).expiredUrl("/loginPage");
-        http.sessionManagement()
-                .sessionFixation().changeSessionId()
-                // session失效后跳转
-                .invalidSessionUrl(FilterStringUtil.FILTER_STRING_LOGIN_PAGE_INVALID)
-                // 只允许一个用户登录,如果同一个账户两次登录,那么第一个账户将被踢下线,跳转到登录页面
-                .maximumSessions(NumeralUtil.POSITIVE_ONE).expiredUrl(FilterStringUtil.FILTER_STRING_LOGIN_PAGE);
-
-        //以下代码屏蔽security安全拦截，跨域，header头部一些处理
-//        http.authorizeRequests().anyRequest().permitAll().and().logout().permitAll()
-//                .and().headers().frameOptions().disable().and().csrf().disable();
+                //没登录跳转提示
+                .loginPage(FilterStringUtil.FILTER_STRING_NEED_LOGIN)
+                //登录请求URL
+                .loginProcessingUrl(FilterStringUtil.FILTER_STRING_LOGIN)
+                .permitAll()
+                //登录成功处理
+                .successHandler(new MyAuthenticationSuccessHandler(initTokenProperties, systemLogServiceImpl, jwtConstant, jwtServiceImpl, redisUtil))
+                //登录失败处理
+                .failureHandler(new MyAuthenticationFailHandler(initTokenProperties, systemLogServiceImpl, systemUserServiceImpl, redisUtil))
+                .and()
+                // 允许网页iframe
+                .headers().frameOptions().disable()
+                .and()
+                .logout().permitAll()
+                .and()
+                .authorizeRequests()
+                //任何请求
+                .anyRequest()
+                // 需要身份认证
+                .authenticated()
+                .and()
+                // 允许跨域
+                .cors()
+                .and()
+                //关闭跨站请求防护
+                .csrf().disable()
+                //前后端分离采用JWT 不需要session
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                // 自定义权限拒绝处理类 accessDeniedHandler
+                .and().exceptionHandling().accessDeniedHandler(new RestAccessDeniedHandler())
+                .and()
+                // 添加自定义权限过滤器 myFilterSecurityInterceptor
+                //FilterSecurityInterceptor(主要处理鉴权)
+                //使用自定义URL拦截器的话。会出现走多次的情况。高并发的时候会出现性能损耗。
+//                .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)
+////                 短信验证码过滤器
+                //AbstractAuthenticationProcessingFilter(主要处理登录)
+//                .addFilterAfter(smsCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterAfter(channelSmsCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(smsValidateFilter, UsernamePasswordAuthenticationFilter.class)
+                // 图形验证码过滤器 imageValidateFilter
+//                .addFilterBefore(imageValidateFilter, UsernamePasswordAuthenticationFilter.class)
+                //添加参数过滤器
+                .addFilterAfter(new ParameterValueFilter(pathMatcher, ignoredUrlsProperties), JWTAuthenticationFilter.class)
+                // 添加JWT过滤器 除已配置的其它请求都需经过此过滤器
+//                .addFilter(new JWTAuthenticationFilter(authenticationManager(), tokenProperties, redisTemplate, securityUtil));
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), initTokenProperties, redisUtil, ignoredDataRoleAuth,
+                        this.ignoredUrlsProperties, pathMatcher, jwtConstant, jwtServiceImpl))
+//                .addFilterAfter(null, JWTAuthenticationFilter.class)
+        ;
+//        http.sessionManagement().disable();
     }
 
-
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-
-    }
-
-    @Override
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-
-    }
-
-    @Override
-    public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-
-    }
-
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-
-    }
-
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-    }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-
-    }
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-
-    }
-
-    @Override
-    public void configureViewResolvers(ViewResolverRegistry registry) {
-
-    }
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-
-    }
-
-    @Override
-    public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> handlers) {
-
-    }
-
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-
-    }
-
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-
-    }
-
-    @Override
-    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-
-    }
-
-    @Override
-    public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
-
-    }
-
-    @Override
-    public Validator getValidator() {
-        return null;
-    }
-
-    @Override
-    public MessageCodesResolver getMessageCodesResolver() {
-        return null;
-    }
 }

@@ -5,19 +5,19 @@ import java.text.DecimalFormat;
 import java.util.Random;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.lybank.common.util
- * @Description 生成金额尾数工具类
- * @Date 2019/8/31 10:48
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.lybank.common.util
+ * @description 生成金额尾数工具类
+ * @date 2019/8/31 10:48
  */
 public class GenerateMantissaUtil {
     /**
      * @return java.lang.String
-     * @Titel 生成随机小数点，保留1-2位
-     * @Description 生成随机小数点，保留1-2位
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/8/31 10:50
+     * @titel 生成随机小数点，保留1-2位
+     * @description 生成随机小数点，保留1-2位
+     * @author 邋遢龘鵺
+     * @datetime 2019/8/31 10:50
      */
     public static String GenerateOneMantissaToString() {
         DecimalFormat dcmFmt = new DecimalFormat("0.00");
@@ -31,10 +31,10 @@ public class GenerateMantissaUtil {
 
     /**
      * @return java.lang.String
-     * @Titel 生成随机数，保留7位
-     * @Description 生成随机数，保留7位
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/8/31 10:50
+     * @titel 生成随机数，保留7位
+     * @description 生成随机数，保留7位
+     * @author 邋遢龘鵺
+     * @datetime 2019/8/31 10:50
      */
     public static String GenerateFiveMantissaToString() {
         int five = (int) ((Math.random() * NumeralUtil.POSITIVE_NINE + NumeralUtil.POSITIVE_ONE) * NumeralUtil.POSITIVE_ONE_MILLION);
@@ -44,10 +44,10 @@ public class GenerateMantissaUtil {
 
     /**
      * @return java.lang.Double
-     * @Titel 生成随机小数点，保留1-2位
-     * @Description 生成随机小数点，保留1-2位
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/8/31 10:50
+     * @titel 生成随机小数点，保留1-2位
+     * @description 生成随机小数点，保留1-2位
+     * @author 邋遢龘鵺
+     * @datetime 2019/8/31 10:50
      */
     public static double GenerateOneMantissaToDouble() {
         return Double.parseDouble(GenerateOneMantissaToString());

@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -14,24 +15,24 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.redis
- * @Description redis工具类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.redis
+ * @description redis工具类
+ * @datetime 2019/10/11
  */
 @Component
 public final class RedisUtil {
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     /**
      * @param key 1 键值
      * @return java.util.Set<java.lang.String>
-     * @Titel 根据key规则获取键集合
-     * @Description 根据key规则获取键集合
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/14 11:18
+     * @titel 根据key规则获取键集合
+     * @description 根据key规则获取键集合
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/14 11:18
      */
     public Set<String> getKeys(String key) {
         try {
@@ -45,10 +46,10 @@ public final class RedisUtil {
     /**
      * @param key  1 key值
      * @param time 2 缓存时间=秒单位
-     * @Titel 根据key, 指定缓存失效时间
-     * @Description 根据key, 指定缓存失效时间
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据key, 指定缓存失效时间
+     * @description 根据key, 指定缓存失效时间
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public void expireTime(String key, long time) {
         if (time > NumeralUtil.POSITIVE_ZERO) {
@@ -61,10 +62,10 @@ public final class RedisUtil {
     /**
      * @param key 1 键
      * @return long
-     * @Titel 根据KEY得到失效时间
-     * @Description 根据KEY得到失效时间
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据KEY得到失效时间
+     * @description 根据KEY得到失效时间
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public long getExpire(String key) {
         try {
@@ -76,12 +77,25 @@ public final class RedisUtil {
     }
 
     /**
+     * @param key  1 键
+     * @param unit 2 时间单位
+     * @return java.lang.Long
+     * @Titel 根据KEY得到失效时间
+     * @Description 根据KEY得到失效时间
+     * @Author 龘鵺
+     * @DateTime 2022/3/2 17:02
+     */
+    public Long getExpire(String key, TimeUnit unit) {
+        return redisTemplate.getExpire(key, unit);
+    }
+
+    /**
      * @param key 1 传入key值
      * @return java.lang.Boolean true=存在,false=不存在
-     * @Titel 根据key, 判断key是否存在
-     * @Description 根据Key, 判断Key是否存在
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据key, 判断key是否存在
+     * @description 根据Key, 判断Key是否存在
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public Boolean existsKey(String key) {
         try {
@@ -96,10 +110,10 @@ public final class RedisUtil {
      * @param oldKey 1 旧键
      * @param newKey 2 新键
      * @return boolean true成功，false失败
-     * @Titel 根据旧key, 修改当前key值
-     * @Description 根据旧key, 修改当前key值
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据旧key, 修改当前key值
+     * @description 根据旧key, 修改当前key值
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public boolean updKey(String oldKey, String newKey) {
         try {
@@ -117,10 +131,10 @@ public final class RedisUtil {
      * @param oldKey 1 旧键
      * @param newKey 2 新键
      * @return boolean true成功，false失败
-     * @Titel 新key值不存在的时候, 根据旧key, 修改当前key值
-     * @Description 新key值不存在的时候, 根据旧key, 修改当前key值
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 新key值不存在的时候, 根据旧key, 修改当前key值
+     * @description 新key值不存在的时候, 根据旧key, 修改当前key值
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public Boolean updKeyIf(String oldKey, String newKey) {
         try {
@@ -134,10 +148,10 @@ public final class RedisUtil {
     /**
      * @param key 1 key值
      * @return org.springframework.data.redis.connection.DataType[none、string、list、set、zset、hash]
-     * @Titel 根据key, 判断key存储的值类型
-     * @Description 根据key, 判断key存储的值类型
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据key, 判断key存储的值类型
+     * @description 根据key, 判断key存储的值类型
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public DataType typeKey(String key) {
         return redisTemplate.type(key);
@@ -146,10 +160,10 @@ public final class RedisUtil {
     /**
      * @param key 1 key值
      * @return java.lang.Boolean=true删除成功，false失败
-     * @Titel 根据key, 删除指定的一个数据
-     * @Description 根据key, 删除指定的一个数据
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据key, 删除指定的一个数据
+     * @description 根据key, 删除指定的一个数据
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public Boolean deleteKey(String key) {
         try {
@@ -163,14 +177,14 @@ public final class RedisUtil {
     /**
      * @param keys 1 key数组
      * @return java.lang.Boolean=true删除成功，false删除失败
-     * @Titel 根据key数组, 删除多个数据
-     * @Description 根据key数组, 删除多个数据
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据key数组, 删除多个数据
+     * @description 根据key数组, 删除多个数据
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public Boolean deleteKey(String... keys) {
         try {
-            Long l = redisTemplate.delete(CollectionUtils.arrayToList(keys));
+            Long l = redisTemplate.delete(Arrays.asList(keys));
             return l != null && l.longValue() != NumeralUtil.POSITIVE_ZERO;
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,10 +195,10 @@ public final class RedisUtil {
     /**
      * @param keys 1 key的Collection对象
      * @return java.lang.Boolean=true删除成功，false删除失败
-     * @Titel 根据key, 删除多个数据
-     * @Description 根据key, 删除多个数据
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据key, 删除多个数据
+     * @description 根据key, 删除多个数据
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public Boolean deleteKey(Collection<String> keys) {
         try {
@@ -202,12 +216,12 @@ public final class RedisUtil {
      * @param key   1
      * @param value 2
      * @return boolean 已经存在返回false,不存在返回true
-     * @Titel 根据key不存在的时候写入redis，存在返回false
-     * @Description 根据key不存在的时候写入redis，存在返回false
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据key不存在的时候写入redis，存在返回false
+     * @description 根据key不存在的时候写入redis，存在返回false
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    public boolean setStringIf(String key, Object value) {
+    public boolean setStringIf(String key, String value) {
         try {
             return redisTemplate.opsForValue().setIfAbsent(key, value);
         } catch (Exception e) {
@@ -221,12 +235,12 @@ public final class RedisUtil {
      * @param value 2 值
      * @param time  2 时间值，(单位：秒)
      * @return boolean true成功，false失败
-     * @Titel 登录token存储, 30分钟
-     * @Description 登录token存储, 30分钟
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 登录token存储, 30分钟
+     * @description 登录token存储, 30分钟
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    public boolean setStringIf(String key, Object value, long time) {
+    public boolean setStringIf(String key, String value, long time) {
         try {
             boolean is = redisTemplate.opsForValue().setIfAbsent(key, value);
             if (is & time > NumeralUtil.POSITIVE_ZERO) {
@@ -244,12 +258,12 @@ public final class RedisUtil {
      * @param key   1 键
      * @param value 2 值
      * @return boolean=true成功,false失败
-     * @Titel 普通缓存放入
-     * @Description 普通缓存放入
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 普通缓存放入
+     * @description 普通缓存放入
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    public boolean setString(String key, Object value) {
+    public boolean setString(String key, String value) {
         try {
             redisTemplate.opsForValue().set(key, value);
             return Boolean.TRUE;
@@ -264,12 +278,12 @@ public final class RedisUtil {
      * @param value 2 值
      * @param time  3 时间=秒为单位
      * @return boolean  true成功,false失败
-     * @Titel 普通缓存放入, 设置缓存存在时间
-     * @Description 普通缓存放入, 设置缓存存在时间
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 普通缓存放入, 设置缓存存在时间
+     * @description 普通缓存放入, 设置缓存存在时间
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    public boolean setString(String key, Object value, long time) {
+    public boolean setString(String key, String value, long time) {
         try {
             redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
             return Boolean.TRUE;
@@ -280,14 +294,35 @@ public final class RedisUtil {
     }
 
     /**
-     * @param key 1 键
-     * @return java.lang.Object 值
-     * @Titel 普通, 根据key获取缓存
-     * @Description 普通, 根据key获取缓存
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @param key      1 键
+     * @param value    2 值
+     * @param time     3 时间=秒为单位
+     * @param timeUnit 4 单位
+     * @return boolean true成功,false失败
+     * @Titel 普通缓存放入, 设置缓存存在时间
+     * @Description 普通缓存放入, 设置缓存存在时间
+     * @Author 龘鵺
+     * @DateTime 2022/3/2 16:00
      */
-    public Object getString(String key) {
+    public boolean setString(String key, String value, long time, TimeUnit timeUnit) {
+        try {
+            redisTemplate.opsForValue().set(key, value, time, timeUnit);
+            return Boolean.TRUE;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+    }
+
+    /**
+     * @param key 1 键
+     * @return java.lang.String 值
+     * @titel 普通, 根据key获取缓存
+     * @description 普通, 根据key获取缓存
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
+     */
+    public String getString(String key) {
         return key == null ? null : redisTemplate.opsForValue().get(key);
     }
 
@@ -299,12 +334,12 @@ public final class RedisUtil {
      * @param key   1 键
      * @param value 2 值
      * @return boolean true成功,false失败
-     * @Titel 根据key存放List集合, 将list放入缓存
-     * @Description 根据key存放List集合, 将list放入缓存
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据key存放List集合, 将list放入缓存
+     * @description 根据key存放List集合, 将list放入缓存
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    public boolean setList(String key, Object value) {
+    public boolean setList(String key, String value) {
         try {
             redisTemplate.opsForList().rightPush(key, value);
             return Boolean.TRUE;
@@ -319,15 +354,39 @@ public final class RedisUtil {
      * @param value 2 值
      * @param time  3 时间=秒单位
      * @return boolean=true成功,false失败
-     * @Titel 将Object数据放入List缓存，并设置时间
-     * @Description 将Object数据放入List缓存，并设置时间
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 将String字符串数据放入List缓存，并设置时间
+     * @description 将String字符串数据放入List缓存，并设置时间
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    public boolean setList(String key, Object value, long time) {
+    public boolean setList(String key, String value, long time) {
         try {
             if (time > NumeralUtil.POSITIVE_ZERO) {
                 redisTemplate.opsForList().rightPush(key, value);
+                this.expireTime(key, time);
+                return Boolean.TRUE;
+            }
+            return Boolean.FALSE;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+    }
+
+    /**
+     * @param key   1 键
+     * @param value 2 值
+     * @param time  3  时间=秒单位
+     * @return boolean=true成功,false失败
+     * @titel 将list集合放入List缓存，并设置时间
+     * @description
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
+     */
+    public boolean setListAll(String key, String value, long time) {
+        try {
+            if (time > NumeralUtil.POSITIVE_ZERO) {
+                redisTemplate.opsForList().rightPushAll(key, value);
                 this.expireTime(key, time);
                 return Boolean.TRUE;
             }
@@ -348,14 +407,13 @@ public final class RedisUtil {
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public boolean setListAll(String key, Object value, long time) {
+    public boolean setListAll(String key, Collection value, long time) {
         try {
+            redisTemplate.opsForList().rightPushAll(key, value);
             if (time > NumeralUtil.POSITIVE_ZERO) {
-                redisTemplate.opsForList().rightPushAll(key, value);
                 this.expireTime(key, time);
-                return Boolean.TRUE;
             }
-            return Boolean.FALSE;
+            return Boolean.TRUE;
         } catch (Exception e) {
             e.printStackTrace();
             return Boolean.FALSE;
@@ -366,13 +424,13 @@ public final class RedisUtil {
      * @param key   1 键
      * @param start 2 索引开始
      * @param end   3 索引结束,0到-1代表所有值
-     * @return java.util.List<java.lang.Object>=成功返回集合对象，失败返回NULL
-     * @Titel 根据key和索引获取缓存List中的内容
-     * @Description 根据key和索引获取缓存List中的内容
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @return java.util.List<java.lang.String>=成功返回集合对象，失败返回NULL
+     * @titel 根据key和索引获取缓存List中的内容
+     * @description 根据key和索引获取缓存List中的内容
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    public List<Object> getList(String key, long start, long end) {
+    public List<String> getList(String key, long start, long end) {
         try {
             return redisTemplate.opsForList().range(key, start, end);
         } catch (Exception e) {
@@ -386,12 +444,12 @@ public final class RedisUtil {
      * @param count 2 移除多少个
      * @param value 3 可以传null或传入存入的Value的值
      * @return long 返回删除了多少个
-     * @Titel 根据key, 删除List缓存中多个list数据
-     * @Description 根据key, 删除List缓存中多个list数据
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据key, 删除List缓存中多个list数据
+     * @description 根据key, 删除List缓存中多个list数据
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    public long deleteListIndex(String key, long count, Object value) {
+    public long deleteListIndex(String key, long count, String value) {
         try {
             return redisTemplate.opsForList().remove(key, count, value);
         } catch (Exception e) {
@@ -404,10 +462,10 @@ public final class RedisUtil {
     /**
      * @param key 1 键
      * @return long 返回数字
-     * @Titel 根据key获取List缓存的数据长度
-     * @Description 根据key获取List缓存的数据长度
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据key获取List缓存的数据长度
+     * @description 根据key获取List缓存的数据长度
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public long getListSize(String key) {
         try {
@@ -428,10 +486,10 @@ public final class RedisUtil {
      * @param key    1 redis键
      * @param mapKey 2 map键
      * @return java.lang.Object 返回map值
-     * @Titel 根据redis键和map键获取map值
-     * @Description 根据redis键和map键获取map值
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据redis键和map键获取map值
+     * @description 根据redis键和map键获取map值
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public Object getHashMapValue(String key, String mapKey) {
         try {
@@ -445,10 +503,10 @@ public final class RedisUtil {
     /**
      * @param key 1 redis键
      * @return java.util.Map 返回map集合
-     * @Titel 根据redis键获得一个map集合
-     * @Description 根据redis键获得一个map集合
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据redis键获得一个map集合
+     * @description 根据redis键获得一个map集合
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public Map<Object, Object> getHashMap(String key) {
         try {
@@ -464,12 +522,12 @@ public final class RedisUtil {
      * @param mapKey 2 map集合键
      * @param value  3 map集合值
      * @return boolean true成功，false失败
-     * @Titel 根据redis键, 存储map集合键和值
-     * @Description 根据redis键, 存储map集合键和值
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据redis键, 存储map集合键和值
+     * @description 根据redis键, 存储map集合键和值
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    public boolean setHashMap(String key, String mapKey, Object value) {
+    public boolean setHashMap(String key, String mapKey, String value) {
         try {
             this.redisTemplate.opsForHash().put(key, mapKey, value);
             return Boolean.TRUE;
@@ -483,10 +541,10 @@ public final class RedisUtil {
      * @param key 1 redis的键
      * @param map 2 map集合键
      * @return boolean true成功，false失败
-     * @Titel 根据redis键, 存储map集合
-     * @Description 根据redis键, 存储map集合
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据redis键, 存储map集合
+     * @description 根据redis键, 存储map集合
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public boolean setHashMap(String key, Map<String, Object> map) {
         try {
@@ -503,10 +561,10 @@ public final class RedisUtil {
      * @param map  2 map集合键
      * @param time 3 存在时间(秒)
      * @return boolean true成功，false失败
-     * @Titel 根据redis键, 存储map集合, 设置存在时间
-     * @Description 根据redis键, 存储map集合, 设置存在时间
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据redis键, 存储map集合, 设置存在时间
+     * @description 根据redis键, 存储map集合, 设置存在时间
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public boolean setHashMapTime(String key, Map<String, Object> map, long time) {
         try {
@@ -528,12 +586,12 @@ public final class RedisUtil {
      * @param value  3 map集合值
      * @param time   4 存在时间(秒)
      * @return boolean true成功，false失败
-     * @Titel 根据redis键, 存储map集合键和值, 设置存在时间
-     * @Description 根据redis键, 存储map集合键和值, 设置存在时间
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据redis键, 存储map集合键和值, 设置存在时间
+     * @description 根据redis键, 存储map集合键和值, 设置存在时间
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
-    public boolean setHashMapTime(String key, String mapKey, Object value, long time) {
+    public boolean setHashMapTime(String key, String mapKey, String value, long time) {
         try {
             this.redisTemplate.opsForHash().put(key, mapKey, value);
             if (time > NumeralUtil.POSITIVE_ZERO) {
@@ -550,10 +608,10 @@ public final class RedisUtil {
      * @param key    1 redis键
      * @param mapKey 2 map键
      * @return boolean true成功，false失败
-     * @Titel 根据redis的键删除map集合键, map集合键可以多个
-     * @Description 根据redis的键删除map集合键, map集合键可以多个
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据redis的键删除map集合键, map集合键可以多个
+     * @description 根据redis的键删除map集合键, map集合键可以多个
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public boolean delKeyToMapKeyArray(String key, Object... mapKey) {
         try {
@@ -569,10 +627,10 @@ public final class RedisUtil {
      * @param key    1 redis键
      * @param mapKey 2 map键
      * @return boolean
-     * @Titel 根据redis键和map键判断是否存在，键不能为null
-     * @Description 根据redis键和map键判断是否存在，键不能为null
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/10/11
+     * @titel 根据redis键和map键判断是否存在，键不能为null
+     * @description 根据redis键和map键判断是否存在，键不能为null
+     * @author 邋遢龘鵺
+     * @datetime 2019/10/11
      */
     public boolean isRedisHashMap(String key, String mapKey) {
         try {
@@ -586,6 +644,7 @@ public final class RedisUtil {
 
 
     //----------------------------- 用户token操作 开始 ------------------------------
+
 
     /**
      * @param oldKey 1 旧键
@@ -602,7 +661,7 @@ public final class RedisUtil {
         try {
             boolean is = redisTemplate.renameIfAbsent(ok, nk);
             if (is) {
-                expireTime(nk, NumeralUtil.POSITIVE_THIRTY * NumeralUtil.POSITIVE_SIXTY);
+                expireTime(nk, NumeralUtil.POSITIVE_EIGHT_HUNDRED * NumeralUtil.POSITIVE_SIXTY);
             }
             return is;
         } catch (Exception e) {
@@ -612,29 +671,128 @@ public final class RedisUtil {
     }
 
     /**
-     * @param key   1 键
-     * @param value 2 值
+     * @param oldKey 1 旧键
+     * @param newKey 2 新键
      * @return boolean true成功，false失败
-     * @Titel 登录token存储, 30分钟
-     * @Description 登录token存储, 30分钟
+     * @Titel 新key值不存在的时候, 根据旧key, 修改当前key值
+     * @Description 新key值不存在的时候, 根据旧key, 修改当前key值
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public boolean setLoginTokenStringIfLogin(String key, String value) {
-        String k = RedisKeyUtil.getLoginTokenKey(key);
-        return this.setStringIf(k, value, NumeralUtil.POSITIVE_THIRTY * NumeralUtil.POSITIVE_SIXTY);
+    public Boolean updLoginUserKeyIf(String oldKey, String newKey) {
+        String ok = RedisKeyUtil.getLoginSystemUserKey(oldKey);
+        String nk = RedisKeyUtil.getLoginSystemUserKey(newKey);
+        try {
+            boolean is = redisTemplate.renameIfAbsent(ok, nk);
+            if (is) {
+                expireTime(nk, NumeralUtil.POSITIVE_EIGHT_HUNDRED * NumeralUtil.POSITIVE_SIXTY);
+            }
+            return is;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Boolean.FALSE;
+        }
+    }
+
+    /**
+     * @param key 1 token键
+     * @return boolean
+     * @Titel 根据 token 值来删除 token键
+     * @Description 根据 token 值来删除 token键
+     * @Author 龘鵺
+     * @DateTime 2022/3/12 2:10
+     */
+    public boolean delTokenKey(String key) {
+        String nKey = RedisKeyUtil.getLoginTokenKey(key);
+        return this.deleteKey(nKey);
+    }
+
+    /**
+     * @param key 1 token键
+     * @return boolean
+     * @Titel 根据用户名值来删除 account键
+     * @Description 根据用户名值来删除 account键
+     * @Author 龘鵺
+     * @DateTime 2022/3/12 2:10
+     */
+    public boolean delAccountKey(String key) {
+        String nKey = RedisKeyUtil.getLoginSystemUserKey(key);
+        return this.deleteKey(nKey);
     }
 
     /**
      * @param key 1 键
-     * @return java.lang.Object 值
-     * @Titel 登陆redis方法, 根据key获取缓存
-     * @Description 登陆redis方法, 根据key获取缓存
+     * @Titel 刷新用户 token 的缓存时间
+     * @Description 刷新用户 token 的缓存时间
+     * @Author 龘鵺
+     * @DateTime 2022/3/12 1:55
+     */
+    public void refreshTokenExpireTime(String key, long time) {
+        //30分钟
+        this.expireTime(RedisKeyUtil.getLoginTokenKey(key), time);
+    }
+
+    /**
+     * @param key   1 键
+     * @param value 2 值
+     * @return boolean true成功，false失败
+     * @Titel 登录token存储, 30分钟, 存储token为键
+     * @Description 登录token存储, 30分钟, 存储token为键
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public Object getLoginTokenString(String key) {
+    public boolean setLoginTokenStringIfLogin(String key, String value, long time) {
+        String k = RedisKeyUtil.getLoginTokenKey(key);
+        return this.setString(k, value, time);
+    }
+
+    /**
+     * @param key 1 键
+     * @return java.lang.String 值
+     * @Titel 登陆redis方法, 根据key获取缓存, 存储token为键
+     * @Description 登陆redis方法, 根据key获取缓存, 存储token为键
+     * @Author 邋遢龘鵺
+     * @DateTime 2019/10/11
+     */
+    public String getLoginTokenString(String key) {
         return this.getString(RedisKeyUtil.getLoginTokenKey(key));
+    }
+
+    /**
+     * @param key 1 键
+     * @Titel 刷新用户 username 的缓存时间
+     * @Description 刷新用户 username 的缓存时间
+     * @Author 龘鵺
+     * @DateTime 2022/3/12 1:55
+     */
+    public void refreshUserExpireTime(String key, long time) {
+        //30分钟
+        this.expireTime(RedisKeyUtil.getLoginSystemUserKey(key), time);
+    }
+
+    /**
+     * @param key   1 键
+     * @param value 2 值
+     * @return boolean=true成功,false失败
+     * @Titel 登陆redis方法，缓存放入, 存储username为键
+     * @Description 登陆redis方法，缓存放入, 存储username为键
+     * @Author 邋遢龘鵺
+     * @DateTime 2019/10/11
+     */
+    public boolean setLoginUserString(String key, String value, long time) {
+        return this.setString(RedisKeyUtil.getLoginSystemUserKey(key), value, time);
+    }
+
+    /**
+     * @param key 1 键
+     * @return java.lang.String 值
+     * @Titel 登陆redis方法, 根据key获取缓存, 存储username为键
+     * @Description 登陆redis方法, 根据key获取缓存, 存储username为键
+     * @Author 邋遢龘鵺
+     * @DateTime 2019/10/11
+     */
+    public String getLoginUserString(String key) {
+        return this.getString(RedisKeyUtil.getLoginSystemUserKey(key));
     }
 
     /**
@@ -646,19 +804,19 @@ public final class RedisUtil {
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public boolean setLoginSystemUserString(String key, Object value) {
+    public boolean setLoginSystemUserString(String key, String value) {
         return this.setString(RedisKeyUtil.getLoginSystemUserKey(key), value);
     }
 
     /**
      * @param key 1 键
-     * @return java.lang.Object 值
+     * @return java.lang.String 值
      * @Titel 登陆redis方法, 根据key获取缓存
      * @Description 登陆redis方法, 根据key获取缓存
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public Object getLoginSystemUserString(String key) {
+    public String getLoginSystemUserString(String key) {
         return this.getString(RedisKeyUtil.getLoginSystemUserKey(key));
     }
 
@@ -671,19 +829,19 @@ public final class RedisUtil {
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public boolean setAuthRoleString(String key, Object value) {
+    public boolean setAuthRoleString(String key, String value) {
         return this.setString(RedisKeyUtil.getPermissionRoleKey(key), value);
     }
 
     /**
      * @param key 1 键
-     * @return java.lang.Object 值
+     * @return java.lang.String 值
      * @Titel 权限角色redis方法, 根据key获取缓存
      * @Description 权限角色redis方法, 根据key获取缓存
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public Object getAuthRoleString(String key) {
+    public String getAuthRoleString(String key) {
         return this.getString(RedisKeyUtil.getPermissionRoleKey(key));
     }
 
@@ -696,19 +854,19 @@ public final class RedisUtil {
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public boolean setAuthMenuString(String key, Object value) {
+    public boolean setAuthMenuString(String key, String value) {
         return this.setString(RedisKeyUtil.getPermissionMenuKey(key), value);
     }
 
     /**
      * @param key 1 键
-     * @return java.lang.Object 值
+     * @return java.lang.String 值
      * @Titel 权限菜单redis方法, 根据key获取缓存
      * @Description 权限菜单redis方法, 根据key获取缓存
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public Object getAuthMenuString(String key) {
+    public String getAuthMenuString(String key) {
         return this.getString(RedisKeyUtil.getPermissionMenuKey(key));
     }
 
@@ -722,19 +880,19 @@ public final class RedisUtil {
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public boolean setAuthButtonString(String key, Object value) {
+    public boolean setAuthButtonString(String key, String value) {
         return this.setString(RedisKeyUtil.getPermissionButtonKey(key), value);
     }
 
     /**
      * @param key 1 键
-     * @return java.lang.Object 值
+     * @return java.lang.String 值
      * @Titel 权限按钮redis方法, 根据key获取缓存
      * @Description 权限按钮redis方法, 根据key获取缓存
      * @Author 邋遢龘鵺
      * @DateTime 2019/10/11
      */
-    public Object getAuthButtonString(String key) {
+    public String getAuthButtonString(String key) {
         return this.getString(RedisKeyUtil.getPermissionButtonKey(key));
     }
     //----------------------------- 用户token操作 结束s ------------------------------

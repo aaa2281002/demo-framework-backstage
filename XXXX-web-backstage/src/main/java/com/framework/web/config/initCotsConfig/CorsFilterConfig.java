@@ -11,11 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.config.initCotsConfig
- * @Description 跨域初始化配置类
- * @DateTime 2019/10/11
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.config.initCotsConfig
+ * @description 跨域初始化配置类
+ * @datetime 2019/10/11
  */
 @Configuration
 //@Order(Ordered.HIGHEST_PRECEDENCE)
@@ -36,11 +36,11 @@ public class CorsFilterConfig {//implements WebMvcConfigurer {
 //    }
 
     /**
-     * @Titel 跨域参数配置过滤方法
-     * @Description 跨域参数配置过滤方法
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/27 17:34
      * @return org.springframework.web.cors.CorsConfiguration
+     * @titel 跨域参数配置过滤方法
+     * @description 跨域参数配置过滤方法
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/27 17:34
      */
     private CorsConfiguration corsConfiguration() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -49,25 +49,52 @@ public class CorsFilterConfig {//implements WebMvcConfigurer {
 //        corsConfiguration.addAllowedMethod(CorsUtil.CORS_ALL);
 //        corsConfiguration.addExposedHeader(CorsUtil.CORS_ALL);
 //        corsConfiguration.setAllowCredentials(true);
-        List<String> allowedHeaders = Arrays.asList("x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest");
-        List<String> exposedHeaders = Arrays.asList("x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest");
+//        List<String> allowedHeaders = Arrays.asList("x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest");
+//        List<String> exposedHeaders = Arrays.asList("x-auth-token", "content-type", "X-Requested-With", "XMLHttpRequest");
+//        List<String> allowedMethods = Arrays.asList("POST", "GET", "DELETE", "PUT", "OPTIONS");
+//        List<String> allowedOrigins = Arrays.asList(CorsUtil.CORS_ALL);
+//        corsConfiguration.setAllowedHeaders(allowedHeaders);
+//        corsConfiguration.setAllowedMethods(allowedMethods);
+//        corsConfiguration.setAllowedOrigins(allowedOrigins);
+//        corsConfiguration.setExposedHeaders(exposedHeaders);
+//        corsConfiguration.setMaxAge(CorsUtil.maxAge);
+//        corsConfiguration.setAllowCredentials(Boolean.TRUE);
+//        return corsConfiguration;
+
+//        corsConfiguration.addAllowedHeader(CorsUtil.CORS_ALL);
+//        corsConfiguration.addAllowedOrigin(CorsUtil.CORS_ALL);
+//        corsConfiguration.addAllowedMethod(CorsUtil.CORS_ALL);
+//        corsConfiguration.addExposedHeader(CorsUtil.CORS_ALL);
+//        corsConfiguration.setAllowCredentials(true);
+        List<String> allowedHeaders =
+//                Arrays.asList("x-auth-token", "Access-Control-Allow-Origin", "content-type", "X-Requested-With",
+//                "XMLHttpRequest");
+                Arrays.asList("accessToken", "X-Requested-With", "accept", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"
+                        , "x-auth-token", "Access-Control-Allow-Origin", "content-type", "XMLHttpRequest");
+        List<String> exposedHeaders =
+//                Arrays.asList("accessToken","X-Requested-With","accept","Origin","Access-Control-Request-Method","Access-Control-Request-Headers"
+//                        ,"x-auth-token", "Access-Control-Allow-Origin", "content-type", "XMLHttpRequest");
+                Arrays.asList("accessToken", "x-auth-token", "Access-Control-Allow-Origin", "content-type", "X-Requested-With",
+                        "XMLHttpRequest");
         List<String> allowedMethods = Arrays.asList("POST", "GET", "DELETE", "PUT", "OPTIONS");
-        List<String> allowedOrigins = Arrays.asList(CorsUtil.CORS_ALL);
+        List<String> allowedOrigins = Arrays.asList(CorsUtil.CORS_ALL, "Access-Control-Allow-Origin");
         corsConfiguration.setAllowedHeaders(allowedHeaders);
         corsConfiguration.setAllowedMethods(allowedMethods);
-        corsConfiguration.setAllowedOrigins(allowedOrigins);
+//        corsConfiguration.setAllowedOrigins(allowedOrigins);
         corsConfiguration.setExposedHeaders(exposedHeaders);
+        corsConfiguration.setAllowedOriginPatterns(allowedOrigins);
+//        corsConfiguration.addAllowedOrigin(CorsUtil.CORS_ALL);
         corsConfiguration.setMaxAge(CorsUtil.maxAge);
         corsConfiguration.setAllowCredentials(Boolean.TRUE);
         return corsConfiguration;
     }
 
     /**
-     * @Titel 跨域配置过滤方法
-     * @Description 跨域配置过滤方法
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/27 17:34
      * @return org.springframework.web.filter.CorsFilter
+     * @titel 跨域配置过滤方法
+     * @description 跨域配置过滤方法
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/27 17:34
      */
     @Bean
     public CorsFilter corsFilter() {

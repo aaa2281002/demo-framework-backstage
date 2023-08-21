@@ -2,14 +2,13 @@ package com.framework.common.util.sql;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.common.util.sql
- * @Description sql注入过滤工具类
- * @Date 2020/1/9 15:59
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.common.util.sql
+ * @description sql注入过滤工具类
+ * @date 2020/1/9 15:59
  */
 public class InjectSQLFilterUtil {
     //过滤值

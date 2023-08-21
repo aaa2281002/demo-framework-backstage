@@ -1,5 +1,6 @@
 package com.framework.web.config.initInjectSQLFilter;
 
+import com.framework.common.util.filter.XssUtil;
 import com.framework.common.util.other.NumeralUtil;
 import com.framework.common.util.sql.InjectSQLFilterUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -12,11 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.config.initInjectSQLFilter
- * @Description 请求参数过滤类，预防sql注入
- * @Date 2020/1/9 15:44
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.config.initInjectSQLFilter
+ * @description 请求参数过滤类，预防sql注入
+ * @date 2020/1/9 15:44
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     private Logger log = LoggerFactory.getLogger(XssHttpServletRequestWrapper.class);
@@ -30,10 +31,10 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
     /**
      * @return java.util.Map
-     * @Titel 整个请求参数值过滤
-     * @Description 整个请求参数值过滤
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/9 17:13
+     * @title 整个请求参数值过滤
+     * @description 整个请求参数值过滤
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/9 17:13
      */
     @Override
     public Map<String, String[]> getParameterMap() {
@@ -43,13 +44,17 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         }
         Map<String, String[]> result = new HashMap<>();
         for (String key : values.keySet()) {
-            String encodedKey = cleanXSS(key);
-            int count = values.get(key).length;
-            String[] encodedValues = new String[count];
-            for (int i = NumeralUtil.POSITIVE_ZERO; i < count; i++) {
-                encodedValues[i] = cleanXSS(values.get(key)[i]);
+            if (XssUtil.list.contains(key)) {
+                String encodedKey = cleanXSS(key);
+                int count = values.get(key).length;
+                String[] encodedValues = new String[count];
+                for (int i = NumeralUtil.POSITIVE_ZERO; i < count; i++) {
+                    encodedValues[i] = cleanXSS(values.get(key)[i]);
+                }
+                result.put(encodedKey, encodedValues);
+            } else {
+                result.put(key, values.get(key));
             }
-            result.put(encodedKey, encodedValues);
         }
         return result;
     }
@@ -57,10 +62,10 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     /**
      * @param name 1 键
      * @return java.lang.String[]
-     * @Titel 批量参数值获取过滤
-     * @Description 批量参数值获取过滤
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/9 17:12
+     * @title 批量参数值获取过滤
+     * @description 批量参数值获取过滤
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/9 17:12
      */
     @Override
     public String[] getParameterValues(String name) {
@@ -68,21 +73,24 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         if (values == null) {
             return null;
         }
-        int count = values.length;
-        String[] encodedValues = new String[count];
-        for (int i = NumeralUtil.POSITIVE_ZERO; i < count; i++) {
-            encodedValues[i] = cleanXSS(values[i]);
+        if (XssUtil.list.contains(name)) {
+            int count = values.length;
+            String[] encodedValues = new String[count];
+            for (int i = NumeralUtil.POSITIVE_ZERO; i < count; i++) {
+                encodedValues[i] = cleanXSS(values[i]);
+            }
+            return encodedValues;
         }
-        return encodedValues;
+        return values;
     }
 
     /**
      * @param name 1 键
      * @return java.lang.String
-     * @Titel 单个参数获取过滤
-     * @Description 单个参数获取过滤
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/9 17:11
+     * @title 单个参数获取过滤
+     * @description 单个参数获取过滤
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/9 17:11
      */
     @Override
     public String getParameter(String name) {
@@ -96,10 +104,10 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     /**
      * @param name 1 键
      * @return java.lang.String
-     * @Titel 单个头部信息获取过滤
-     * @Description 单个头部信息获取过滤
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/9 17:12
+     * @title 单个头部信息获取过滤
+     * @description 单个头部信息获取过滤
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/9 17:12
      */
     @Override
     public String getHeader(String name) {
@@ -117,7 +125,9 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
         value = value.replaceAll("'", "& #39;");
         value = value.replaceAll("eval\\((.*)\\)", "");
         value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
-        value = value.replaceAll("script", "");
+        if (!XssUtil.DESCRIPTION.equalsIgnoreCase(value)) {
+            value = value.replaceAll("script", "");
+        }
         value = value.replaceAll("[*]", "[" + "*]");
         value = value.replaceAll("[+]", "[" + "+]");
         value = value.replaceAll("[?]", "[" + "?]");

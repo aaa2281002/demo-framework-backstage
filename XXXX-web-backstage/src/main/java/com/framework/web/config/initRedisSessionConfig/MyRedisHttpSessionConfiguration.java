@@ -8,11 +8,11 @@ import org.springframework.session.data.redis.RedisIndexedSessionRepository;
 import javax.annotation.PostConstruct;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.config.initRedisSessionConfig
- * @Description 自定义springsession时间初始化类
- * @DateTime 2019/12/19 14:06
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.config.initRedisSessionConfig
+ * @description 自定义springsession时间初始化类
+ * @datetime 2019/12/19 14:06
  */
 @Configuration
 public class MyRedisHttpSessionConfiguration {

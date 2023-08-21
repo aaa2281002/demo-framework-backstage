@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.framework.mapper.system.SystemUserMapper">
+    <resultMap id="BaseResultMap" type="com.framework.model.system.SystemUser">
+        <id column="ID" jdbcType="BIGINT" property="id"/>
+        <result column="CREATE_ID" jdbcType="BIGINT" property="createId"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="OPERATER_ID" jdbcType="BIGINT" property="operaterId"/>
+        <result column="OPERATER_TIME" property="operaterTime"/>
+        <result column="OPERATER_STATUS" jdbcType="INTEGER" property="operaterStatus"/>
+        <result column="IS_ENABLE" jdbcType="INTEGER" property="isEnable"/>
+        <result column="ACCOUNT_LOCKED" jdbcType="INTEGER" property="accountLocked"/>
+        <result column="ACCOUNT_EXPIRED" jdbcType="INTEGER" property="accountExpired"/>
+        <result column="CREDENTIALS_EXPIRED" jdbcType="INTEGER" property="credentialsExpired"/>
+        <result column="LOGIN_NAME" jdbcType="VARCHAR" property="loginName"/>
+        <result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
+        <result column="NAME" jdbcType="VARCHAR" property="name"/>
+        <result column="COMPANY_CODE" jdbcType="VARCHAR" property="companyCode"/>
+        <result column="COMPANY_ID" jdbcType="INTEGER" property="companyId"/>
+        <result column="TELPHONE" jdbcType="VARCHAR" property="telphone"/>
+        <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
+        <result column="USER_LEVEL" jdbcType="INTEGER" property="userLevel"/>
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        p.ID, p.IS_ENABLE, p.ACCOUNT_LOCKED, p.ACCOUNT_EXPIRED, p.CREDENTIALS_EXPIRED, p.LOGIN_NAME, p.PASSWORD, p.NAME, p.COMPANY_CODE,
+        p.COMPANY_ID, p.TELPHONE, p.EMAIL, p.USER_LEVEL, p.DESCRIPTION
+    </sql>
+
+    <!--    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">-->
+    <!--        delete-->
+    <!--        from `system_user`-->
+    <!--        where ID = #{id,jdbcType=BIGINT}-->
+    <!--    </delete>-->
+
+    <update id="delete" parameterType="com.framework.model.system.SystemUser">
+        UPDATE `system_user`
+        SET OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            OPERATER_ID     = #{operaterId,jdbcType=BIGINT},
+            OPERATER_TIME   = #{operaterTime}
+        WHERE ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="deleteList" parameterType="com.framework.model.system.SystemUser">
+        UPDATE `system_user` SET
+        OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+        OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+        OPERATER_TIME = #{operaterTime}
+        WHERE ID IN
+        <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <insert id="insertSelective" parameterType="com.framework.model.system.SystemUser" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into `system_user`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                CREATE_ID,
+            </if>
+            <if test="createTime != null">
+                CREATE_TIME,
+            </if>
+            <if test="operaterId != null">
+                OPERATER_ID,
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME,
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS,
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE,
+            </if>
+            <if test="accountLocked != null">
+                ACCOUNT_LOCKED,
+            </if>
+            <if test="accountExpired != null">
+                ACCOUNT_EXPIRED,
+            </if>
+            <if test="credentialsExpired != null">
+                CREDENTIALS_EXPIRED,
+            </if>
+            <if test="loginName != null and loginName != ''">
+                LOGIN_NAME,
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD,
+            </if>
+            <if test="name != null and name != ''">
+                NAME,
+            </if>
+            <if test="companyCode != null and companyCode != ''">
+                COMPANY_CODE,
+            </if>
+            <if test="companyId != null">
+                COMPANY_ID,
+            </if>
+            <if test="telphone != null and telphone != ''">
+                TELPHONE,
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL,
+            </if>
+            <if test="userLevel != null">
+                USER_LEVEL,
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="createId != null">
+                #{createId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="operaterId != null">
+                #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="accountLocked != null">
+                #{accountLocked,jdbcType=INTEGER},
+            </if>
+            <if test="accountExpired != null">
+                #{accountExpired,jdbcType=INTEGER},
+            </if>
+            <if test="credentialsExpired != null">
+                #{credentialsExpired,jdbcType=INTEGER},
+            </if>
+            <if test="loginName != null and loginName != ''">
+                #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="companyCode != null and companyCode != ''">
+                #{companyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="telphone != null and telphone != ''">
+                #{telphone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email != ''">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="userLevel != null">
+                #{userLevel,jdbcType=INTEGER},
+            </if>
+            <if test="description != null and description != ''">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into `system_user` (CREATE_ID, CREATE_TIME,
+        OPERATER_ID, OPERATER_TIME, OPERATER_STATUS,
+        IS_ENABLE, ACCOUNT_LOCKED, ACCOUNT_EXPIRED,
+        CREDENTIALS_EXPIRED, LOGIN_NAME, PASSWORD,
+        NAME, COMPANY_CODE, COMPANY_ID,
+        TELPHONE, EMAIL, USER_LEVEL,
+        DESCRIPTION
+        )
+        <foreach collection="list" item="item" index="index" separator="union all">
+            SELECT
+            #{item.createId,jdbcType=BIGINT}, #{item.createTime},
+            #{item.operaterId,jdbcType=BIGINT}, #{item.operaterTime}, #{item.operaterStatus,jdbcType=INTEGER},
+            #{item.isEnable,jdbcType=INTEGER}, #{item.accountLocked,jdbcType=INTEGER},
+            #{item.accountExpired,jdbcType=INTEGER},
+            #{item.credentialsExpired,jdbcType=INTEGER}, #{item.loginName,jdbcType=VARCHAR},
+            #{item.password,jdbcType=VARCHAR},
+            #{item.name,jdbcType=VARCHAR}, #{item.companyCode,jdbcType=VARCHAR}, #{item.companyId,jdbcType=INTEGER},
+            #{item.telphone,jdbcType=VARCHAR}, #{item.email,jdbcType=VARCHAR}, #{item.userLevel,jdbcType=INTEGER},
+            #{item.description,jdbcType=VARCHAR}
+            FROM dual
+        </foreach>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.framework.model.system.SystemUser">
+        update `system_user`
+        <set>
+            <if test="operaterId != null">
+                OPERATER_ID = #{operaterId,jdbcType=BIGINT},
+            </if>
+            <if test="operaterTime != null">
+                OPERATER_TIME = #{operaterTime},
+            </if>
+            <if test="operaterStatus != null">
+                OPERATER_STATUS = #{operaterStatus,jdbcType=INTEGER},
+            </if>
+            <if test="isEnable != null">
+                IS_ENABLE = #{isEnable,jdbcType=INTEGER},
+            </if>
+            <if test="accountLocked != null">
+                ACCOUNT_LOCKED = #{accountLocked,jdbcType=INTEGER},
+            </if>
+            <if test="accountExpired != null">
+                ACCOUNT_EXPIRED = #{accountExpired,jdbcType=INTEGER},
+            </if>
+            <if test="credentialsExpired != null">
+                CREDENTIALS_EXPIRED = #{credentialsExpired,jdbcType=INTEGER},
+            </if>
+            <if test="loginName != null and loginName != ''">
+                LOGIN_NAME = #{loginName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null and password != ''">
+                PASSWORD = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null and name != ''">
+                NAME = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="companyCode != null and companyCode != ''">
+                COMPANY_CODE = #{companyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="companyId != null">
+                COMPANY_ID = #{companyId,jdbcType=INTEGER},
+            </if>
+            <if test="telphone != null and telphone != ''">
+                TELPHONE = #{telphone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="userLevel != null">
+                USER_LEVEL = #{userLevel,jdbcType=INTEGER},
+            </if>
+            <if test="description != null and description != ''">
+                DESCRIPTION = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where ID = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateList" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update `system_user`
+            <set>
+                <if test="item.operaterId != null">
+                    OPERATER_ID = #{item.operaterId,jdbcType=BIGINT},
+                </if>
+                <if test="item.operaterTime != null">
+                    OPERATER_TIME = #{item.operaterTime},
+                </if>
+                <if test="item.operaterStatus != null">
+                    OPERATER_STATUS = #{item.operaterStatus,jdbcType=INTEGER},
+                </if>
+                <if test="item.isEnable != null">
+                    IS_ENABLE = #{item.isEnable,jdbcType=INTEGER},
+                </if>
+                <if test="item.accountLocked != null">
+                    ACCOUNT_LOCKED = #{item.accountLocked,jdbcType=INTEGER},
+                </if>
+                <if test="item.accountExpired != null">
+                    ACCOUNT_EXPIRED = #{item.accountExpired,jdbcType=INTEGER},
+                </if>
+                <if test="item.credentialsExpired != null">
+                    CREDENTIALS_EXPIRED = #{item.credentialsExpired,jdbcType=INTEGER},
+                </if>
+                <if test="item.loginName != null and item.loginName != ''">
+                    LOGIN_NAME = #{item.loginName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.password != null and item.password != ''">
+                    PASSWORD = #{item.password,jdbcType=VARCHAR},
+                </if>
+                <if test="item.name != null and item.name != ''">
+                    NAME = #{item.name,jdbcType=VARCHAR},
+                </if>
+                <if test="item.companyCode != null and item.companyCode != ''">
+                    COMPANY_CODE = #{item.companyCode,jdbcType=VARCHAR},
+                </if>
+                <if test="item.companyId != null">
+                    COMPANY_ID = #{item.companyId,jdbcType=INTEGER},
+                </if>
+                <if test="item.telphone != null and item.telphone != ''">
+                    TELPHONE = #{item.telphone,jdbcType=VARCHAR},
+                </if>
+                <if test="item.email != null and item.email != ''">
+                    EMAIL = #{item.email,jdbcType=VARCHAR},
+                </if>
+                <if test="item.userLevel != null">
+                    USER_LEVEL = #{item.userLevel,jdbcType=INTEGER},
+                </if>
+                <if test="item.description != null and item.description != ''">
+                    DESCRIPTION = #{item.description,jdbcType=VARCHAR},
+                </if>
+            </set>
+            where ID = #{item.id,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <select id="selectByPrimaryKey" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from `system_user` p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        where p.ID = #{id,jdbcType=BIGINT} and p.OPERATER_STATUS > -1
+        <if test="gtNum != null">
+            and p.USER_LEVEL &gt; #{gtNum,jdbcType=INTEGER}
+        </if>
+        <if test="gtaeNum != null">
+            AND p.USER_LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectByParam" parameterType="com.framework.model.system.SystemUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from `system_user` p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <select id="isExist" parameterType="com.framework.model.system.SystemUser" resultType="java.lang.Integer">
+        select COUNT(p.Id)
+        from `system_user` p
+        where 1=1
+        <if test="loginName != null and loginName != ''">
+            and p.LOGIN_NAME = #{loginName}
+        </if>
+        <if test="id != null">
+            and p.ID != #{id}
+        </if>
+    </select>
+
+    <select id="queryForLoginName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , sr.ROLE_CODE roleCode
+        from `system_user` p
+        LEFT JOIN tb_system_user_role sur on p.id = sur.USER_ID
+        LEFT JOIN system_role sr on sur.ROLE_ID = sr.id
+        where p.LOGIN_NAME = #{loginName,jdbcType=VARCHAR} AND p.OPERATER_STATUS > -1
+    </select>
+
+    <select id="findPageList" parameterType="com.framework.model.system.SystemUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from `system_user` p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+            <if test="order != null and order != ''">${order}</if>
+        </if>
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="findPageListCount" parameterType="com.framework.model.system.SystemUser" resultType="INTEGER">
+        select COUNT(p.ID)
+        from `system_user` p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+            <include refid="fuzzyConditionSql"/>
+        </where>
+    </select>
+
+    <select id="findByList" parameterType="com.framework.model.system.SystemUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        from `system_user` p
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
+    <sql id="fuzzyConditionSql">
+        <if test="fuzzyType == 'isEnable'">
+            and p.IS_ENABLE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'accountLocked'">
+            and p.ACCOUNT_LOCKED LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'accountExpired'">
+            and p.ACCOUNT_EXPIRED LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'credentialsExpired'">
+            and p.CREDENTIALS_EXPIRED LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'loginName'">
+            and p.LOGIN_NAME LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <!--        <if test="fuzzyType == 'password'">-->
+        <!--            and p.PASSWORD LIKE CONCAT('%', #{fuzzyValue}, '%')-->
+        <!--        </if>-->
+        <if test="fuzzyType == 'name'">
+            and p.NAME LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <!--        <if test="fuzzyType == 'companyCode'">-->
+        <!--            and p.COMPANY_CODE LIKE CONCAT('%', #{fuzzyValue}, '%')-->
+        <!--        </if>-->
+        <!--        <if test="fuzzyType == 'companyId'">-->
+        <!--            and p.COMPANY_ID LIKE CONCAT('%', #{fuzzyValue}, '%')-->
+        <!--        </if>-->
+        <if test="fuzzyType == 'telphone'">
+            and p.TELPHONE LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'email'">
+            and p.EMAIL LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'userLevel'">
+            and p.USER_LEVEL LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+        <if test="fuzzyType == 'description'">
+            and p.DESCRIPTION LIKE CONCAT('%', #{fuzzyValue}, '%')
+        </if>
+    </sql>
+
+    <sql id="searchConditionSql">
+        <if test="search != null and search != ''">
+            AND (
+            p.IS_ENABLE LIKE CONCAT('%', #{search}, '%')
+            or p.ACCOUNT_LOCKED LIKE CONCAT('%', #{search}, '%')
+            or p.ACCOUNT_EXPIRED LIKE CONCAT('%', #{search}, '%')
+            or p.CREDENTIALS_EXPIRED LIKE CONCAT('%', #{search}, '%')
+            or p.LOGIN_NAME LIKE CONCAT('%', #{search}, '%')
+            <!--  or p.PASSWORD LIKE CONCAT('%', #{search}, '%')-->
+            or p.NAME LIKE CONCAT('%', #{search}, '%')
+            <!-- or p.COMPANY_CODE LIKE CONCAT('%', #{search}, '%')
+            or p.COMPANY_ID LIKE CONCAT('%', #{search}, '%') -->
+            or p.TELPHONE LIKE CONCAT('%', #{search}, '%')
+            or p.EMAIL LIKE CONCAT('%', #{search}, '%')
+            or p.USER_LEVEL LIKE CONCAT('%', #{search}, '%')
+            or p.DESCRIPTION LIKE CONCAT('%', #{search}, '%')
+            )
+        </if>
+    </sql>
+
+    <sql id="conditionSql">
+        <include refid="BaseMapper.publicWhereId"/>
+
+        <if test="gtaeNum != null">
+            AND p.USER_LEVEL &gt;= #{gtaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="gtNum != null">
+            and p.USER_LEVEL &gt; #{gtNum,jdbcType=INTEGER}
+        </if>
+        <if test="ltaeNum != null">
+            AND p.USER_LEVEL &lt;= #{ltaeNum,jdbcType=INTEGER}
+        </if>
+        <if test="ltNum != null">
+            AND p.USER_LEVEL &lt; #{ltNum,jdbcType=INTEGER}
+        </if>
+
+        <if test="isEnable != null">
+            and p.IS_ENABLE = #{isEnable,jdbcType=INTEGER}
+        </if>
+        <if test="accountLocked != null">
+            and p.ACCOUNT_LOCKED = #{accountLocked,jdbcType=INTEGER}
+        </if>
+        <if test="accountExpired != null">
+            and p.ACCOUNT_EXPIRED = #{accountExpired,jdbcType=INTEGER}
+        </if>
+        <if test="credentialsExpired != null">
+            and p.CREDENTIALS_EXPIRED = #{credentialsExpired,jdbcType=INTEGER}
+        </if>
+        <if test="loginName != null and loginName != ''">
+            and p.LOGIN_NAME = #{loginName,jdbcType=VARCHAR}
+        </if>
+        <!--        <if test="password != null and password != ''">-->
+        <!--            and p.PASSWORD = #{password,jdbcType=VARCHAR}-->
+        <!--        </if>-->
+        <if test="name != null and name != ''">
+            and p.NAME = #{name,jdbcType=VARCHAR}
+        </if>
+        <!--        <if test="companyCode != null and companyCode != ''">-->
+        <!--            and p.COMPANY_CODE = #{companyCode,jdbcType=VARCHAR}-->
+        <!--        </if>-->
+        <!--        <if test="companyId != null">-->
+        <!--            and p.COMPANY_ID = #{companyId,jdbcType=INTEGER}-->
+        <!--        </if>-->
+        <if test="telphone != null and telphone != ''">
+            and p.TELPHONE = #{telphone,jdbcType=VARCHAR}
+        </if>
+        <if test="email != null and email != ''">
+            and p.EMAIL = #{email,jdbcType=VARCHAR}
+        </if>
+        <if test="userLevel != null">
+            and p.USER_LEVEL = #{userLevel,jdbcType=INTEGER}
+        </if>
+        <if test="description != null and description != ''">
+            and p.DESCRIPTION = #{description,jdbcType=VARCHAR}
+        </if>
+        <include refid="BaseMapper.publicWhereStatus"/>
+        <include refid="BaseMapper.publicWhereUserId"/>
+        <include refid="BaseMapper.publicWhereCreateTime"/>
+    </sql>
+
+    <sql id="vagueConditionSql">
+        <include refid="BaseMapper.publicWhereId"/>
+        <if test="isEnable != null">
+            and p.IS_ENABLE LIKE CONCAT('%', #{isEnable,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="accountLocked != null">
+            and p.ACCOUNT_LOCKED LIKE CONCAT('%', #{accountLocked,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="accountExpired != null">
+            and p.ACCOUNT_EXPIRED LIKE CONCAT('%', #{accountExpired,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="credentialsExpired != null">
+            and p.CREDENTIALS_EXPIRED LIKE CONCAT('%', #{credentialsExpired,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="loginName != null and loginName != ''">
+            and p.LOGIN_NAME LIKE CONCAT('%', #{loginName,jdbcType=VARCHAR}, '%')
+        </if>
+        <!--        <if test="password != null and password != ''">-->
+        <!--            and p.PASSWORD LIKE CONCAT('%', #{password,jdbcType=VARCHAR}, '%')-->
+        <!--        </if>-->
+        <if test="name != null and name != ''">
+            and p.NAME LIKE CONCAT('%', #{name,jdbcType=VARCHAR}, '%')
+        </if>
+        <!--        <if test="companyCode != null and companyCode != ''">-->
+        <!--            and p.COMPANY_CODE LIKE CONCAT('%', #{companyCode,jdbcType=VARCHAR}, '%')-->
+        <!--        </if>-->
+        <!--        <if test="companyId != null">-->
+        <!--            and p.COMPANY_ID LIKE CONCAT('%', #{companyId,jdbcType=INTEGER}, '%')-->
+        <!--        </if>-->
+        <if test="telphone != null and telphone != ''">
+            and p.TELPHONE LIKE CONCAT('%', #{telphone,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="email != null and email != ''">
+            and p.EMAIL LIKE CONCAT('%', #{email,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="userLevel != null">
+            and p.USER_LEVEL LIKE CONCAT('%', #{userLevel,jdbcType=INTEGER}, '%')
+        </if>
+        <if test="description != null and description != ''">
+            and p.DESCRIPTION LIKE CONCAT('%', #{description,jdbcType=VARCHAR}, '%')
+        </if>
+        <include refid="BaseMapper.publicWhereStatus"/>
+        <include refid="BaseMapper.publicWhereUserId"/>
+        <include refid="BaseMapper.publicWhereCreateTime"/>
+    </sql>
+
+</mapper>

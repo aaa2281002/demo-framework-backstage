@@ -15,11 +15,11 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 import java.time.Duration;
 
 /**
- * @Author 邋遢龘鵺
- * @ClassName com.framework.web.config.initRedisSessionConfig
- * @Description springsession和redis单机或集群初始化类, 因为使用了这个类初始化，所以吧RedisConfig注释掉
- * @DateTime 2019/12/19 14:05
- * @Version 1.0
+ * @author 邋遢龘鵺
+ * @version 1.0
+ * @className com.framework.web.config.initRedisSessionConfig
+ * @description springsession和redis单机或集群初始化类, 因为使用了这个类初始化，所以吧RedisConfig注释掉
+ * @datetime 2019/12/19 14:05
  */
 @EnableRedisHttpSession
 //@Configuration
@@ -32,10 +32,10 @@ public class RedisSessionConfig {
     /**
      * @param redisConnectionFactory 1 redis工厂参数对象
      * @return org.springframework.data.redis.cache.RedisCacheManager
-     * @Titel 设置cache缓存工厂存在时间，单位分
-     * @Description 设置cache缓存工厂存在时间，单位分
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/13 14:45
+     * @titel 设置cache缓存工厂存在时间，单位分
+     * @description 设置cache缓存工厂存在时间，单位分
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/13 14:45
      */
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
@@ -48,10 +48,10 @@ public class RedisSessionConfig {
 
     /**
      * @return org.springframework.data.redis.serializer.RedisSerializer<java.lang.String>
-     * @Titel 设置redis缓存键格式
-     * @Description 设置redis缓存键格式
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/13 14:43
+     * @titel 设置redis缓存键格式
+     * @description 设置redis缓存键格式
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/13 14:43
      */
     private RedisSerializer<String> keySerializer() {
         return new StringRedisSerializer();
@@ -60,10 +60,10 @@ public class RedisSessionConfig {
 
     /**
      * @return org.springframework.data.redis.serializer.RedisSerializer<java.lang.Object>
-     * @Titel 设置redis缓存值格式
-     * @Description 设置redis缓存值格式
-     * @Author 邋遢龘鵺
-     * @DateTime 2020/1/13 14:43
+     * @titel 设置redis缓存值格式
+     * @description 设置redis缓存值格式
+     * @author 邋遢龘鵺
+     * @datetime 2020/1/13 14:43
      */
     private RedisSerializer<Object> valueSerializer() {
         return new GenericJackson2JsonRedisSerializer();
@@ -73,10 +73,10 @@ public class RedisSessionConfig {
 
     /**
      * @return org.springframework.data.redis.core.RedisTemplate
-     * @Titel redis初始化设置, 解决redis插入中文乱码
-     * @Description redis初始化设置, 解决redis插入中文乱码
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/28 18:33
+     * @titel redis初始化设置, 解决redis插入中文乱码
+     * @description redis初始化设置, 解决redis插入中文乱码
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/28 18:33
      */
     @Bean
     public RedisTemplate redisTemplateInit() {
@@ -103,10 +103,10 @@ public class RedisSessionConfig {
     /**
      * @param redisConnectionFactory 1 redis链接工厂
      * @return org.springframework.data.redis.core.RedisTemplate
-     * @Titel redis初始化工厂设置
-     * @Description redis初始化工厂设置
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/28 18:33
+     * @titel redis初始化工厂设置
+     * @description redis初始化工厂设置
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/28 18:33
      */
     @Bean
     @ConditionalOnMissingBean(name = "redisTemplate")
@@ -120,10 +120,10 @@ public class RedisSessionConfig {
     /**
      * @param redisConnectionFactory 1 redis链接工厂
      * @return org.springframework.data.redis.core.StringRedisTemplate
-     * @Titel redis初始化工厂设置
-     * @Description redis初始化工厂设置
-     * @Author 邋遢龘鵺
-     * @DateTime 2019/12/28 18:34
+     * @titel redis初始化工厂设置
+     * @description redis初始化工厂设置
+     * @author 邋遢龘鵺
+     * @datetime 2019/12/28 18:34
      */
     @Bean
     @ConditionalOnMissingBean(StringRedisTemplate.class)
