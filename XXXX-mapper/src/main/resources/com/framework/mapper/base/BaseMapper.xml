@@ -110,4 +110,15 @@
         </if>
     </sql>
 
+    <sql id="publicSortAndOrder">
+        <if test="sort != null and sort != ''">
+            order by ${sort}
+            <if test="order != null and order != ''">${order}</if>
+        </if>
+    </sql>
+
+    <sql id="publicOffsetAndLimit">
+        limit #{offset}, #{limit}
+    </sql>
+
 </mapper>

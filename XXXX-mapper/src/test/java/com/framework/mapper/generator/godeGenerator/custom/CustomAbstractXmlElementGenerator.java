@@ -8,9 +8,7 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -649,25 +647,30 @@ public class CustomAbstractXmlElementGenerator extends AbstractXmlElementGenerat
         //sortElement
         XmlElement sortElement = new XmlElement("if");
         sb.setLength(0);
-        sb.append("sort != null and sort != ''");
-        sortElement.addAttribute(new Attribute("test", sb.toString()));
-        sb.setLength(0);
-        sb.append("order by ${sort}");
-        sortElement.addElement(new TextElement(sb.toString()));
-        //orderElement
-        XmlElement orderElement = new XmlElement("if");
-        sb.setLength(0);
-        sb.append("order != null and order != ''");
-        orderElement.addAttribute(new Attribute("test", sb.toString()));
-        sb.setLength(0);
-        sb.append("${order}");
-        orderElement.addElement(new TextElement(sb.toString()));
-        sortElement.addElement(orderElement);
+//        sb.append("sort != null and sort != ''");
+//        sortElement.addAttribute(new Attribute("test", sb.toString()));
+//        sb.setLength(0);
+//        sb.append("order by ${sort}");
+//        sortElement.addElement(new TextElement(sb.toString()));
+//        //orderElement
+//        XmlElement orderElement = new XmlElement("if");
+//        sb.setLength(0);
+//        sb.append("order != null and order != ''");
+//        orderElement.addAttribute(new Attribute("test", sb.toString()));
+//        sb.setLength(0);
+//        sb.append("${order}");
+//        orderElement.addElement(new TextElement(sb.toString()));
+//        sortElement.addElement(orderElement);
+//        findPageList.addElement(sortElement);
+        sb.append("<include refid=\"BaseMapper.publicSortAndOrder\"/>");
+        findPageList.addElement(new TextElement(sb.toString()));
 
-        findPageList.addElement(sortElement);
         //limit
         sb.setLength(0);
-        sb.append("limit #{offset}, #{limit}");
+//        sb.append("limit #{offset}, #{limit}");
+//        findPageList.addElement(new TextElement(sb.toString()));
+//        parentElement.addElement(findPageList);
+        sb.append("<include refid=\"BaseMapper.publicOffsetAndLimit\"/>");
         findPageList.addElement(new TextElement(sb.toString()));
         parentElement.addElement(findPageList);
 
