@@ -223,11 +223,8 @@
             <include refid="conditionSql"/>
             <include refid="fuzzyConditionSql"/>
         </where>
-        <if test="sort != null and sort != ''">
-            order by ${sort}
-            <if test="order != null and order != ''">${order}</if>
-        </if>
-        limit #{offset}, #{limit}
+        <include refid="BaseMapper.publicSortAndOrder"/>
+        <include refid="BaseMapper.publicOffsetAndLimit"/>
     </select>
 
     <select id="findPageListCount" parameterType="com.framework.model.system.SystemType" resultType="INTEGER">

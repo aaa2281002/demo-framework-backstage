@@ -205,6 +205,20 @@
         </if>
     </select>
 
+    <select id="selectByParam" parameterType="com.framework.model.system.SystemRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="BaseMapper.publicField"/>
+        , cuser.LOGIN_NAME createUserName, ouser.LOGIN_NAME operaterUserName
+        from system_role p
+        LEFT JOIN `system_user` cuser on p.CREATE_ID = cuser.ID and cuser.OPERATER_STATUS > -1
+        LEFT JOIN `system_user` ouser on p.OPERATER_ID = ouser.ID and ouser.OPERATER_STATUS > -1
+        <where>
+            <include refid="conditionSql"/>
+        </where>
+    </select>
+
     <select id="isExist" parameterType="com.framework.model.system.SystemRole" resultType="java.lang.Integer">
         select COUNT(p.Id)
         from system_role p
@@ -233,11 +247,8 @@
             <include refid="conditionSql"/>
             <include refid="fuzzyConditionSql"/>
         </where>
-        <if test="sort != null and sort != ''">
-            order by ${sort}
-            <if test="order != null and order != ''">${order}</if>
-        </if>
-        limit #{offset}, #{limit}
+        <include refid="BaseMapper.publicSortAndOrder"/>
+        <include refid="BaseMapper.publicOffsetAndLimit"/>
     </select>
 
     <select id="findPageListCount" parameterType="com.framework.model.system.SystemRole" resultType="INTEGER">

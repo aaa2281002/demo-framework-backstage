@@ -300,6 +300,16 @@
         </if>
     </select>
 
+    <select id="isExistUrl" parameterType="com.framework.model.system.SystemMenu" resultType="java.lang.Integer">
+        select COUNT(p.Id)
+        from system_menu p
+        where p.OPERATER_STATUS > -2
+        AND p.URL = #{url,jdbcType=VARCHAR}
+        <if test="id != null">
+            and p.ID != #{id}
+        </if>
+    </select>
+
     <select id="findPageList" parameterType="com.framework.model.system.SystemMenu" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -315,11 +325,8 @@
             <include refid="conditionSql"/>
             <include refid="fuzzyConditionSql"/>
         </where>
-        <if test="sort != null and sort != ''">
-            order by ${sort}
-            <if test="order != null and order != ''">${order}</if>
-        </if>
-        limit #{offset}, #{limit}
+        <include refid="BaseMapper.publicSortAndOrder"/>
+        <include refid="BaseMapper.publicOffsetAndLimit"/>
     </select>
 
     <select id="findPageListCount" parameterType="com.framework.model.system.SystemMenu" resultType="INTEGER">
