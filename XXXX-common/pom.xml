@@ -42,7 +42,7 @@
         <!-- 加密jar版本号 -->
         <commons-codec.version>1.12</commons-codec.version>
         <!-- excel导出导入JAR -->
-        <apache.poi.version>4.1.2</apache.poi.version>
+        <apache.poi.version>5.4.0</apache.poi.version>
         <!-- minio文件服务JAR -->
         <minio.version>8.2.2</minio.version>
         <!-- okhttp文件服务JAR -->
