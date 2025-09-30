@@ -44,7 +44,7 @@
         <!-- excel导出导入JAR -->
         <apache.poi.version>4.1.2</apache.poi.version>
         <!-- minio文件服务JAR -->
-        <minio.version>8.2.2</minio.version>
+        <minio.version>8.6.0</minio.version>
         <!-- okhttp文件服务JAR -->
         <okhttp.version>4.9.3</okhttp.version>
         <!-- 二维码生成JAR -->
